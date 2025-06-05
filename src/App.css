@@ -1,27 +1,2 @@
 @import 'tailwindcss';
 
-.app {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
-.youtube-section {
-  margin: 2rem 0;
-  padding: 2rem;
-  background: #f5f5f5;
-  border-radius: 10px;
-
-}
-
-.youtube-section h2 {
-  margin-bottom: 1.5rem;
-  color: #333;
-}
-
-.youtube-container {
-  background: white;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-} 
