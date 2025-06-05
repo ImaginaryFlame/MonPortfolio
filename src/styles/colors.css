@@ -1,0 +1,44 @@
+:root {
+  /* Couleurs principales */
+  --primary-blue: #00FFFF;      /* Bleu électrique */
+  --primary-red: #FF0000;       /* Rouge vif */
+  --primary-orange: #FF6B00;    /* Orange flamboyant */
+
+  /* Couleurs de fond */
+  --bg-dark: #000000;          /* Noir profond */
+  --bg-darker: #0A0A0A;        /* Noir légèrement plus clair pour contraste */
+
+  /* Couleurs d'accent */
+  --accent-yellow: #FFD700;    /* Jaune doré pour les highlights */
+  --accent-purple: #9D00FF;    /* Violet pour les effets spéciaux */
+
+  /* Couleurs de texte */
+  --text-light: #FFFFFF;       /* Blanc pour le texte principal */
+  --text-dim: #CCCCCC;         /* Blanc cassé pour le texte secondaire */
+
+  /* Gradients */
+  --gradient-fire: linear-gradient(45deg, var(--primary-red), var(--primary-orange));
+  --gradient-cyber: linear-gradient(45deg, var(--primary-blue), var(--accent-purple));
+}
+
+/* Classes utilitaires pour les couleurs de fond */
+.bg-dark {
+  background-color: var(--bg-dark);
+}
+
+.bg-gradient-fire {
+  background: var(--gradient-fire);
+}
+
+.bg-gradient-cyber {
+  background: var(--gradient-cyber);
+}
+
+/* Classes utilitaires pour le texte */
+.text-light {
+  color: var(--text-light);
+}
+
+.text-dim {
+  color: var(--text-dim);
+}
