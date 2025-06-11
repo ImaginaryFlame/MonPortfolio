@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -76,7 +76,7 @@ const Navbar = () => {
       title: "LES UNIVERS DE FLAME",
       items: [
         { 
-          name: "Le héros à la Flamme Imaginaire", 
+          name: "LE HEROS A LA FLAMME IMAGINAIRE", 
           path: "/creation/univers-narratifs/heros-flamme",
           subItems: [
             { name: "Cosmogonies & Lore", path: "/creation/univers-narratifs/heros-flamme/cosmogonies" },
@@ -91,7 +91,7 @@ const Navbar = () => {
           ]
         },
         { 
-          name: "La Fable du Héros et la Fée", 
+          name: "LA FABLE DU HÉROS ET LA FÉE", 
           path: "/creation/univers-narratifs/fable-heros-fee",
           subItems: [
             { name: "Cosmogonies & Lore", path: "/creation/univers-narratifs/fable-heros-fee/cosmogonies" },
@@ -106,7 +106,7 @@ const Navbar = () => {
           ]
         },
         { 
-          name: "Vince de Belii", 
+          name: "VINCE DE BELII", 
           path: "/creation/univers-narratifs/vince-belii",
           subItems: [
             { name: "Personnages & Familles", path: "/creation/univers-narratifs/vince-belii/personnages-familles" },
@@ -125,7 +125,6 @@ const Navbar = () => {
           subItems: [
             { name: "UI/UX Design", path: "/creation/labo/design/ui-ux" },
             { name: "Prototypes Interactifs", path: "/creation/labo/design/prototypes" },
-            { name: "Wireframes", path: "/creation/labo/design/wireframes" }
           ]
         },
         { 
@@ -134,7 +133,6 @@ const Navbar = () => {
           subItems: [
             { name: "Démo Web", path: "/creation/labo/dev/demo-web" },
             { name: "Prototypes de Jeu", path: "/creation/labo/dev/prototypes-jeu" },
-            { name: "Outils & Scripts", path: "/creation/labo/dev/outils-scripts" }
           ]
         },
         { 
@@ -142,7 +140,6 @@ const Navbar = () => {
           path: "/creation/labo/academique",
           subItems: [
             { name: "Présentations CNAM", path: "/creation/labo/academique/presentations-cnam" },
-            { name: "Recherches & Analyses", path: "/creation/labo/academique/recherches" }
           ]
         }
       ]
@@ -220,270 +217,238 @@ const Navbar = () => {
     }
   };
 
+  // Styles CSS intégrés
+  const styles = `
+    @keyframes portalFadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes slideInFromRight {
+      0% {
+        opacity: 0;
+        transform: translateX(50px) scale(0.9);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+      }
+    }
+
+    @keyframes slideOutToLeft {
+      0% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(-50px) scale(0.9);
+      }
+    }
+
+    @keyframes staggeredTileFadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(15px) rotate(-1deg);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg);
+      }
+    }
+
+    @keyframes submenuSlideUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px) translateX(10px) scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) translateX(0) scale(1);
+      }
+    }
+
+    @keyframes submenuSlideDown {
+      0% {
+        opacity: 1;
+        transform: translateY(0) translateX(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-20px) translateX(-10px) scale(0.95);
+      }
+    }
+
+    .portal-animate {
+      animation: portalFadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .slide-in-right {
+      animation: slideInFromRight 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    .slide-out-left {
+      animation: slideOutToLeft 0.3s cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards;
+    }
+
+    .tile {
+      opacity: 0;
+      animation: staggeredTileFadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .submenu-enter {
+      animation: submenuSlideUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    .submenu-exit {
+      animation: submenuSlideDown 0.3s cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards;
+    }
+
+    .hover-lift:hover {
+      transform: translateY(-2px) scale(1.02);
+    }
+
+    .glass-effect {
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .navbar-shadow {
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 4px 20px rgba(255, 100, 0, 0.2);
+    }
+  `;
+
+  useEffect(() => {
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = styles;
+    document.head.appendChild(styleSheet);
+    return () => styleSheet.remove();
+  }, []);
+
   return (
     <>
-      <style>{`
-        @keyframes portalFadeIn {
-          0% {
-            opacity: 0;
-            transform: translateY(20px) scale(0.95);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
-        }
-
-        @keyframes slideInFromRight {
-          0% {
-            opacity: 0;
-            transform: translateX(50px) scale(0.9);
-          }
-          100% {
-            opacity: 1;
-            transform: translateX(0) scale(1);
-          }
-        }
-
-        @keyframes slideOutToLeft {
-          0% {
-            opacity: 1;
-            transform: translateX(0) scale(1);
-          }
-          100% {
-            opacity: 0;
-            transform: translateX(-50px) scale(0.9);
-          }
-        }
-
-        @keyframes staggeredTileFadeIn {
-          0% {
-            opacity: 0;
-            transform: translateY(15px) rotate(-1deg);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0) rotate(0deg);
-          }
-        }
-
-        @keyframes submenuSlideUp {
-          0% {
-            opacity: 0;
-            transform: translateY(20px) translateX(10px) scale(0.95);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0) translateX(0) scale(1);
-          }
-        }
-
-        @keyframes submenuSlideDown {
-          0% {
-            opacity: 1;
-            transform: translateY(0) translateX(0) scale(1);
-          }
-          100% {
-            opacity: 0;
-            transform: translateY(-20px) translateX(-10px) scale(0.95);
-          }
-        }
-
-        .portal-animate {
-          animation: portalFadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-
-        .slide-in-right {
-          animation: slideInFromRight 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-        }
-
-        .slide-out-left {
-          animation: slideOutToLeft 0.3s cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards;
-        }
-
-        .tile {
-          opacity: 0;
-          animation: staggeredTileFadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-
-        .submenu-enter {
-          animation: submenuSlideUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-        }
-
-        .submenu-exit {
-          animation: submenuSlideDown 0.3s cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards;
-        }
-
-        .focus-transition {
-          transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-          transform-origin: left;
-        }
-
-        .menu-transition {
-          transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .hover-lift {
-          transition: transform 0.2s ease;
-        }
-
-        .hover-lift:hover {
-          transform: translateY(-2px) scale(1.02);
-        }
-
-        .flame-gradient {
-          background: linear-gradient(135deg, #FF4500, #FF6347, #FFD700, #FFA500);
-        }
-
-        .cosmic-gradient {
-          background: linear-gradient(135deg, #0F0F23, #1a1a3a, #2563eb, #1e40af);
-        }
-
-        .energy-glow {
-          box-shadow: 0 0 25px rgba(255, 69, 0, 0.6), 0 0 50px rgba(255, 165, 0, 0.3);
-        }
-
-        .cosmic-glow {
-          box-shadow: 0 0 20px rgba(37, 99, 235, 0.5), 0 0 40px rgba(30, 64, 175, 0.3);
-        }
-
-        .fire-glow {
-          box-shadow: 0 0 15px rgba(255, 99, 71, 0.7), 0 0 30px rgba(255, 69, 0, 0.4);
-        }
-
-        .blue-fire-glow {
-          box-shadow: 0 0 20px rgba(59, 130, 246, 0.6), 0 0 35px rgba(147, 197, 253, 0.4);
-        }
-
-        .submenu-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-          gap: 8px;
-          max-width: 400px;
-        }
-
-        .category-separator {
-          height: 2px;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-          margin: 8px 0;
-        }
-      `}</style>
-
-      <nav className="cosmic-gradient p-4 flex justify-center items-center fixed w-full top-0 z-50">
-        <div className="flex items-center space-x-2 relative">
-          <a href="/" className="flex items-center group">
-            <div className="w-10 h-10 rounded-full flame-gradient flex items-center justify-center transform transition-all duration-300 group-hover:scale-110 energy-glow">
-              <span className="text-white text-xl font-bold">⚡</span>
-            </div>
-          </a>
-
-          <div className="hidden md:flex items-center space-x-2">
-            <a href="/" className="flame-gradient px-6 py-2 rounded-full text-white hover:from-red-500 hover:to-yellow-400 transition-all font-medium energy-glow">HOME</a>
-            <a href="/about" className="flame-gradient px-6 py-2 rounded-full text-white hover:from-red-500 hover:to-yellow-400 transition-all font-medium energy-glow">ABOUT</a>
-
-            <button onClick={togglePortails} className="flame-gradient px-6 py-2 rounded-full text-white hover:from-red-500 hover:to-yellow-400 transition-all font-medium whitespace-nowrap energy-glow">
-              PORTAILS DE CRÉATION
-            </button>
-
-            {isPortailsOpen && (
-              <div className={`absolute left-1/2 -translate-x-1/2 top-full mt-4 flex space-x-8 z-40 ${isAnimating ? 'slide-out-left' : 'portal-animate'}`}>
-                {/* Boutons principaux */}
-                <div className="flex flex-col space-y-3 items-start">
-                  {Object.entries(menuItems).map(([key, value], index) => (
-                    <button
-                      key={key}
-                      onClick={() => handlePortailChange(key)}
-                      style={{ animationDelay: `${index * 0.1}s` }}
-                      className={`px-5 py-3 rounded-full text-sm font-medium uppercase transition-all whitespace-nowrap focus-transition hover-lift ${
-                        portailType === key 
-                          ? 'flame-gradient text-white scale-105 shadow-lg energy-glow' 
-                          : 'bg-gradient-to-r from-slate-900 to-blue-900 text-white hover:from-orange-600 hover:to-red-600 cosmic-glow'
-                      }`}
-                    >
-                      {value.title}
-                    </button>
-                  ))}
-                </div>
-
-                {/* Sous-menus optimisés */}
-                {portailType && (
-                  <div className={`flex space-x-6 ${isAnimating && !previousPortailType ? 'submenu-exit' : 'slide-in-right'}`}>
-                    <div className="flex flex-col gap-3 min-w-[200px]">
-                      {menuItems[portailType].items.map((item, index) => (
-                        <div key={index} className="relative">
-                          {item.subItems ? (
-                            <button
-                              onClick={() => handleItemClick(item, index)}
-                              style={{ animationDelay: `${index * 0.08}s` }}
-                              className={`tile text-left px-6 py-3 rounded-3xl font-medium transition-all duration-300 shadow-md hover-lift menu-transition w-full ${
-                                selectedItem === index 
-                                  ? 'bg-gradient-to-r from-blue-800 to-blue-600 text-white blue-fire-glow scale-105' 
-                                  : 'bg-gradient-to-r from-orange-500 to-red-600 text-white hover:from-blue-700 hover:to-blue-500 fire-glow'
-                              }`}
-                            >
-                              <div className="flex items-center justify-between">
-                                <span>{item.name}</span>
-                                <span className={`transition-transform duration-300 ${selectedItem === index ? 'rotate-90' : ''}`}>▶</span>
-                              </div>
-                            </button>
-                          ) : (
-                            <a
-                              href={item.path}
-                              style={{ animationDelay: `${index * 0.08}s` }}
-                              className="tile bg-gradient-to-r from-orange-500 to-red-600 text-white text-left px-6 py-3 rounded-3xl font-medium hover:from-blue-700 hover:to-blue-500 transition-all duration-300 shadow-md hover-lift fire-glow block w-full"
-                            >
-                              {item.name}
-                            </a>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                    
-                    {/* Sous-sous-menus en grille optimisée */}
-                    {selectedItem !== null && menuItems[portailType].items[selectedItem]?.subItems && (
-                      <div className={`submenu-grid ${isAnimating ? 'submenu-exit' : 'submenu-enter'}`}>
-                        {menuItems[portailType].items[selectedItem].subItems.map((subItem, subIndex) => (
-                          <a
-                            key={subIndex}
-                            href={subItem.path}
-                            style={{ animationDelay: `${subIndex * 0.06}s` }}
-                            className="tile bg-gradient-to-r from-yellow-400 to-orange-500 text-black text-center px-4 py-2 rounded-2xl font-medium hover:from-blue-400 hover:to-blue-600 hover:text-white transition-all duration-300 shadow-sm text-sm hover-lift"
-                          >
-                            {subItem.name}
-                          </a>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            )}
-
-
-            <a href="/contact" className="flame-gradient px-6 py-2 rounded-full text-white hover:from-red-500 hover:to-yellow-400 transition-all font-medium energy-glow">CONTACT</a>
+      {/* Navbar fixe en haut */}
+      <div className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 px-4">
+        <nav className="flex items-center space-x-2 bg-gradient-to-r from-orange-500 via-red-500 to-yellow-500 p-2 rounded-full navbar-shadow">
+          {/* Logo */}
+          <div className="w-12 h-12 bg-gradient-to-r from-red-600 to-red-700 rounded-full flex items-center justify-center transform transition-all duration-300 hover:scale-110 hover:rotate-12">
+            <span className="text-white text-xl font-bold">⚡</span>
           </div>
 
-          {/* Mobile menu button */}
-          <button onClick={toggleMenu} className="md:hidden flame-gradient px-4 py-2 rounded-full text-white hover:from-red-500 hover:to-yellow-400 transition-all font-medium energy-glow">
-            MENU
-          </button>
+          {/* Navigation Links */}
+          <div className="flex items-center space-x-1">
+            <a 
+              href="/" 
+              className="px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-300 hover:transform hover:scale-105 text-sm uppercase tracking-wide shadow-lg"
+            >
+              HOME
+            </a>
+            
+            <a 
+              href="/about" 
+              className="px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-300 hover:transform hover:scale-105 text-sm uppercase tracking-wide shadow-lg"
+            >
+              ABOUT
+            </a>
 
-          {/* Mobile menu */}
-          {isMenuOpen && (
-            <div className="absolute top-full left-0 right-0 cosmic-gradient p-4 rounded-b-lg shadow-lg">
-              <div className="flex flex-col space-y-2">
-                <a href="/" className="flame-gradient px-4 py-2 rounded-full text-white text-center energy-glow">HOME</a>
-                <a href="/about" className="flame-gradient px-4 py-2 rounded-full text-white text-center energy-glow">ABOUT</a>
-                <button onClick={togglePortails} className="flame-gradient px-4 py-2 rounded-full text-white energy-glow">
-                  PORTAILS DE CRÉATION
-                </button>
+            <div className="relative">
+              <button
+                onClick={togglePortails}
+                className="px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-300 hover:transform hover:scale-105 text-sm uppercase tracking-wide shadow-lg"
+              >
+                PORTAILS DE CRÉATION
+              </button>
 
-                <a href="/contact" className="flame-gradient px-4 py-2 rounded-full text-white text-center energy-glow">CONTACT</a>
-              </div>
+              {isPortailsOpen && (
+                <div className={`absolute left-1/2 -translate-x-1/2 top-full mt-4 flex space-x-8 z-40 ${isAnimating ? 'slide-out-left' : 'portal-animate'}`}>
+                  {/* Boutons principaux */}
+                  <div className="flex flex-col space-y-3 items-start">
+                    {Object.entries(menuItems).map(([key, value], index) => (
+                      <button
+                        key={key}
+                        onClick={() => handlePortailChange(key)}
+                        style={{ animationDelay: `${index * 0.1}s` }}
+                        className={`px-5 py-3 rounded-lg text-sm font-medium uppercase transition-all whitespace-nowrap hover-lift glass-effect ${
+                          portailType === key 
+                            ? 'bg-gradient-to-r from-orange-500 via-red-500 to-yellow-500 text-white scale-105 shadow-xl border-orange-300' 
+                            : 'bg-gradient-to-r from-slate-800/90 to-blue-900/90 text-white hover:from-orange-600/90 hover:to-red-600/90 border-slate-600'
+                        }`}
+                      >
+                        {value.title}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Sous-menus */}
+                  {portailType && (
+                    <div className={`flex space-x-6 ${isAnimating && !previousPortailType ? 'submenu-exit' : 'slide-in-right'}`}>
+                      <div className="flex flex-col gap-3 min-w-[200px]">
+                        {menuItems[portailType].items.map((item, index) => (
+                          <div key={index} className="relative">
+                            {item.subItems ? (
+                              <button
+                                onClick={() => handleItemClick(item, index)}
+                                style={{ animationDelay: `${index * 0.08}s` }}
+                                className={`tile text-left px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-lg hover-lift w-full glass-effect ${
+                                  selectedItem === index 
+                                    ? 'bg-gradient-to-r from-blue-800/95 to-blue-600/95 text-white scale-105 border-blue-400' 
+                                    : 'bg-gradient-to-r from-orange-500/95 to-red-600/95 text-white hover:from-blue-700/95 hover:to-blue-500/95 border-orange-400'
+                                }`}
+                              >
+                                <div className="flex items-center justify-between">
+                                  <span className="text-sm font-semibold">{item.name}</span>
+                                  <span className={`transition-transform duration-300 ${selectedItem === index ? 'rotate-90' : ''}`}>▶</span>
+                                </div>
+                              </button>
+                            ) : (
+                              <a
+                                href={item.path}
+                                style={{ animationDelay: `${index * 0.08}s` }}
+                                className="tile bg-gradient-to-r from-orange-500/95 to-red-600/95 text-white text-left px-6 py-3 rounded-lg font-semibold hover:from-blue-700/95 hover:to-blue-500/95 transition-all duration-300 shadow-lg hover-lift block w-full text-sm glass-effect border border-orange-400"
+                              >
+                                {item.name}
+                              </a>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                      
+                      {/* Sous-sous-menus */}
+                      {selectedItem !== null && menuItems[portailType].items[selectedItem]?.subItems && (
+                        <div className={`flex flex-col gap-2 min-w-[200px] ${isAnimating ? 'submenu-exit' : 'submenu-enter'}`}>
+                          {menuItems[portailType].items[selectedItem].subItems.map((subItem, subIndex) => (
+                            <a
+                              key={subIndex}
+                              href={subItem.path}
+                              style={{ animationDelay: `${subIndex * 0.06}s` }}
+                              className="tile bg-gradient-to-r from-yellow-400/95 to-orange-500/95 text-gray-900 text-left px-4 py-3 rounded-lg font-semibold hover:from-blue-400/95 hover:to-blue-600/95 hover:text-white transition-all duration-300 shadow-md text-sm hover-lift glass-effect border border-yellow-300"
+                            >
+                              {subItem.name}
+                            </a>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      </nav>
+
+            <a 
+              href="/contact" 
+              className="px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-300 hover:transform hover:scale-105 text-sm uppercase tracking-wide shadow-lg"
+            >
+              CONTACT
+            </a>
+          </div>
+        </nav>
+      </div>
     </>
   );
 };
