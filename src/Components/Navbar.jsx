@@ -5,36 +5,88 @@ const Navbar = () => {
   const [isPortailsOpen, setIsPortailsOpen] = useState(false);
   const [portailType, setPortailType] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [hoveredItem, setHoveredItem] = useState(null);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [previousPortailType, setPreviousPortailType] = useState(null);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const togglePortails = () => setIsPortailsOpen(!isPortailsOpen);
+  
+  const togglePortails = () => {
+    if (!isPortailsOpen) {
+      setIsPortailsOpen(true);
+    } else {
+      setIsAnimating(true);
+      setTimeout(() => {
+        setIsPortailsOpen(false);
+        setPortailType(null);
+        setSelectedItem(null);
+        setIsAnimating(false);
+      }, 300);
+    }
+  };
+  
+  const handlePortailChange = (key) => {
+    if (portailType === key) {
+      setIsAnimating(true);
+      setTimeout(() => {
+        setPortailType(null);
+        setSelectedItem(null);
+        setIsAnimating(false);
+      }, 200);
+    } else {
+      if (portailType) {
+        setPreviousPortailType(portailType);
+        setIsAnimating(true);
+        setTimeout(() => {
+          setPortailType(key);
+          setSelectedItem(null);
+          setIsAnimating(false);
+          setPreviousPortailType(null);
+        }, 250);
+      } else {
+        setPortailType(key);
+        setSelectedItem(null);
+      }
+    }
+  };
   
   const handleItemClick = (item, index) => {
     if (item.subItems) {
-      setSelectedItem(selectedItem === index ? null : index);
+      if (selectedItem === index) {
+        setIsAnimating(true);
+        setTimeout(() => {
+          setSelectedItem(null);
+          setIsAnimating(false);
+        }, 200);
+      } else {
+        if (selectedItem !== null) {
+          setIsAnimating(true);
+          setTimeout(() => {
+            setSelectedItem(index);
+            setIsAnimating(false);
+          }, 200);
+        } else {
+          setSelectedItem(index);
+        }
+      }
     }
   };
 
   const menuItems = {
     narratif: {
       title: "LES UNIVERS DE FLAME",
-      color: "#ff6b35",
-      glowColor: "#ff6b35",
       items: [
         { 
           name: "Le héros à la Flamme Imaginaire", 
           path: "/creation/univers-narratifs/heros-flamme",
           subItems: [
+            { name: "Cosmogonies & Lore", path: "/creation/univers-narratifs/heros-flamme/cosmogonies" },
             { name: "Personnages", path: "/creation/univers-narratifs/heros-flamme/personnages" },
-            { name: "Régions du monde & Lieux", path: "/creation/univers-narratifs/heros-flamme/regions-lieux" },
-            { name: "Objets", path: "/creation/univers-narratifs/heros-flamme/objets" },
-            { name: "Factions", path: "/creation/univers-narratifs/heros-flamme/factions" },
-            { name: "Races", path: "/creation/univers-narratifs/heros-flamme/races" },
-            { name: "Évènements historiques", path: "/creation/univers-narratifs/heros-flamme/evenements-historiques" },
-            { name: "Espèces non-intelligentes", path: "/creation/univers-narratifs/heros-flamme/especes-non-intelligentes" },
-            { name: "Célébrations et fêtes", path: "/creation/univers-narratifs/heros-flamme/celebrations-fetes" },
-            { name: "Cosmogonies", path: "/creation/univers-narratifs/heros-flamme/cosmogonies" },
+            { name: "Races & Factions", path: "/creation/univers-narratifs/heros-flamme/races-factions" },
+            { name: "Monde & Géographie", path: "/creation/univers-narratifs/heros-flamme/monde-geographie" },
+            { name: "Histoire & Événements", path: "/creation/univers-narratifs/heros-flamme/histoire-evenements" },
+            { name: "Objets & Artefacts", path: "/creation/univers-narratifs/heros-flamme/objets-artefacts" },
+            { name: "Bestiaire", path: "/creation/univers-narratifs/heros-flamme/bestiaire" },
+            { name: "Culture & Traditions", path: "/creation/univers-narratifs/heros-flamme/culture-traditions" },
             { name: "Moodboard", path: "/creation/univers-narratifs/heros-flamme/moodboard" }
           ]
         },
@@ -42,15 +94,14 @@ const Navbar = () => {
           name: "La Fable du Héros et la Fée", 
           path: "/creation/univers-narratifs/fable-heros-fee",
           subItems: [
+            { name: "Cosmogonies & Lore", path: "/creation/univers-narratifs/fable-heros-fee/cosmogonies" },
             { name: "Personnages", path: "/creation/univers-narratifs/fable-heros-fee/personnages" },
-            { name: "Régions du monde & Lieux", path: "/creation/univers-narratifs/fable-heros-fee/regions-lieux" },
-            { name: "Objets", path: "/creation/univers-narratifs/fable-heros-fee/objets" },
-            { name: "Factions", path: "/creation/univers-narratifs/fable-heros-fee/factions" },
-            { name: "Races", path: "/creation/univers-narratifs/fable-heros-fee/races" },
-            { name: "Évènements historiques", path: "/creation/univers-narratifs/fable-heros-fee/evenements-historiques" },
-            { name: "Espèces non-intelligentes", path: "/creation/univers-narratifs/fable-heros-fee/especes-non-intelligentes" },
-            { name: "Célébrations et fêtes", path: "/creation/univers-narratifs/fable-heros-fee/celebrations-fetes" },
-            { name: "Cosmogonies", path: "/creation/univers-narratifs/fable-heros-fee/cosmogonies" },
+            { name: "Races & Factions", path: "/creation/univers-narratifs/fable-heros-fee/races-factions" },
+            { name: "Monde & Géographie", path: "/creation/univers-narratifs/fable-heros-fee/monde-geographie" },
+            { name: "Histoire & Événements", path: "/creation/univers-narratifs/fable-heros-fee/histoire-evenements" },
+            { name: "Objets & Artefacts", path: "/creation/univers-narratifs/fable-heros-fee/objets-artefacts" },
+            { name: "Bestiaire", path: "/creation/univers-narratifs/fable-heros-fee/bestiaire" },
+            { name: "Culture & Traditions", path: "/creation/univers-narratifs/fable-heros-fee/culture-traditions" },
             { name: "Moodboard", path: "/creation/univers-narratifs/fable-heros-fee/moodboard" }
           ]
         },
@@ -58,9 +109,8 @@ const Navbar = () => {
           name: "Vince de Belii", 
           path: "/creation/univers-narratifs/vince-belii",
           subItems: [
-            { name: "Personnages", path: "/creation/univers-narratifs/vince-belii/personnages" },
-            { name: "Familles", path: "/creation/univers-narratifs/vince-belii/familles" },
-            { name: "Lieux", path: "/creation/univers-narratifs/vince-belii/lieux" },
+            { name: "Personnages & Familles", path: "/creation/univers-narratifs/vince-belii/personnages-familles" },
+            { name: "Lieux & Décors", path: "/creation/univers-narratifs/vince-belii/lieux-decors" },
             { name: "Moodboard", path: "/creation/univers-narratifs/vince-belii/moodboard" }
           ]
         }
@@ -68,52 +118,104 @@ const Navbar = () => {
     },
     labo: {
       title: "LABO DE FLAME",
-      color: "#00d4ff",
-      glowColor: "#00d4ff",
       items: [
-        { name: "UI/UX", path: "/creation/labo/ui-ux" },
-        { name: "Présentation de projets CNAM", path: "/creation/labo/projets-cnam" },
-        { name: "Prototypes de jeu", path: "/creation/labo/prototypes" },
-        { name: "Démo Web", path: "/creation/labo/demo-web" }
+        { 
+          name: "Design & Interface", 
+          path: "/creation/labo/design",
+          subItems: [
+            { name: "UI/UX Design", path: "/creation/labo/design/ui-ux" },
+            { name: "Prototypes Interactifs", path: "/creation/labo/design/prototypes" },
+            { name: "Wireframes", path: "/creation/labo/design/wireframes" }
+          ]
+        },
+        { 
+          name: "Développement", 
+          path: "/creation/labo/dev",
+          subItems: [
+            { name: "Démo Web", path: "/creation/labo/dev/demo-web" },
+            { name: "Prototypes de Jeu", path: "/creation/labo/dev/prototypes-jeu" },
+            { name: "Outils & Scripts", path: "/creation/labo/dev/outils-scripts" }
+          ]
+        },
+        { 
+          name: "Projets Académiques", 
+          path: "/creation/labo/academique",
+          subItems: [
+            { name: "Présentations CNAM", path: "/creation/labo/academique/presentations-cnam" },
+            { name: "Recherches & Analyses", path: "/creation/labo/academique/recherches" }
+          ]
+        }
       ]
     },
     studio: {
       title: "LE STUDIO DE FLAME",
-      color: "#ff3d71",
-      glowColor: "#ff3d71",
       items: [
-        { name: "Vidéos YouTube", path: "/creation/studio/videos" },
-        { name: "Miniatures YouTube", path: "/creation/studio/miniatures" },
-        { name: "Réels & shorts", path: "/creation/studio/reels-shorts" },
-        { name: "Threads Twitter", path: "/creation/studio/threads" }
+        { 
+          name: "Contenu Vidéo", 
+          path: "/creation/studio/video",
+          subItems: [
+            { name: "Vidéos YouTube", path: "/creation/studio/video/videos-youtube" },
+            { name: "Réels & Shorts", path: "/creation/studio/video/reels-shorts" },
+            { name: "Miniatures", path: "/creation/studio/video/miniatures" }
+          ]
+        },
+        { 
+          name: "Contenu Social", 
+          path: "/creation/studio/social",
+          subItems: [
+            { name: "Threads Twitter", path: "/creation/studio/social/threads-twitter" },
+            { name: "Stories Instagram", path: "/creation/studio/social/stories-instagram" },
+            { name: "Posts LinkedIn", path: "/creation/studio/social/posts-linkedin" }
+          ]
+        },
+        { 
+          name: "Branding", 
+          path: "/creation/studio/branding",
+          subItems: [
+            { name: "Identité Visuelle", path: "/creation/studio/branding/identite-visuelle" },
+            { name: "Templates", path: "/creation/studio/branding/templates" }
+          ]
+        }
       ]
     },
     atelier: {
       title: "ATELIER DE FLAME",
-      color: "#7b68ee",
-      glowColor: "#7b68ee",
       items: [
         { 
-          name: "Dessins traditionnels", 
-          path: "/creation/atelier/dessins-traditionnels",
+          name: "Art Traditionnel", 
+          path: "/creation/atelier/traditionnel",
           subItems: [
-            { name: "Progression en dessin", path: "/creation/atelier/dessins-traditionnels/progression-dessin" },
-            { name: "Illustrations finalisées", path: "/creation/atelier/dessins-traditionnels/illustrations-finalisees" }
+            { name: "Illustrations Finalisées", path: "/creation/atelier/traditionnel/illustrations-finalisees" },
+            { name: "Études & Progression", path: "/creation/atelier/traditionnel/etudes-progression" },
+            { name: "Croquis & Roughs", path: "/creation/atelier/traditionnel/croquis-roughs" }
           ]
         },
         { 
-          name: "Dessin numérique", 
-          path: "/creation/atelier/dessin-numerique",
+          name: "Art Numérique", 
+          path: "/creation/atelier/numerique",
           subItems: [
-            { name: "Illustrations digitales", path: "/creation/atelier/dessin-numerique/illustrations-digitales" },
-            { name: "Concept Art", path: "/creation/atelier/dessin-numerique/concept-art" },
-            { name: "Character Design", path: "/creation/atelier/dessin-numerique/character-design" }
+            { name: "Concept Art", path: "/creation/atelier/numerique/concept-art" },
+            { name: "Illustrations Digitales", path: "/creation/atelier/numerique/illustrations-digitales" },
+            { name: "Animations 2D", path: "/creation/atelier/numerique/animations-2d" }
           ]
         },
-        { name: "Animations", path: "/creation/atelier/animations" },
-        { name: "WIP", path: "/creation/atelier/wip" },
-        { name: "Roughs", path: "/creation/atelier/roughs" },
-        { name: "Modèles 3D", path: "/creation/atelier/3d" }
+        { 
+          name: "Modélisation 3D", 
+          path: "/creation/atelier/3d",
+          subItems: [
+            { name: "Modèles 3D", path: "/creation/atelier/3d/modeles" },
+            { name: "Textures & Matériaux", path: "/creation/atelier/3d/textures-materiaux" },
+            { name: "Animations 3D", path: "/creation/atelier/3d/animations-3d" }
+          ]
+        },
+        { 
+          name: "Work in Progress", 
+          path: "/creation/atelier/wip",
+          subItems: [
+            { name: "Projets en Cours", path: "/creation/atelier/wip/projets-cours" },
+            { name: "Expérimentations", path: "/creation/atelier/wip/experimentations" }
+          ]
+        }
       ]
     }
   };
@@ -121,12 +223,10 @@ const Navbar = () => {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
-        
-        @keyframes portalFloat {
+        @keyframes portalFadeIn {
           0% {
             opacity: 0;
-            transform: translateY(30px) scale(0.95);
+            transform: translateY(20px) scale(0.95);
           }
           100% {
             opacity: 1;
@@ -134,282 +234,252 @@ const Navbar = () => {
           }
         }
 
-        @keyframes glowPulse {
-          0%, 100% {
-            filter: drop-shadow(0 0 10px currentColor);
-          }
-          50% {
-            filter: drop-shadow(0 0 20px currentColor) drop-shadow(0 0 30px currentColor);
-          }
-        }
-
-        @keyframes energyFlow {
+        @keyframes slideInFromRight {
           0% {
-            background-position: 0% 50%;
+            opacity: 0;
+            transform: translateX(50px) scale(0.9);
           }
           100% {
-            background-position: 100% 50%;
+            opacity: 1;
+            transform: translateX(0) scale(1);
           }
         }
 
-        @keyframes hoverGlow {
+        @keyframes slideOutToLeft {
           0% {
-            box-shadow: 0 0 10px currentColor, inset 0 0 10px rgba(255,255,255,0.1);
+            opacity: 1;
+            transform: translateX(0) scale(1);
           }
           100% {
-            box-shadow: 0 0 30px currentColor, 0 0 50px currentColor, inset 0 0 20px rgba(255,255,255,0.2);
+            opacity: 0;
+            transform: translateX(-50px) scale(0.9);
           }
         }
 
-        .portal-container {
-          animation: portalFloat 0.6s ease-out forwards;
-          font-family: 'Orbitron', monospace;
-          background: linear-gradient(135deg, rgba(15, 15, 35, 0.95), rgba(25, 25, 45, 0.95));
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 20px;
-          padding: 20px;
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        @keyframes staggeredTileFadeIn {
+          0% {
+            opacity: 0;
+            transform: translateY(15px) rotate(-1deg);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0) rotate(0deg);
+          }
         }
 
-        .gaming-button {
-          position: relative;
-          background: linear-gradient(135deg, rgba(40, 40, 70, 0.8), rgba(20, 20, 40, 0.9));
-          border: 2px solid;
-          border-radius: 15px;
-          padding: 15px 25px;
-          margin: 8px 0;
-          font-family: 'Orbitron', monospace;
-          font-weight: 700;
-          font-size: 16px;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          cursor: pointer;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          overflow: hidden;
-          min-width: 280px;
-          text-align: center;
-          backdrop-filter: blur(10px);
+        @keyframes submenuSlideUp {
+          0% {
+            opacity: 0;
+            transform: translateY(20px) translateX(10px) scale(0.95);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0) translateX(0) scale(1);
+          }
         }
 
-        .gaming-button::before {
-          content: '';
-          position: absolute;
-          top: -2px;
-          left: -2px;
-          right: -2px;
-          bottom: -2px;
-          background: linear-gradient(45deg, currentColor, transparent, currentColor);
-          border-radius: 15px;
-          z-index: -1;
+        @keyframes submenuSlideDown {
+          0% {
+            opacity: 1;
+            transform: translateY(0) translateX(0) scale(1);
+          }
+          100% {
+            opacity: 0;
+            transform: translateY(-20px) translateX(-10px) scale(0.95);
+          }
+        }
+
+        .portal-animate {
+          animation: portalFadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .slide-in-right {
+          animation: slideInFromRight 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .slide-out-left {
+          animation: slideOutToLeft 0.3s cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards;
+        }
+
+        .tile {
           opacity: 0;
-          transition: opacity 0.3s ease;
+          animation: staggeredTileFadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
-        .gaming-button:hover::before {
-          opacity: 1;
-          animation: energyFlow 2s linear infinite;
+        .submenu-enter {
+          animation: submenuSlideUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
         }
 
-        .gaming-button:hover {
-          transform: translateY(-3px) scale(1.02);
-          animation: hoverGlow 1s ease-in-out infinite alternate;
-          background: linear-gradient(135deg, rgba(60, 60, 100, 0.9), rgba(40, 40, 70, 0.9));
+        .submenu-exit {
+          animation: submenuSlideDown 0.3s cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards;
         }
 
-        .gaming-button.active {
-          transform: scale(1.05);
-          animation: glowPulse 2s ease-in-out infinite;
-          background: linear-gradient(135deg, rgba(80, 80, 120, 0.9), rgba(60, 60, 100, 0.9));
+        .focus-transition {
+          transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transform-origin: left;
         }
 
-        .sub-menu-container {
-          position: absolute;
-          right: -320px;
-          top: 0;
-          background: linear-gradient(135deg, rgba(20, 20, 40, 0.95), rgba(35, 35, 55, 0.95));
-          backdrop-filter: blur(15px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 15px;
-          padding: 15px;
-          min-width: 300px;
-          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-          animation: portalFloat 0.4s ease-out forwards;
+        .menu-transition {
+          transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        .sub-gaming-button {
-          background: linear-gradient(135deg, rgba(30, 30, 50, 0.8), rgba(20, 20, 35, 0.9));
-          border: 1px solid;
-          border-radius: 10px;
-          padding: 10px 20px;
-          margin: 5px 0;
-          font-family: 'Orbitron', monospace;
-          font-weight: 400;
-          font-size: 14px;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          backdrop-filter: blur(8px);
-          display: block;
-          text-decoration: none;
-          text-align: center;
+        .hover-lift {
+          transition: transform 0.2s ease;
         }
 
-        .sub-gaming-button:hover {
-          transform: translateX(5px);
-          box-shadow: 0 0 15px currentColor;
-          background: linear-gradient(135deg, rgba(50, 50, 80, 0.9), rgba(40, 40, 65, 0.9));
+        .hover-lift:hover {
+          transform: translateY(-2px) scale(1.02);
         }
 
-        .portal-title {
-          text-align: center;
-          font-family: 'Orbitron', monospace;
-          font-weight: 900;
-          font-size: 18px;
-          margin-bottom: 20px;
-          text-transform: uppercase;
-          letter-spacing: 2px;
-          color: #ffffff;
-          text-shadow: 0 0 10px currentColor;
+        .flame-gradient {
+          background: linear-gradient(135deg, #FF4500, #FF6347, #FFD700, #FFA500);
         }
 
-        .close-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          z-index: 35;
+        .cosmic-gradient {
+          background: linear-gradient(135deg, #0F0F23, #1a1a3a, #2563eb, #1e40af);
+        }
+
+        .energy-glow {
+          box-shadow: 0 0 25px rgba(255, 69, 0, 0.6), 0 0 50px rgba(255, 165, 0, 0.3);
+        }
+
+        .cosmic-glow {
+          box-shadow: 0 0 20px rgba(37, 99, 235, 0.5), 0 0 40px rgba(30, 64, 175, 0.3);
+        }
+
+        .fire-glow {
+          box-shadow: 0 0 15px rgba(255, 99, 71, 0.7), 0 0 30px rgba(255, 69, 0, 0.4);
+        }
+
+        .blue-fire-glow {
+          box-shadow: 0 0 20px rgba(59, 130, 246, 0.6), 0 0 35px rgba(147, 197, 253, 0.4);
+        }
+
+        .submenu-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 8px;
+          max-width: 400px;
+        }
+
+        .category-separator {
+          height: 2px;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+          margin: 8px 0;
         }
       `}</style>
 
-      <nav className="bg-black p-4 flex justify-center items-center fixed w-full top-0 z-50">
+      <nav className="cosmic-gradient p-4 flex justify-center items-center fixed w-full top-0 z-50">
         <div className="flex items-center space-x-2 relative">
           <a href="/" className="flex items-center group">
-            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center transform transition-all duration-300 group-hover:scale-110">
-              <span className="text-black text-xl font-bold">⚡</span>
+            <div className="w-10 h-10 rounded-full flame-gradient flex items-center justify-center transform transition-all duration-300 group-hover:scale-110 energy-glow">
+              <span className="text-white text-xl font-bold">⚡</span>
             </div>
           </a>
 
           <div className="hidden md:flex items-center space-x-2">
-            <a href="/" className="bg-white px-6 py-2 rounded-full text-black hover:bg-black hover:text-white border border-white transition-all font-medium">HOME</a>
-            <a href="/about" className="bg-white px-6 py-2 rounded-full text-black hover:bg-black hover:text-white border border-white transition-all font-medium">ABOUT</a>
+            <a href="/" className="flame-gradient px-6 py-2 rounded-full text-white hover:from-red-500 hover:to-yellow-400 transition-all font-medium energy-glow">HOME</a>
+            <a href="/about" className="flame-gradient px-6 py-2 rounded-full text-white hover:from-red-500 hover:to-yellow-400 transition-all font-medium energy-glow">ABOUT</a>
 
-            <button onClick={togglePortails} className="bg-white px-6 py-2 rounded-full text-black hover:bg-black hover:text-white border border-white transition-all font-medium whitespace-nowrap">
+            <button onClick={togglePortails} className="flame-gradient px-6 py-2 rounded-full text-white hover:from-red-500 hover:to-yellow-400 transition-all font-medium whitespace-nowrap energy-glow">
               PORTAILS DE CRÉATION
             </button>
 
             {isPortailsOpen && (
-              <>
-                <div className="close-overlay" onClick={() => setIsPortailsOpen(false)}></div>
-                <div className="absolute left-1/2 -translate-x-1/2 top-full mt-6 z-40">
-                  <div className="portal-container">
-                    <div className="portal-title">🚀 PORTAILS DE CRÉATION 🚀</div>
-                    
-                    <div className="flex flex-col items-center space-y-2 relative">
-                      {Object.entries(menuItems).map(([key, value], index) => (
-                        <div key={key} className="relative">
-                          <button
-                            onClick={() => setPortailType(portailType === key ? null : key)}
-                            onMouseEnter={() => setHoveredItem(key)}
-                            onMouseLeave={() => setHoveredItem(null)}
-                            className={`gaming-button ${portailType === key ? 'active' : ''}`}
-                            style={{ 
-                              color: value.color,
-                              borderColor: value.color,
-                              animationDelay: `${index * 0.1}s`
-                            }}
-                          >
-                            {value.title}
-                            {value.items.some(item => item.subItems) && (
-                              <span className="ml-2 text-xs">▶</span>
-                            )}
-                          </button>
+              <div className={`absolute left-1/2 -translate-x-1/2 top-full mt-4 flex space-x-8 z-40 ${isAnimating ? 'slide-out-left' : 'portal-animate'}`}>
+                {/* Boutons principaux */}
+                <div className="flex flex-col space-y-3 items-start">
+                  {Object.entries(menuItems).map(([key, value], index) => (
+                    <button
+                      key={key}
+                      onClick={() => handlePortailChange(key)}
+                      style={{ animationDelay: `${index * 0.1}s` }}
+                      className={`px-5 py-3 rounded-full text-sm font-medium uppercase transition-all whitespace-nowrap focus-transition hover-lift ${
+                        portailType === key 
+                          ? 'flame-gradient text-white scale-105 shadow-lg energy-glow' 
+                          : 'bg-gradient-to-r from-slate-900 to-blue-900 text-white hover:from-orange-600 hover:to-red-600 cosmic-glow'
+                      }`}
+                    >
+                      {value.title}
+                    </button>
+                  ))}
+                </div>
 
-                          {portailType === key && (
-                            <div className="sub-menu-container">
-                              <div className="flex flex-col space-y-1">
-                                {value.items.map((item, itemIndex) => (
-                                  <div key={itemIndex} className="relative">
-                                    {item.subItems ? (
-                                      <button
-                                        onClick={() => handleItemClick(item, itemIndex)}
-                                        className="sub-gaming-button w-full"
-                                        style={{ 
-                                          color: value.color,
-                                          borderColor: value.color,
-                                          animationDelay: `${itemIndex * 0.05}s`
-                                        }}
-                                      >
-                                        {item.name}
-                                        <span className="ml-2 text-xs">▼</span>
-                                      </button>
-                                    ) : (
-                                      <a
-                                        href={item.path}
-                                        className="sub-gaming-button"
-                                        style={{ 
-                                          color: value.color,
-                                          borderColor: value.color,
-                                          animationDelay: `${itemIndex * 0.05}s`
-                                        }}
-                                      >
-                                        {item.name}
-                                      </a>
-                                    )}
-
-                                    {selectedItem === itemIndex && item.subItems && (
-                                      <div className="ml-4 mt-2 space-y-1">
-                                        {item.subItems.map((subItem, subIndex) => (
-                                          <a
-                                            key={subIndex}
-                                            href={subItem.path}
-                                            className="sub-gaming-button block text-sm py-2 px-3"
-                                            style={{ 
-                                              color: value.color,
-                                              borderColor: value.color,
-                                              opacity: 0.8,
-                                              animationDelay: `${subIndex * 0.03}s`
-                                            }}
-                                          >
-                                            › {subItem.name}
-                                          </a>
-                                        ))}
-                                      </div>
-                                    )}
-                                  </div>
-                                ))}
+                {/* Sous-menus optimisés */}
+                {portailType && (
+                  <div className={`flex space-x-6 ${isAnimating && !previousPortailType ? 'submenu-exit' : 'slide-in-right'}`}>
+                    <div className="flex flex-col gap-3 min-w-[200px]">
+                      {menuItems[portailType].items.map((item, index) => (
+                        <div key={index} className="relative">
+                          {item.subItems ? (
+                            <button
+                              onClick={() => handleItemClick(item, index)}
+                              style={{ animationDelay: `${index * 0.08}s` }}
+                              className={`tile text-left px-6 py-3 rounded-3xl font-medium transition-all duration-300 shadow-md hover-lift menu-transition w-full ${
+                                selectedItem === index 
+                                  ? 'bg-gradient-to-r from-blue-800 to-blue-600 text-white blue-fire-glow scale-105' 
+                                  : 'bg-gradient-to-r from-orange-500 to-red-600 text-white hover:from-blue-700 hover:to-blue-500 fire-glow'
+                              }`}
+                            >
+                              <div className="flex items-center justify-between">
+                                <span>{item.name}</span>
+                                <span className={`transition-transform duration-300 ${selectedItem === index ? 'rotate-90' : ''}`}>▶</span>
                               </div>
-                            </div>
+                            </button>
+                          ) : (
+                            <a
+                              href={item.path}
+                              style={{ animationDelay: `${index * 0.08}s` }}
+                              className="tile bg-gradient-to-r from-orange-500 to-red-600 text-white text-left px-6 py-3 rounded-3xl font-medium hover:from-blue-700 hover:to-blue-500 transition-all duration-300 shadow-md hover-lift fire-glow block w-full"
+                            >
+                              {item.name}
+                            </a>
                           )}
                         </div>
                       ))}
                     </div>
+                    
+                    {/* Sous-sous-menus en grille optimisée */}
+                    {selectedItem !== null && menuItems[portailType].items[selectedItem]?.subItems && (
+                      <div className={`submenu-grid ${isAnimating ? 'submenu-exit' : 'submenu-enter'}`}>
+                        {menuItems[portailType].items[selectedItem].subItems.map((subItem, subIndex) => (
+                          <a
+                            key={subIndex}
+                            href={subItem.path}
+                            style={{ animationDelay: `${subIndex * 0.06}s` }}
+                            className="tile bg-gradient-to-r from-yellow-400 to-orange-500 text-black text-center px-4 py-2 rounded-2xl font-medium hover:from-blue-400 hover:to-blue-600 hover:text-white transition-all duration-300 shadow-sm text-sm hover-lift"
+                          >
+                            {subItem.name}
+                          </a>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                </div>
-              </>
+                )}
+              </div>
             )}
 
-            <a href="/blog" className="bg-white px-6 py-2 rounded-full text-black hover:bg-black hover:text-white border border-white transition-all font-medium">BLOG</a>
-            <a href="/contact" className="bg-white px-6 py-2 rounded-full text-black hover:bg-black hover:text-white border border-white transition-all font-medium">CONTACT</a>
+
+            <a href="/contact" className="flame-gradient px-6 py-2 rounded-full text-white hover:from-red-500 hover:to-yellow-400 transition-all font-medium energy-glow">CONTACT</a>
           </div>
 
           {/* Mobile menu button */}
-          <button onClick={toggleMenu} className="md:hidden bg-white px-4 py-2 rounded-full text-black hover:bg-black hover:text-white border border-white transition-all font-medium">
+          <button onClick={toggleMenu} className="md:hidden flame-gradient px-4 py-2 rounded-full text-white hover:from-red-500 hover:to-yellow-400 transition-all font-medium energy-glow">
             MENU
           </button>
 
           {/* Mobile menu */}
           {isMenuOpen && (
-            <div className="absolute top-full left-0 right-0 bg-black border-t border-white mt-4 p-4 flex flex-col space-y-2 md:hidden">
-              <a href="/" className="bg-white px-6 py-2 rounded-full text-black hover:bg-black hover:text-white border border-white transition-all font-medium text-center" onClick={() => setIsMenuOpen(false)}>HOME</a>
-              <a href="/about" className="bg-white px-6 py-2 rounded-full text-black hover:bg-black hover:text-white border border-white transition-all font-medium text-center" onClick={() => setIsMenuOpen(false)}>ABOUT</a>
-              <button onClick={() => {togglePortails(); setIsMenuOpen(false);}} className="bg-white px-6 py-2 rounded-full text-black hover:bg-black hover:text-white border border-white transition-all font-medium">
-                PORTAILS DE CRÉATION
-              </button>
-              <a href="/blog" className="bg-white px-6 py-2 rounded-full text-black hover:bg-black hover:text-white border border-white transition-all font-medium text-center" onClick={() => setIsMenuOpen(false)}>BLOG</a>
-              <a href="/contact" className="bg-white px-6 py-2 rounded-full text-black hover:bg-black hover:text-white border border-white transition-all font-medium text-center" onClick={() => setIsMenuOpen(false)}>CONTACT</a>
+            <div className="absolute top-full left-0 right-0 cosmic-gradient p-4 rounded-b-lg shadow-lg">
+              <div className="flex flex-col space-y-2">
+                <a href="/" className="flame-gradient px-4 py-2 rounded-full text-white text-center energy-glow">HOME</a>
+                <a href="/about" className="flame-gradient px-4 py-2 rounded-full text-white text-center energy-glow">ABOUT</a>
+                <button onClick={togglePortails} className="flame-gradient px-4 py-2 rounded-full text-white energy-glow">
+                  PORTAILS DE CRÉATION
+                </button>
+
+                <a href="/contact" className="flame-gradient px-4 py-2 rounded-full text-white text-center energy-glow">CONTACT</a>
+              </div>
             </div>
           )}
         </div>
