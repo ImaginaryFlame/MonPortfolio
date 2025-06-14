@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Footer from './Footer';
+import Contact from './Contact';
 
 // Configuration des thèmes avec leurs couleurs adaptées
 const themes = [
@@ -59,21 +61,6 @@ const themes = [
 // Context pour partager le thème
 export const ThemeContext = React.createContext();
 
-// Composant Navbar (version simplifiée pour la démo)
-const OldNavbar = ({ theme }) => (
-  <nav className="w-full bg-white/70 backdrop-blur-md border-b border-white/10 relative z-10 mt-8 shadow-md">
-    <div className="max-w-7xl mx-auto px-6 py-2">
-      <div className="flex items-center justify-between">
-        <div className="text-xl font-bold text-gray-900">Portfolio</div>
-        <div className="hidden md:flex space-x-6">
-          <a href="#home" className="text-gray-900 hover:text-blue-700 transition-colors text-sm">Accueil</a>
-          <a href="#gallery" className="text-gray-900 hover:text-blue-700 transition-colors text-sm">Galerie</a>
-          <a href="#projects" className="text-gray-900 hover:text-blue-700 transition-colors text-sm">Projets</a>
-        </div>
-      </div>
-    </div>
-  </nav>
-);
 
 // Nouvelle section de galerie inspirée de micro.so et menuxl.fr
 const ProjectGallery = ({ theme }) => {
@@ -81,9 +68,10 @@ const ProjectGallery = ({ theme }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const [randomProjects, setRandomProjects] = useState([]);
 
-  // Projets de la galerie avec différents types
-  const galleryProjects = [
+  // Tous les projets disponibles
+  const allProjects = [
     {
       id: 1,
       title: "Héros à la Flamme Imaginaire - Chapitre 1",
@@ -149,6 +137,22 @@ const ProjectGallery = ({ theme }) => {
       section: "subItems"
     }
   ];
+
+  // Fonction pour mélanger un tableau
+  const shuffleArray = (array) => {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+  };
+
+  // Sélectionner aléatoirement 10 projets
+  useEffect(() => {
+    const shuffledProjects = shuffleArray(allProjects);
+    setRandomProjects(shuffledProjects.slice(0, 10));
+  }, []);
 
   const handleMouseDown = (e) => {
     setIsDragging(true);
@@ -234,7 +238,7 @@ const ProjectGallery = ({ theme }) => {
             onMouseUp={handleMouseUp}
             onMouseMove={handleMouseMove}
           >
-            {galleryProjects.map((project, index) => (
+            {randomProjects.map((project, index) => (
               <div
                 key={project.id}
                 className="flex-shrink-0 w-80 group cursor-pointer"
@@ -552,6 +556,7 @@ const ProjectCard = ({ project, onClick, index }) => {
 const Home = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [currentTheme, setCurrentTheme] = useState(themes[0]);
+  const [showContact, setShowContact] = useState(false);
 
   useEffect(() => {
     setCurrentTheme(themes[0]);
@@ -622,14 +627,9 @@ const Home = () => {
     <ThemeContext.Provider value={currentTheme}>
       <div className="w-full">
         <Banner theme={currentTheme} />
-        <OldNavbar theme={currentTheme} />
-        {/* Nouvelle section de galerie interactive */}
         <ProjectGallery theme={currentTheme} />
-
-        {/* Projects Section */}
         <div id="projects" className="min-h-screen w-full bg-cover bg-center bg-fixed" 
              style={{ backgroundImage: `url('${currentTheme.background}')` }}>
-          
           <div className="bg-black/50 backdrop-blur-sm">
             <div className="max-w-7xl mx-auto py-20 px-8">
               <div className="text-center mb-16">
@@ -682,10 +682,13 @@ const Home = () => {
                 <p className="text-xl text-gray-200 mb-10 drop-shadow-lg max-w-2xl mx-auto">
                   N'hésitez pas à me contacter pour discuter de vos projets créatifs
                 </p>
-                <button className={`px-10 py-4 bg-${currentTheme.colors.button} text-white rounded-xl 
-                                  font-semibold text-lg transition-all duration-300 
-                                  hover:bg-${currentTheme.colors.buttonHover} hover:shadow-xl 
-                                  hover:scale-105 drop-shadow-lg`}>
+                <button 
+                  onClick={() => setShowContact(true)}
+                  className={`px-10 py-4 bg-${currentTheme.colors.button} text-white rounded-xl 
+                            font-semibold text-lg transition-all duration-300 
+                            hover:bg-${currentTheme.colors.buttonHover} hover:shadow-xl 
+                            hover:scale-105 drop-shadow-lg`}
+                >
                   Me Contacter
                 </button>
               </div>
@@ -698,6 +701,10 @@ const Home = () => {
           isOpen={selectedProject !== null}
           onClose={() => setSelectedProject(null)}
         />
+
+        {showContact && <Contact onClose={() => setShowContact(false)} />}
+        
+        <Footer />
       </div>
     </ThemeContext.Provider>
   );

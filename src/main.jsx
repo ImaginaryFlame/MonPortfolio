@@ -1,13 +1,35 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
+import './index.css'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { 
+  faGithub, 
+  faLinkedin, 
+  faTwitter, 
+  faInstagram, 
+  faYoutube, 
+  faTwitch, 
+  faTiktok, 
+  faDiscord 
+} from '@fortawesome/free-brands-svg-icons'
+import { faPencil } from '@fortawesome/free-solid-svg-icons'
 
-<div className="bg-primary-blue text-text-light p-4">
-  Test Tailwind
-</div>
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
+// Ajout des icônes à la bibliothèque
+library.add(
+  faGithub, 
+  faLinkedin, 
+  faTwitter, 
+  faInstagram, 
+  faYoutube, 
+  faTwitch, 
+  faTiktok, 
+  faDiscord,
+  faPencil
+)
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
     <App />
-  </StrictMode>,
+  </React.StrictMode>,
 )

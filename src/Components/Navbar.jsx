@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const Navbar = ({ theme }) => {
   const [isPortailsOpen, setIsPortailsOpen] = useState(false);
@@ -7,6 +7,10 @@ const Navbar = ({ theme }) => {
   const [isAnimating, setIsAnimating] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
+  const [animationKey, setAnimationKey] = useState(0);
+  const timeoutRef = useRef(null);
+  const navbarRef = useRef(null);
 
   // Gestion du scroll pour l'apparition/disparition de la navbar
   useEffect(() => {
@@ -26,6 +30,32 @@ const Navbar = ({ theme }) => {
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY, isPortailsOpen]);
+
+  // Gestionnaire de clic en dehors de la navbar
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (navbarRef.current && !navbarRef.current.contains(event.target)) {
+        if (isPortailsOpen) {
+          setIsAnimating(true);
+          setTimeout(() => {
+            setSelectedItem(null);
+          }, 50);
+          setTimeout(() => {
+            setPortailType(null);
+          }, 100);
+          setTimeout(() => {
+            setIsPortailsOpen(false);
+            setIsAnimating(false);
+          }, 200);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isPortailsOpen]);
 
   const togglePortails = () => {
     if (!isPortailsOpen) {
@@ -52,7 +82,7 @@ const Navbar = ({ theme }) => {
         setPortailType(null);
         setSelectedItem(null);
         setIsAnimating(false);
-      }, 200);
+      }, 150);
     } else {
       if (portailType) {
         setIsAnimating(true);
@@ -60,7 +90,7 @@ const Navbar = ({ theme }) => {
           setPortailType(key);
           setSelectedItem(null);
           setIsAnimating(false);
-        }, 250);
+        }, 150);
       } else {
         setPortailType(key);
         setSelectedItem(null);
@@ -75,19 +105,37 @@ const Navbar = ({ theme }) => {
         setTimeout(() => {
           setSelectedItem(null);
           setIsAnimating(false);
-        }, 200);
+        }, 100);
       } else {
         if (selectedItem !== null) {
           setIsAnimating(true);
           setTimeout(() => {
             setSelectedItem(index);
             setIsAnimating(false);
-          }, 200);
+          }, 100);
         } else {
           setSelectedItem(index);
         }
       }
     }
+  };
+
+  const handleMouseEnter = (index) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    setSelectedItem(index);
+    setIsHovering(true);
+    setAnimationKey(prev => prev + 1);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+    timeoutRef.current = setTimeout(() => {
+      if (!isHovering) {
+        setSelectedItem(null);
+      }
+    }, 700);
   };
 
   const menuItems = {
@@ -120,20 +168,32 @@ const Navbar = ({ theme }) => {
             { name: "Factions", path: "/creation/univers-narratifs/fable-heros-fee/factions" },
             { name: "Races", path: "/creation/univers-narratifs/fable-heros-fee/races" },
             { name: "Évènements historiques", path: "/creation/univers-narratifs/fable-heros-fee/evenements-historiques" },
-            { name: "Bestiaires", path: "/creation/univers-narratifs/fable-heros-fee/especes-non-intelligentes" },
+            { name: "Bestiaires", path: "/creation/univers-narratifs/fable-heros-fee/bestiaires" },
             { name: "Célébrations et fêtes", path: "/creation/univers-narratifs/fable-heros-fee/celebrations-fetes" },
             { name: "Cosmogonies", path: "/creation/univers-narratifs/fable-heros-fee/cosmogonies" },
             { name: "Moodboard", path: "/creation/univers-narratifs/fable-heros-fee/moodboard" }
           ]
         },
         { 
-          name: "Vince de Belii", 
+          name: "VINCE DE BELII", 
           path: "/creation/univers-narratifs/vince-belii",
           subItems: [
             { name: "Personnages", path: "/creation/univers-narratifs/vince-belii/personnages" },
             { name: "Familles", path: "/creation/univers-narratifs/vince-belii/familles" },
             { name: "Lieux", path: "/creation/univers-narratifs/vince-belii/lieux" },
             { name: "Moodboard", path: "/creation/univers-narratifs/vince-belii/moodboard" }
+          ]
+        },
+        { 
+          name: "LA PANDEMIE DE LARA", 
+          path: "/creation/univers-narratifs/pandemie-lara",
+          subItems: [
+            { name: "Personnages", path: "/creation/univers-narratifs/pandemie-lara/personnages" },
+            { name: "Régions du monde & Lieux", path: "/creation/univers-narratifs/pandemie-lara/regions-lieux" },
+            { name: "Objets", path: "/creation/univers-narratifs/pandemie-lara/objets" },
+            { name: "Factions", path: "/creation/univers-narratifs/pandemie-lara/factions" },
+            { name: "Bestiaires", path: "/creation/univers-narratifs/pandemie-lara/bestiaires" },
+            { name: "Moodboard", path: "/creation/univers-narratifs/pandemie-lara/moodboard" }
           ]
         }
       ]
@@ -238,14 +298,21 @@ const Navbar = ({ theme }) => {
   };
 
   return (
-    <div className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out transform ${
-      isVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
-    }`}>
+    <div 
+      ref={navbarRef}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out transform ${
+        isVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+      }`}
+    >
       <div className="flex justify-center pt-4 px-4">
         <nav className="flex items-center space-x-2 bg-gradient-to-r from-orange-500 via-red-500 to-yellow-500 p-2 rounded-full shadow-2xl">
           {/* Logo avec animation améliorée */}
-          <div className="w-12 h-12 bg-gradient-to-r from-red-600 to-red-700 rounded-full flex items-center justify-center transform transition-all duration-500 ease-out hover:scale-110 hover:rotate-12 hover:shadow-lg">
-            <span className="text-white text-xl font-bold transition-transform duration-500 ease-out">⚡</span>
+          <div className="w-12 h-12 bg-gradient-to-r from-red-600 to-red-700 rounded-full flex items-center justify-center transform transition-all duration-500 ease-out hover:scale-110 hover:rotate-12 hover:shadow-lg overflow-hidden">
+            <img 
+              src="/assets/img/20220726_002242.webp" 
+              alt="Logo" 
+              className="w-full h-full object-cover"
+            />
           </div>
 
           {/* Navigation Links avec animations améliorées */}
@@ -276,9 +343,11 @@ const Navbar = ({ theme }) => {
 
               {/* Menu principal avec animations améliorées */}
               <div 
-                className={`absolute left-1/2 -translate-x-1/2 top-full mt-4 flex space-x-8 z-40 transition-all duration-500 ease-out
-                  ${isPortailsOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'}
-                  ${isAnimating ? 'animate-fadeOut' : ''}
+                className={`absolute left-1/2 -translate-x-1/2 top-full mt-4 flex space-x-8 z-40
+                  ${isPortailsOpen 
+                    ? 'transition-all duration-500 ease-out opacity-100 translate-y-0 scale-100' 
+                    : 'transition-all duration-200 ease-out opacity-0 -translate-y-4 scale-95 pointer-events-none'
+                  }
                 `}
               >
                 {/* Boutons principaux avec animations séquentielles */}
@@ -287,18 +356,19 @@ const Navbar = ({ theme }) => {
                     <button
                       key={key}
                       onClick={() => handlePortailChange(key)}
-                      className={`px-5 py-3 rounded-lg text-sm font-medium uppercase transition-all duration-500 ease-out whitespace-nowrap border
-                        ${isPortailsOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}
-                        ${isAnimating ? 'animate-fadeSlideOut' : ''}
+                      className={`px-5 py-3 rounded-lg text-sm font-medium uppercase whitespace-nowrap border
+                        ${isPortailsOpen 
+                          ? 'transition-all duration-500 ease-out opacity-100 translate-x-0 scale-100' 
+                          : 'transition-all duration-200 ease-out opacity-0 -translate-x-4 scale-95'
+                        }
                         ${portailType === key 
                           ? 'bg-gradient-to-r from-orange-500 via-red-500 to-yellow-500 text-white scale-105 shadow-xl border-orange-300' 
                           : 'bg-gradient-to-r from-slate-800/90 to-blue-900/90 text-white hover:from-orange-600/90 hover:to-red-600/90 border-slate-600'
                         } hover:transform hover:-translate-y-1 hover:shadow-lg`}
                       style={{ 
-                        transitionDelay: isPortailsOpen ? `${index * 100}ms` : `${(Object.entries(menuItems).length - index - 1) * 100}ms`,
-                        animation: isPortailsOpen 
-                          ? `fadeSlideIn 500ms ${index * 100}ms ease-out forwards`
-                          : isAnimating ? `fadeSlideOut 500ms ${(Object.entries(menuItems).length - index - 1) * 100}ms ease-out forwards` : 'none'
+                        transitionDelay: isPortailsOpen 
+                          ? `${index * 100}ms` 
+                          : `${(Object.entries(menuItems).length - index - 1) * 50}ms`
                       }}
                     >
                       {value.title}
@@ -308,35 +378,44 @@ const Navbar = ({ theme }) => {
 
                 {/* Sous-menus avec animations améliorées */}
                 {portailType && (
-                  <div className={`flex space-x-6 transition-all duration-500 ease-out
-                    ${isAnimating ? 'opacity-0 translate-x-4' : 'opacity-100 translate-x-0'}
-                  `}>
+                  <div className={`flex space-x-6
+                    ${isAnimating 
+                      ? 'transition-all duration-150 ease-out opacity-0 translate-x-4 scale-95' 
+                      : 'transition-all duration-150 ease-out opacity-100 translate-x-0 scale-100'
+                    }
+                  `}
+                  style={{
+                    animation: portailType ? 'menuAppear 0.3s ease-out forwards' : 'none',
+                    opacity: 0,
+                    transform: 'translateX(20px) scale(0.95)'
+                  }}
+                  >
                     <div className="flex flex-col gap-3 min-w-[200px]">
                       {menuItems[portailType].items.map((item, index) => (
                         <div 
                           key={index} 
                           className="relative"
                           style={{ 
-                            animation: isPortailsOpen 
-                              ? `fadeSlideIn 500ms ${index * 100}ms ease-out forwards`
-                              : isAnimating ? `fadeSlideOut 500ms ${(menuItems[portailType].items.length - index - 1) * 100}ms ease-out forwards` : 'none',
-                            opacity: isAnimating ? 1 : 0
+                            transitionDelay: isAnimating 
+                              ? `${(menuItems[portailType].items.length - index - 1) * 30}ms`
+                              : `${index * 50}ms`,
+                            opacity: isAnimating ? 0 : 1,
+                            transform: isAnimating ? 'translateY(10px) scale(0.95)' : 'translateY(0) scale(1)',
+                            transition: isAnimating 
+                              ? 'all 150ms ease-out' 
+                              : 'all 150ms ease-out'
                           }}
                         >
                           {item.subItems ? (
-                            <button
-                              onClick={() => handleItemClick(item, index)}
-                              className={`text-left px-6 py-3 rounded-lg font-medium transition-all duration-500 ease-out shadow-lg w-full border
-                                ${selectedItem === index 
-                                  ? 'bg-gradient-to-r from-blue-800/95 to-blue-600/95 text-white scale-105 border-blue-400' 
-                                  : 'bg-gradient-to-r from-orange-500/95 to-red-600/95 text-white hover:from-blue-700/95 hover:to-blue-500/95 border-orange-400'
-                                } hover:transform hover:-translate-y-1 hover:shadow-lg`}
+                            <a
+                              href={item.path}
+                              className="text-left px-6 py-3 rounded-lg font-medium transition-all duration-500 ease-out shadow-lg w-full border bg-gradient-to-r from-orange-500/95 to-red-600/95 text-white hover:from-blue-700/95 hover:to-blue-500/95 border-orange-400 hover:transform hover:-translate-y-1 hover:shadow-lg flex items-center justify-between"
+                              onMouseEnter={() => handleMouseEnter(index)}
+                              onMouseLeave={handleMouseLeave}
                             >
-                              <div className="flex items-center justify-between">
-                                <span className="text-sm font-semibold">{item.name}</span>
-                                <span className={`transition-transform duration-500 ease-out ${selectedItem === index ? 'rotate-90' : ''}`}>▶</span>
-                              </div>
-                            </button>
+                              <span className="text-sm font-semibold">{item.name}</span>
+                              <span className={`transition-transform duration-500 ease-out ${selectedItem === index ? 'rotate-90' : ''}`}>▶</span>
+                            </a>
                           ) : (
                             <a
                               href={item.path}
@@ -351,19 +430,25 @@ const Navbar = ({ theme }) => {
                     
                     {/* Sous-sous-menus avec animations améliorées */}
                     {selectedItem !== null && menuItems[portailType].items[selectedItem]?.subItems && (
-                      <div className={`flex flex-col gap-2 min-w-[200px] transition-all duration-500 ease-out
-                        ${isAnimating ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}
-                      `}>
+                      <div 
+                        className={`flex flex-col gap-2 min-w-[200px]
+                          ${isAnimating 
+                            ? 'transition-all duration-100 ease-out opacity-0 translate-y-4 scale-95' 
+                            : 'transition-all duration-100 ease-out opacity-100 translate-y-0 scale-100'
+                          }
+                        `}
+                        onMouseEnter={() => setIsHovering(true)}
+                        onMouseLeave={handleMouseLeave}
+                      >
                         {menuItems[portailType].items[selectedItem].subItems.map((subItem, subIndex) => (
                           <a
-                            key={subIndex}
+                            key={`${animationKey}-${subIndex}`}
                             href={subItem.path}
-                            className="bg-gradient-to-r from-yellow-400/95 to-orange-500/95 text-gray-900 text-left px-4 py-3 rounded-lg font-semibold hover:from-blue-400/95 hover:to-blue-600/95 hover:text-white transition-all duration-500 ease-out shadow-md text-sm border border-yellow-300 hover:transform hover:-translate-y-1 hover:shadow-lg"
+                            className="bg-gradient-to-r from-yellow-400/95 to-orange-500/95 text-gray-900 text-left px-4 py-3 rounded-lg font-semibold hover:from-blue-400/95 hover:to-blue-600/95 hover:text-white shadow-md text-sm border border-yellow-300 hover:transform hover:-translate-y-1 hover:shadow-lg"
                             style={{ 
-                              animation: isPortailsOpen 
-                                ? `fadeSlideIn 500ms ${subIndex * 100}ms ease-out forwards`
-                                : isAnimating ? `fadeSlideOut 500ms ${(menuItems[portailType].items[selectedItem].subItems.length - subIndex - 1) * 100}ms ease-out forwards` : 'none',
-                              opacity: isAnimating ? 1 : 0
+                              animation: `submenuItemAppear 0.2s ease-out ${subIndex * 30}ms forwards`,
+                              opacity: 0,
+                              transform: 'translateY(20px) scale(0.95)'
                             }}
                           >
                             {subItem.name}
@@ -402,31 +487,55 @@ const Navbar = ({ theme }) => {
         @keyframes fadeSlideIn {
           from {
             opacity: 0;
-            transform: translateY(10px);
+            transform: translateY(10px) scale(0.95);
           }
           to {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
           }
         }
 
         @keyframes fadeSlideOut {
           from {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
           }
           to {
             opacity: 0;
-            transform: translateY(-10px);
+            transform: translateY(-10px) scale(0.95);
           }
         }
 
-        @keyframes fadeOut {
-          from {
-            opacity: 1;
-          }
-          to {
+        @keyframes menuAppear {
+          0% {
             opacity: 0;
+            transform: translateX(20px) scale(0.95);
+          }
+          100% {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+          }
+        }
+
+        @keyframes submenuItemAppear {
+          0% {
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+        @keyframes submenuItemDisappear {
+          0% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+          100% {
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
           }
         }
       `}</style>
