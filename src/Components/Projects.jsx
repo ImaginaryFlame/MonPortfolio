@@ -1,10 +1,10 @@
 import { Container, Row, Col, Tab, Nav } from "react-bootstrap";
 import ProjectCard from "./ProjectCard";
 import '../styles/projects.css';
-import 'animate.css';
+
 import { useRef, useEffect, useState } from 'react';
 
-export const Projects = () => {
+const Projects = () => {
   const pillsRef = useRef(null);
   const [indicatorStyle, setIndicatorStyle] = useState({});
 
@@ -166,3 +166,5 @@ export const Projects = () => {
     </section>
   );
 }
+
+export default Projects;

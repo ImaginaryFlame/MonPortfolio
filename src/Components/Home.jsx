@@ -474,10 +474,11 @@ const Banner = ({ theme }) => {
         
         <button 
           onClick={() => document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' })}
-          className={`group flex flex-col items-center gap-2 px-8 py-4 bg-${theme.colors.button} text-white rounded-full 
-                     font-semibold text-lg transition-all duration-300 
-                     hover:bg-${theme.colors.buttonHover} hover:shadow-xl hover:shadow-${theme.colors.shadow} hover:scale-105
-                     drop-shadow-lg mx-auto`}
+          className="group flex flex-col items-center gap-2 px-12 py-2 bg-gradient-to-r from-violet-600 via-purple-600 to-blue-500 
+                   text-white rounded-full font-semibold text-lg transition-all duration-300 
+                   hover:from-violet-700 hover:via-purple-700 hover:to-blue-600
+                   hover:shadow-xl hover:shadow-purple-500/25 hover:scale-105
+                   drop-shadow-lg mx-auto"
         >
           <span>EXPLOREZ MON MONDE</span>
           <span className="flex justify-center">
