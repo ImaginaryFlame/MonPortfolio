@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Footer from './Footer';
 import Contact from './Contact';
+import Projects from './Projects';
 
 // Configuration des thèmes avec leurs couleurs adaptées
 const themes = [
@@ -562,137 +563,32 @@ const Home = () => {
     setCurrentTheme(themes[0]);
   }, []);
 
-  const projects = [
-    { 
-      title: "Design & Illustration", 
-      content: "Création d'illustrations digitales et de designs pour divers projets créatifs. Spécialisation dans l'art digital et la conception graphique moderne avec un focus sur l'expérience utilisateur.",
-      image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      tags: ["Digital Art", "Illustration", "Design", "UI/UX"]
-    },
-    { 
-      title: "Character Design", 
-      content: "Conception et création de personnages originaux pour jeux vidéo, animations et projets narratifs. Focus sur l'expression, la personnalité et le style unique de chaque personnage.",
-      image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      tags: ["Character Design", "Concept Art", "Animation"]
-    },
-    { 
-      title: "Concept Art", 
-      content: "Développement visuel de concepts et d'univers imaginaires. Création d'ambiances et d'atmosphères uniques pour films, jeux et projets créatifs immersifs.",
-      image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      tags: ["Concept Art", "Environment Design", "Worldbuilding"]
-    },
-    { 
-      title: "Digital Painting", 
-      content: "Réalisation de peintures numériques détaillées avec exploration de différents styles artistiques. Mélange de techniques traditionnelles et innovation digitale.",
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      tags: ["Digital Painting", "Art", "Fine Arts"]
-    },
-    { 
-      title: "Web Development", 
-      content: "Développement d'applications web modernes et responsives. Expertise en React, Node.js et technologies frontend/backend de pointe.",
-      image: "https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      tags: ["Web Dev", "React", "JavaScript", "Full Stack"]
-    },
-    { 
-      title: "Game Development", 
-      content: "Création de jeux vidéo indépendants avec focus sur le gameplay innovant et l'expérience joueur. Développement complet de la conception à la publication.",
-      image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      tags: ["Game Dev", "Unity", "C#", "Indie Games"]
-    },
-    { 
-      title: "Motion Graphics", 
-      content: "Animation et motion design pour contenus vidéo, publicités et projets interactifs. Création d'animations fluides et impactantes.",
-      image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      tags: ["Motion Graphics", "Animation", "After Effects"]
-    },
-    { 
-      title: "Brand Identity", 
-      content: "Développement d'identités visuelles complètes pour entreprises et projets personnels. Logo, charte graphique et déclinaisons multimédia.",
-      image: "https://images.unsplash.com/photo-1571115764595-644a1f56a55c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      tags: ["Branding", "Logo Design", "Identity"]
-    },
-    { 
-      title: "Creative Writing", 
-      content: "Écriture créative et scénarisation pour différents médias. Romans, nouvelles, scripts et contenus narratifs immersifs.",
-      image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      tags: ["Writing", "Screenwriting", "Storytelling"]
-    }
-  ];
-
-  const navigateToAllProjects = () => {
-    console.log('Navigation vers tous les projets');
-  };
-
   return (
     <ThemeContext.Provider value={currentTheme}>
       <div className="w-full">
         <Banner theme={currentTheme} />
         <ProjectGallery theme={currentTheme} />
-        <div id="projects" className="min-h-screen w-full bg-cover bg-center bg-fixed" 
-             style={{ backgroundImage: `url('${currentTheme.background}')` }}>
-          <div className="bg-black/50 backdrop-blur-sm">
-            <div className="max-w-7xl mx-auto py-20 px-8">
-              <div className="text-center mb-16">
-                <h2 className="text-5xl font-bold text-white mb-6 drop-shadow-2xl">
-                  Mes Projets
-                </h2>
-                <p className="text-xl text-gray-200 max-w-2xl mx-auto drop-shadow-lg">
-                  Découvrez une sélection de mes créations les plus récentes
-                </p>
-              </div>
+        
+        {/* Section Projects avec les trois onglets */}
+        <Projects />
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                {projects.map((project, index) => (
-                  <ProjectCard 
-                    key={index}
-                    project={project}
-                    index={index}
-                    onClick={() => setSelectedProject(project)}
-                  />
-                ))}
-              </div>
-
-              <div className="flex justify-end">
-                <button 
-                  onClick={navigateToAllProjects}
-                  className="inline-flex items-center gap-3 px-8 py-4 
-                           bg-gradient-to-r from-purple-600 to-blue-600 
-                           text-white rounded-full font-semibold text-lg 
-                           transition-all duration-300 
-                           hover:from-purple-700 hover:to-blue-700 
-                           hover:shadow-xl hover:shadow-purple-500/25 
-                           hover:scale-105 drop-shadow-lg
-                           backdrop-blur-sm border border-white/20"
-                >
-                  Tous les projets
-                  <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" 
-                       fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                          d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            <div className="w-full bg-black/60 backdrop-blur-sm py-20 border-t border-white/10">
-              <div className="max-w-7xl mx-auto px-8 text-center">
-                <h2 className="text-4xl font-bold text-white mb-8 drop-shadow-2xl">
-                  Intéressé par une collaboration ?
-                </h2>
-                <p className="text-xl text-gray-200 mb-10 drop-shadow-lg max-w-2xl mx-auto">
-                  N'hésitez pas à me contacter pour discuter de vos projets créatifs
-                </p>
-                <button 
-                  onClick={() => setShowContact(true)}
-                  className={`px-10 py-4 bg-${currentTheme.colors.button} text-white rounded-xl 
-                            font-semibold text-lg transition-all duration-300 
-                            hover:bg-${currentTheme.colors.buttonHover} hover:shadow-xl 
-                            hover:scale-105 drop-shadow-lg`}
-                >
-                  Me Contacter
-                </button>
-              </div>
-            </div>
+        <div className="w-full bg-black/60 backdrop-blur-sm py-20 border-t border-white/10">
+          <div className="max-w-7xl mx-auto px-8 text-center">
+            <h2 className="text-4xl font-bold text-white mb-8 drop-shadow-2xl">
+              Intéressé par une collaboration ?
+            </h2>
+            <p className="text-xl text-gray-200 mb-10 drop-shadow-lg max-w-2xl mx-auto">
+              N'hésitez pas à me contacter pour discuter de vos projets créatifs
+            </p>
+            <button 
+              onClick={() => setShowContact(true)}
+              className={`px-10 py-4 bg-${currentTheme.colors.button} text-white rounded-xl 
+                        font-semibold text-lg transition-all duration-300 
+                        hover:bg-${currentTheme.colors.buttonHover} hover:shadow-xl 
+                        hover:scale-105 drop-shadow-lg`}
+            >
+              Me Contacter
+            </button>
           </div>
         </div>
 
