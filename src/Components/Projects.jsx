@@ -1,30 +1,75 @@
 import { Container, Row, Col, Tab, Nav } from "react-bootstrap";
 import ProjectCard from "./ProjectCard";
 import '../styles/projects.css';
-
 import { useRef, useEffect, useState } from 'react';
+import { supabase } from '../config/supabaseClient';
 
 const Projects = () => {
   const pillsRef = useRef(null);
   const [indicatorStyle, setIndicatorStyle] = useState({});
+  const [allProjects, setAllProjects] = useState([]);
+  const [filteredProjects, setFilteredProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [activeTab, setActiveTab] = useState('all');
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+  const fetchProjects = async () => {
+    try {
+      setLoading(true);
+      
+      const { data, error } = await supabase
+        .from('projects')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        throw error;
+      }
+
+      setAllProjects(data);
+      setFilteredProjects(data);
+    } catch (error) {
+      setError(error.message);
+      console.error('Error fetching projects:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
 
   const updateIndicator = (element) => {
-    if (!element) return;
+    if (!element || !pillsRef.current) return;
     
     const rect = element.getBoundingClientRect();
     const parentRect = pillsRef.current.getBoundingClientRect();
     
+    // Calculer la position relative par rapport au parent
+    const left = rect.left - parentRect.left;
+    
     setIndicatorStyle({
       width: `${rect.width}px`,
-      transform: `translateX(${rect.left - parentRect.left}px)`,
+      transform: `translateX(${left}px)`,
+      opacity: 1
     });
   };
 
   useEffect(() => {
     // Initialiser l'indicateur sur le premier onglet
-    const firstTab = pillsRef.current?.querySelector('.nav-link');
-    if (firstTab) {
-      updateIndicator(firstTab);
+    const initializeIndicator = () => {
+      const activeTab = pillsRef.current?.querySelector('.nav-link.active');
+      if (activeTab) {
+        setIsInitialLoad(false);
+        updateIndicator(activeTab);
+      }
+    };
+
+    if (isInitialLoad) {
+      // Petit délai pour laisser le DOM se mettre à jour
+      setTimeout(initializeIndicator, 100);
     }
 
     // Observer les changements de taille de fenêtre
@@ -37,67 +82,30 @@ const Projects = () => {
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [isInitialLoad]);
 
   const handleSelect = (key) => {
+    setActiveTab(key);
+    
+    // Mettre à jour l'indicateur avec une petite animation
     const selectedTab = pillsRef.current?.querySelector(`[data-rb-event-key="${key}"]`);
     if (selectedTab) {
-      updateIndicator(selectedTab);
+      // D'abord, rendre l'indicateur légèrement transparent
+      setIndicatorStyle(prev => ({ ...prev, opacity: 0.8 }));
+      
+      // Puis, après un court délai, le déplacer avec une opacité complète
+      setTimeout(() => {
+        updateIndicator(selectedTab);
+      }, 50);
     }
-  };
 
-  const projects = {
-    "arts": [
-      {
-        title: "La Légende de la Pomme Imaginaire",
-        description: "Une histoire interactive mêlant art numérique et narration",
-        imgUrl: "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?q=80&w=1074&auto=format&fit=crop",
-      },
-      {
-        title: "Character Design - Héros",
-        description: "Série de designs de personnages pour un projet de jeu vidéo",
-        imgUrl: "https://images.unsplash.com/photo-1566577739112-5180d4bf9390?q=80&w=1026&auto=format&fit=crop",
-      },
-      {
-        title: "Concept Art 'Univers'",
-        description: "Exploration visuelle d'univers science-fiction",
-        imgUrl: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=1127&auto=format&fit=crop",
-      }
-    ],
-    "dev": [
-      {
-        title: "Portfolio React + Tailwind",
-        description: "Site portfolio moderne et responsive",
-        imgUrl: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=1055&auto=format&fit=crop",
-      },
-      {
-        title: "API Talents",
-        description: "API REST pour la gestion de talents",
-        imgUrl: "https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?q=80&w=1170&auto=format&fit=crop",
-      },
-      {
-        title: "Game Prototyper",
-        description: "Outil de prototypage rapide de jeux",
-        imgUrl: "https://images.unsplash.com/photo-1556438064-2d7646166914?q=80&w=1074&auto=format&fit=crop",
-      }
-    ],
-    "video": [
-      {
-        title: "Court - La Pomme Imaginaire",
-        description: "Court-métrage d'animation 3D",
-        imgUrl: "https://images.unsplash.com/photo-1536240478700-b869070f9279?q=80&w=1164&auto=format&fit=crop",
-      },
-      {
-        title: "Spot Pub - J4",
-        description: "Publicité motion design",
-        imgUrl: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=1170&auto=format&fit=crop",
-      },
-      {
-        title: "Motion Design",
-        description: "Collection d'animations pour réseaux sociaux",
-        imgUrl: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?q=80&w=1169&auto=format&fit=crop",
-      }
-    ]
+    // Filtrer les projets
+    if (key === 'all') {
+      setFilteredProjects(allProjects);
+    } else {
+      const filtered = allProjects.filter(project => project.category === key);
+      setFilteredProjects(filtered);
+    }
   };
 
   return (
@@ -112,56 +120,78 @@ const Projects = () => {
           <p className="text-white">Découvrez mes différentes créations à travers ces trois domaines d'expertise</p>
         </div>
 
-        <Tab.Container 
-          id="projects-tabs" 
-          defaultActiveKey="arts"
-          onSelect={handleSelect}
-        >
-          <div className="nav-pills-container">
-            <Nav ref={pillsRef} variant="pills" className="nav-pills mb-5 justify-content-center align-items-center">
-              <div className="pill-indicator" style={indicatorStyle} />
-              <Nav.Item>
-                <Nav.Link eventKey="arts">
-                  Arts Visuels & Narratifs
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey="dev">
-                  Développement & Tech
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey="video">
-                  Vidéaste
-                </Nav.Link>
-              </Nav.Item>
-            </Nav>
-          </div>
+        {loading ? (
+          <div className="text-center text-white">Chargement des projets...</div>
+        ) : error ? (
+          <div className="text-center text-red-500">Erreur: {error}</div>
+        ) : (
+          <div>
+            <div className="nav-pills-container">
+              <Nav ref={pillsRef} variant="pills" className="nav-pills mb-5 justify-content-center align-items-center">
+                <div  />
+                <Nav.Item>
+                  <Nav.Link 
+                    eventKey="all" 
+                    active={activeTab === 'all'} 
+                    onClick={() => handleSelect('all')}
+                    className={activeTab === 'all' ? 'active' : ''}
+                  >
+                    Tous les projets
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link 
+                    eventKey="arts" 
+                    active={activeTab === 'arts'} 
+                    onClick={() => handleSelect('arts')}
+                    className={activeTab === 'arts' ? 'active' : ''}
+                  >
+                    Arts Visuels & Narratifs
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link 
+                    eventKey="dev" 
+                    active={activeTab === 'dev'} 
+                    onClick={() => handleSelect('dev')}
+                    className={activeTab === 'dev' ? 'active' : ''}
+                  >
+                    Développement & Tech
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link 
+                    eventKey="video" 
+                    active={activeTab === 'video'} 
+                    onClick={() => handleSelect('video')}
+                    className={activeTab === 'video' ? 'active' : ''}
+                  >
+                    Vidéaste
+                  </Nav.Link>
+                </Nav.Item>
+              </Nav>
+            </div>
 
-          <Tab.Content>
-            <Tab.Pane eventKey="arts">
-              <Row>
-                {projects.arts.map((project, index) => (
-                  <ProjectCard key={index} {...project} />
-                ))}
-              </Row>
-            </Tab.Pane>
-            <Tab.Pane eventKey="dev">
-              <Row>
-                {projects.dev.map((project, index) => (
-                  <ProjectCard key={index} {...project} />
-                ))}
-              </Row>
-            </Tab.Pane>
-            <Tab.Pane eventKey="video">
-              <Row>
-                {projects.video.map((project, index) => (
-                  <ProjectCard key={index} {...project} />
-                ))}
-              </Row>
-            </Tab.Pane>
-          </Tab.Content>
-        </Tab.Container>
+            <div className="projects-grid fade-in">
+              {filteredProjects.map((project, index) => (
+                <div key={index} className="project-item">
+                  <div className="proj-imgbx">
+                    <img src={project.imgurl} alt={project.title} />
+                    <div className="proj-txtx">
+                      <h4>{project.title}</h4>
+                      <span>{project.description}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              {filteredProjects.length === 0 && (
+                <div className="no-projects-message">
+                  Aucun projet trouvé dans cette catégorie
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </Container>
     </section>
   );

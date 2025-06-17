@@ -1,6 +1,6 @@
 import { Col } from "react-bootstrap";
 
-const ProjectCard = ({ title, description, imgUrl, link, category }) => {
+const ProjectCard = ({ title, description, imgurl, link, category }) => {
   const handleClick = () => {
     if (link) {
       window.open(link, '_blank');
@@ -10,7 +10,7 @@ const ProjectCard = ({ title, description, imgUrl, link, category }) => {
   return (
     <Col>
       <div className="proj-imgbx" onClick={handleClick} style={{ cursor: link ? 'pointer' : 'default' }}>
-        <img src={imgUrl} alt={title} />
+        <img src={imgurl} alt={title} />
         <div className="proj-txtx">
           <h4>{title}</h4>
           <span>{description}</span>
