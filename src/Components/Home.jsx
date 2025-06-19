@@ -6,7 +6,7 @@ import Projects from './Projects';
 // Configuration des thèmes avec leurs couleurs adaptées
 const themes = [
   {
-    background: '/assets/img/anime-moon-landscape-horizon-46-4K.jpg',
+    background: '/assets/img/F7xrYybWcAEztt2.webp',
     name: 'moonscape',
     colors: {
       primary: 'purple-500',
@@ -456,7 +456,7 @@ const Banner = ({ theme }) => {
       <div className="relative z-10 max-w-6xl mx-auto px-8 text-center">
         <div className="mb-8">
           <span className="text-xl font-medium drop-shadow-lg transition-colors duration-500" style={{ color: '#E0E0E0', textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>
-            Bienvenue dans mon univers !
+            BIENVENUE DANS MON UNIVERS !
           </span>
         </div>
         
