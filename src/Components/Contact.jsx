@@ -122,4 +122,4 @@ export const Contact = ({ onClose }) => {
     );
 };
 
-export default Contact;
+export default Contact; 

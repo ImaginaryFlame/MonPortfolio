@@ -573,14 +573,18 @@ const Home = () => {
         {/* Section Projects avec les trois onglets */}
         <Projects />
 
-        <div className="w-full bg-black/60 backdrop-blur-sm py-20 border-t border-white/10">
+        {/* Section de contact avec fond sombre et effet de flou */}
+        {/* <div className="w-full bg-black/60 backdrop-blur-sm py-20 border-t border-white/10">
           <div className="max-w-7xl mx-auto px-8 text-center">
+
             <h2 className="text-4xl font-bold text-white mb-8 drop-shadow-2xl">
               Intéressé par une collaboration ?
             </h2>
+
             <p className="text-xl text-gray-200 mb-10 drop-shadow-lg max-w-2xl mx-auto">
               N'hésitez pas à me contacter pour discuter de vos projets créatifs
             </p>
+
             <button 
               onClick={() => setShowContact(true)}
               className={`px-10 py-4 bg-${currentTheme.colors.button} text-white rounded-xl 
@@ -591,7 +595,7 @@ const Home = () => {
               Me Contacter
             </button>
           </div>
-        </div>
+        </div> */}
 
         <ProjectModal 
           project={selectedProject}
