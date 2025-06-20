@@ -99,17 +99,118 @@ const personnage = {
         title: 'Orientation sexuelle'
       },
       {
-        name: 'opinionReligieuse',
-        type: 'string',
-        title: 'Opinion religieuse'
+        name: 'opinionsReligieuses',
+        type: 'array',
+        title: 'Opinions religieuses (évolution)',
+        description: 'Évolution des opinions religieuses au fil du récit',
+        of: [{
+          type: 'object',
+          fields: [
+            {
+              name: 'periode',
+              type: 'string',
+              title: 'Période/Moment',
+              description: 'À quel moment du récit cette opinion est-elle valable ?'
+            },
+            {
+              name: 'opinion',
+              type: 'text',
+              title: 'Opinion religieuse',
+              description: 'Description de l\'opinion religieuse à cette période'
+            },
+            {
+              name: 'raisonChangement',
+              type: 'text',
+              title: 'Raison du changement',
+              description: 'Qu\'est-ce qui a causé ce changement d\'opinion ?'
+            },
+            {
+              name: 'spoilerLevel',
+              type: 'string',
+              title: 'Niveau de spoiler',
+              options: {
+                list: [
+                  { title: 'Aucun spoiler', value: 'none' },
+                  { title: 'Spoiler léger', value: 'light' },
+                  { title: 'Spoiler moyen', value: 'medium' },
+                  { title: 'Spoiler majeur', value: 'major' }
+                ]
+              },
+              initialValue: 'none'
+            }
+          ]
+        }]
+      },
+      {
+        name: 'opinionsPolitiques',
+        type: 'array',
+        title: 'Opinions politiques (évolution) - Optionnel',
+        description: 'Évolution des opinions et engagements politiques au fil du récit (optionnel)',
+        of: [{
+          type: 'object',
+          fields: [
+            {
+              name: 'periode',
+              type: 'string',
+              title: 'Période/Moment',
+              description: 'À quel moment du récit cette opinion est-elle valable ?'
+            },
+            {
+              name: 'ideologiePolitique',
+              type: 'text',
+              title: 'Idéologie politique',
+              description: 'Description détaillée de l\'idéologie politique (conservateur, progressiste, anarchiste, monarchiste, républicain, socialiste, libéral, etc.)'
+            },
+            {
+              name: 'engagements',
+              type: 'array',
+              title: 'Engagements politiques',
+              description: 'Organisations, partis, mouvements auxquels le personnage adhère',
+              of: [{ type: 'string' }]
+            },
+            {
+              name: 'positionsSpecifiques',
+              type: 'array',
+              title: 'Positions spécifiques',
+              description: 'Positions sur des sujets politiques précis',
+              of: [{
+                type: 'object',
+                fields: [
+                  { name: 'sujet', type: 'string', title: 'Sujet politique' },
+                  { name: 'position', type: 'text', title: 'Position du personnage' }
+                ]
+              }]
+            },
+            {
+              name: 'raisonChangement',
+              type: 'text',
+              title: 'Raison du changement',
+              description: 'Qu\'est-ce qui a causé ce changement d\'opinion politique ?'
+            },
+            {
+              name: 'spoilerLevel',
+              type: 'string',
+              title: 'Niveau de spoiler',
+              options: {
+                list: [
+                  { title: 'Aucun spoiler', value: 'none' },
+                  { title: 'Spoiler léger', value: 'light' },
+                  { title: 'Spoiler moyen', value: 'medium' },
+                  { title: 'Spoiler majeur', value: 'major' }
+                ]
+              },
+              initialValue: 'none'
+            }
+          ]
+        }]
       },
   
-      // Véritable identité (révélations/spoilers)
+      // Véritable identité (révélations/spoilers) - OPTIONNEL
       {
         name: 'veritableIdentite',
         type: 'object',
-        title: '🔍 Véritable identité',
-        description: 'Informations révélées au cours de l\'histoire',
+        title: '🔍 Véritable identité (optionnel)',
+        description: 'Informations révélées au cours de l\'histoire - seulement si le personnage a quelque chose à cacher',
         hidden: ({ document }) => document?.versionFiche !== 'entiere',
         fields: [
           {
@@ -277,6 +378,272 @@ const personnage = {
             initialValue: 'major'
           }
         ]
+      },
+  
+      // Relations interpersonnelles
+      {
+        name: 'relations',
+        type: 'array',
+        title: '💝 Relations interpersonnelles',
+        description: 'Relations avec d\'autres personnages (amitié, amour, rivalité, inimitié, etc.)',
+        of: [{ 
+          type: 'object',
+          fields: [
+            {
+              name: 'personnage',
+              type: 'reference',
+              title: 'Personnage concerné',
+              to: [{ type: 'personnage' }],
+              validation: Rule => Rule.required()
+            },
+            {
+              name: 'typeRelation',
+              type: 'string',
+              title: 'Type de relation',
+              options: {
+                list: [
+                  { title: 'Amitié', value: 'amitie' },
+                  { title: 'Meilleur(e) ami(e)', value: 'meilleur_ami' },
+                  { title: 'Amour/Romance', value: 'amour' },
+                  { title: 'Couple', value: 'couple' },
+                  { title: 'Ex-partenaire', value: 'ex_partenaire' },
+                  { title: 'Crush/Béguin', value: 'crush' },
+                  { title: 'Rivalité', value: 'rivalite' },
+                  { title: 'Ennemi', value: 'ennemi' },
+                  { title: 'Ennemi juré', value: 'ennemi_jure' },
+                  { title: 'Inimitié', value: 'inimitie' },
+                  { title: 'Mentor', value: 'mentor' },
+                  { title: 'Élève/Protégé', value: 'eleve' },
+                  { title: 'Allié', value: 'allie' },
+                  { title: 'Connaissance', value: 'connaissance' },
+                  { title: 'Collègue', value: 'collegue' },
+                  { title: 'Respect mutuel', value: 'respect' },
+                  { title: 'Méfiance', value: 'mefiance' },
+                  { title: 'Indifférence', value: 'indifference' },
+                  { title: 'Admiration', value: 'admiration' },
+                  { title: 'Jalousie', value: 'jalousie' },
+                  { title: 'Protection', value: 'protection' },
+                  { title: 'Dépendance', value: 'dependance' },
+                  { title: 'Manipulation', value: 'manipulation' },
+                  { title: 'Autre', value: 'autre' }
+                ]
+              },
+              validation: Rule => Rule.required()
+            },
+            {
+              name: 'typeRelationAutre',
+              type: 'string',
+              title: 'Préciser le type de relation',
+              description: 'Si "Autre" est sélectionné, précisez ici',
+              hidden: ({ parent }) => parent?.typeRelation !== 'autre'
+            },
+            {
+              name: 'intensite',
+              type: 'number',
+              title: 'Intensité de la relation (1-10)',
+              description: '1 = très faible, 10 = extrêmement forte',
+              validation: Rule => Rule.min(1).max(10)
+            },
+            {
+              name: 'reciproque',
+              type: 'boolean',
+              title: 'Relation réciproque ?',
+              description: 'Est-ce que l\'autre personnage ressent la même chose ?',
+              initialValue: true
+            },
+            {
+              name: 'descriptionRelation',
+              type: 'text',
+              title: 'Description de la relation',
+              description: 'Comment cette relation se manifeste-t-elle ?'
+            },
+            {
+              name: 'origineRelation',
+              type: 'text',
+              title: 'Origine de la relation',
+              description: 'Comment cette relation a-t-elle commencé ?'
+            },
+            {
+              name: 'evolutionRelation',
+              type: 'array',
+              title: 'Évolution de la relation',
+              description: 'Comment la relation évolue-t-elle au cours du récit ?',
+              of: [{
+                type: 'object',
+                fields: [
+                  {
+                    name: 'periode',
+                    type: 'string',
+                    title: 'Période/Moment',
+                    description: 'Quand cette évolution a-t-elle lieu ?'
+                  },
+                  {
+                    name: 'nouveauType',
+                    type: 'string',
+                    title: 'Nouveau type de relation',
+                    options: {
+                      list: [
+                        { title: 'Amitié', value: 'amitie' },
+                        { title: 'Meilleur(e) ami(e)', value: 'meilleur_ami' },
+                        { title: 'Amour/Romance', value: 'amour' },
+                        { title: 'Couple', value: 'couple' },
+                        { title: 'Ex-partenaire', value: 'ex_partenaire' },
+                        { title: 'Crush/Béguin', value: 'crush' },
+                        { title: 'Rivalité', value: 'rivalite' },
+                        { title: 'Ennemi', value: 'ennemi' },
+                        { title: 'Ennemi juré', value: 'ennemi_jure' },
+                        { title: 'Inimitié', value: 'inimitie' },
+                        { title: 'Mentor', value: 'mentor' },
+                        { title: 'Élève/Protégé', value: 'eleve' },
+                        { title: 'Allié', value: 'allie' },
+                        { title: 'Connaissance', value: 'connaissance' },
+                        { title: 'Collègue', value: 'collegue' },
+                        { title: 'Respect mutuel', value: 'respect' },
+                        { title: 'Méfiance', value: 'mefiance' },
+                        { title: 'Indifférence', value: 'indifference' },
+                        { title: 'Admiration', value: 'admiration' },
+                        { title: 'Jalousie', value: 'jalousie' },
+                        { title: 'Protection', value: 'protection' },
+                        { title: 'Dépendance', value: 'dependance' },
+                        { title: 'Manipulation', value: 'manipulation' },
+                        { title: 'Réconciliation', value: 'reconciliation' },
+                        { title: 'Rupture', value: 'rupture' },
+                        { title: 'Trahison', value: 'trahison' },
+                        { title: 'Pardon', value: 'pardon' },
+                        { title: 'Autre', value: 'autre' }
+                      ]
+                    }
+                  },
+                  {
+                    name: 'nouvelleIntensite',
+                    type: 'number',
+                    title: 'Nouvelle intensité (1-10)',
+                    validation: Rule => Rule.min(1).max(10)
+                  },
+                  {
+                    name: 'raisonEvolution',
+                    type: 'text',
+                    title: 'Raison de l\'évolution',
+                    description: 'Qu\'est-ce qui a causé ce changement ?'
+                  },
+                  {
+                    name: 'spoilerLevel',
+                    type: 'string',
+                    title: 'Niveau de spoiler',
+                    options: {
+                      list: [
+                        { title: 'Aucun spoiler', value: 'none' },
+                        { title: 'Spoiler léger', value: 'light' },
+                        { title: 'Spoiler moyen', value: 'medium' },
+                        { title: 'Spoiler majeur', value: 'major' }
+                      ]
+                    },
+                    initialValue: 'none'
+                  }
+                ]
+              }]
+            },
+            {
+              name: 'secrets',
+              type: 'array',
+              title: 'Secrets partagés',
+              description: 'Secrets que ces personnages partagent',
+              of: [{
+                type: 'object',
+                fields: [
+                  {
+                    name: 'secret',
+                    type: 'text',
+                    title: 'Secret'
+                  },
+                  {
+                    name: 'quiLeSait',
+                    type: 'string',
+                    title: 'Qui connaît ce secret ?',
+                    options: {
+                      list: [
+                        { title: 'Seulement ce personnage', value: 'personnage_seul' },
+                        { title: 'Seulement l\'autre personnage', value: 'autre_seul' },
+                        { title: 'Les deux personnages', value: 'les_deux' },
+                        { title: 'Partagé avec d\'autres', value: 'avec_autres' }
+                      ]
+                    }
+                  },
+                  {
+                    name: 'spoilerLevel',
+                    type: 'string',
+                    title: 'Niveau de spoiler',
+                    options: {
+                      list: [
+                        { title: 'Aucun spoiler', value: 'none' },
+                        { title: 'Spoiler léger', value: 'light' },
+                        { title: 'Spoiler moyen', value: 'medium' },
+                        { title: 'Spoiler majeur', value: 'major' }
+                      ]
+                    },
+                    initialValue: 'none'
+                  }
+                ]
+              }]
+            },
+            {
+              name: 'conflits',
+              type: 'array',
+              title: 'Conflits/Tensions',
+              description: 'Points de tension ou conflits dans cette relation',
+              of: [{
+                type: 'object',
+                fields: [
+                  {
+                    name: 'conflit',
+                    type: 'text',
+                    title: 'Nature du conflit'
+                  },
+                  {
+                    name: 'resolu',
+                    type: 'boolean',
+                    title: 'Conflit résolu ?',
+                    initialValue: false
+                  },
+                  {
+                    name: 'resolution',
+                    type: 'text',
+                    title: 'Comment le conflit a été résolu',
+                    hidden: ({ parent }) => !parent?.resolu
+                  },
+                  {
+                    name: 'spoilerLevel',
+                    type: 'string',
+                    title: 'Niveau de spoiler',
+                    options: {
+                      list: [
+                        { title: 'Aucun spoiler', value: 'none' },
+                        { title: 'Spoiler léger', value: 'light' },
+                        { title: 'Spoiler moyen', value: 'medium' },
+                        { title: 'Spoiler majeur', value: 'major' }
+                      ]
+                    },
+                    initialValue: 'none'
+                  }
+                ]
+              }]
+            },
+            {
+              name: 'spoilerLevel',
+              type: 'string',
+              title: 'Niveau de spoiler pour cette relation',
+              options: {
+                list: [
+                  { title: 'Aucun spoiler', value: 'none' },
+                  { title: 'Spoiler léger', value: 'light' },
+                  { title: 'Spoiler moyen', value: 'medium' },
+                  { title: 'Spoiler majeur', value: 'major' }
+                ]
+              },
+              initialValue: 'none'
+            }
+          ]
+        }]
       },
   
       // Personnalité et Histoire
