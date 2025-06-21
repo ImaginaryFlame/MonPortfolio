@@ -45,6 +45,14 @@ const personnage = {
         description: 'Liste des surnoms du personnage'
       },
       {
+        name: 'univers',
+        title: 'Univers d\'appartenance',
+        type: 'reference',
+        to: [{ type: 'univers' }],
+        validation: Rule => Rule.required(),
+        description: 'L\'univers dans lequel ce personnage évolue.'
+      },
+      {
         name: 'age',
         type: 'number',
         title: 'Âge (apparent/connu)',

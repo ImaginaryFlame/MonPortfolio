@@ -328,7 +328,7 @@ const Navbar = ({ theme }) => {
               href="/about" 
               className="px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-500 ease-out hover:transform hover:scale-105 hover:shadow-lg text-sm uppercase tracking-wide shadow-lg"
             >
-              ABOUT
+              A PROPOS DE MOI
             </a>
 
             <div className="relative">

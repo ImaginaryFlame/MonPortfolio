@@ -15,8 +15,8 @@ const App = () => {
     <Router>
       <nav>
         <Link to="/"> Home </Link>
-        <Link to="about"> About </Link>
-        <Link to="portails-de-création"> Portails </Link>
+        <Link to="about"> A propos de moi </Link>
+        <Link to="portails-de-création"> Portails de création </Link>
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />

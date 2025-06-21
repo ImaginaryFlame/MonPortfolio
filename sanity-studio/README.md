@@ -1,9 +1,41 @@
-# Sanity Clean Content Studio
+# Sanity Studio - Mon Portfolio
 
-Congratulations, you have now installed the Sanity Content Studio, an open-source real-time content editing environment connected to the Sanity backend.
+Ce studio Sanity gère le contenu de mon portfolio créatif, incluant des projets de développement, d'arts visuels, et de création d'univers de fiction.
 
-Now you can do the following things:
+## Structure des Schémas
 
-- [Read “getting started” in the docs](https://www.sanity.io/docs/introduction/getting-started?utm_source=readme)
-- [Join the community Slack](https://snty.link/community/?utm_source=readme)
-- [Extend and build plugins](https://www.sanity.io/docs/content-studio/extending?utm_source=readme)
+### Schémas Principaux
+- **project** - Projets de portfolio (développement, arts, vidéo)
+- **subcategory** - Sous-catégories pour organiser les projets
+- **personnage** - Personnages des univers de fiction
+- **univers** - Univers de fiction créés
+- **race** - Races et espèces des univers
+- **objet** - Objets et artefacts
+- **faction** - Factions et organisations
+- **region** - Régions et lieux
+- **evenement** - Événements historiques
+- **creature** - Créatures non-intelligentes
+- **celebration** - Célébrations et rituels
+- **famille** - Familles royales et lignées
+- **conceptMetaphysique** - Concepts métaphysiques et cosmogoniques
+
+### Fonctionnalités
+- Gestion complète d'univers de fiction
+- Système de spoilers pour révéler progressivement le contenu
+- Références croisées entre tous les éléments
+- Support multilingue (français)
+- Interface optimisée pour la création de contenu
+
+## Installation et Démarrage
+
+```bash
+npm install
+npm run dev
+```
+
+## Déploiement
+
+```bash
+npm run build
+npm run deploy
+```
