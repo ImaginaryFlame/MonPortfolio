@@ -144,157 +144,157 @@ const Navbar = ({ theme }) => {
 
   const menuItems = {
     narratif: {
-      title: t('navbar.narrativeUniverses'),
+      title: t.navbar.narrativeUniverses,
       items: [
         { 
-          name: "LE HEROS A LA FLAMME IMAGINAIRE", 
+          name: t.navbar.menus.narratif.flammeImaginaire.title, 
           path: "/creation/univers-narratifs/flamme-imaginaire",
           subItems: [
-            { name: "Personnages", path: "/creation/univers-narratifs/flamme-imaginaire/personnages" },
-            { name: "Régions du monde & Lieux", path: "/creation/univers-narratifs/flamme-imaginaire/regions-lieux" },
-            { name: "Objets", path: "/creation/univers-narratifs/flamme-imaginaire/objets" },
-            { name: "Concepts", path: "/creation/univers-narratifs/flamme-imaginaire/concepts" },
-            { name: "Factions", path: "/creation/univers-narratifs/flamme-imaginaire/factions" },
-            { name: "Créatures", path: "/creation/univers-narratifs/flamme-imaginaire/creatures" },
-            { name: "Évènements", path: "/creation/univers-narratifs/flamme-imaginaire/evenements" },
-            { name: "Dogmes", path: "/creation/univers-narratifs/flamme-imaginaire/dogmes" },
-            { name: "Traditions", path: "/creation/univers-narratifs/flamme-imaginaire/traditions" },
-            { name: "Célébrations", path: "/creation/univers-narratifs/flamme-imaginaire/celebrations" }
+            { name: t.navbar.menus.narratif.flammeImaginaire.subItems.personnages, path: "/creation/univers-narratifs/flamme-imaginaire/personnages" },
+            { name: t.navbar.menus.narratif.flammeImaginaire.subItems.regionsLieux, path: "/creation/univers-narratifs/flamme-imaginaire/regions-lieux" },
+            { name: t.navbar.menus.narratif.flammeImaginaire.subItems.objets, path: "/creation/univers-narratifs/flamme-imaginaire/objets" },
+            { name: t.navbar.menus.narratif.flammeImaginaire.subItems.concepts, path: "/creation/univers-narratifs/flamme-imaginaire/concepts" },
+            { name: t.navbar.menus.narratif.flammeImaginaire.subItems.factions, path: "/creation/univers-narratifs/flamme-imaginaire/factions" },
+            { name: t.navbar.menus.narratif.flammeImaginaire.subItems.creatures, path: "/creation/univers-narratifs/flamme-imaginaire/creatures" },
+            { name: t.navbar.menus.narratif.flammeImaginaire.subItems.evenements, path: "/creation/univers-narratifs/flamme-imaginaire/evenements" },
+            { name: t.navbar.menus.narratif.flammeImaginaire.subItems.dogmes, path: "/creation/univers-narratifs/flamme-imaginaire/dogmes" },
+            { name: t.navbar.menus.narratif.flammeImaginaire.subItems.traditions, path: "/creation/univers-narratifs/flamme-imaginaire/traditions" },
+            { name: t.navbar.menus.narratif.flammeImaginaire.subItems.celebrations, path: "/creation/univers-narratifs/flamme-imaginaire/celebrations" }
           ]
         },
         { 
-          name: "LA FABLE DU HÉROS ET LA FÉE", 
+          name: t.navbar.menus.narratif.herosFee.title, 
           path: "/creation/univers-narratifs/fable-heros-fee",
           subItems: [
-            { name: "Personnages", path: "/creation/univers-narratifs/fable-heros-fee/personnages" },
-            { name: "Régions du monde & Lieux", path: "/creation/univers-narratifs/fable-heros-fee/regions-lieux" },
-            { name: "Objets", path: "/creation/univers-narratifs/fable-heros-fee/objets" },
-            { name: "Factions", path: "/creation/univers-narratifs/fable-heros-fee/factions" },
-            { name: "Races", path: "/creation/univers-narratifs/fable-heros-fee/races" },
-            { name: "Évènements historiques", path: "/creation/univers-narratifs/fable-heros-fee/evenements-historiques" },
-            { name: "Bestiaires", path: "/creation/univers-narratifs/fable-heros-fee/bestiaires" },
-            { name: "Célébrations et fêtes", path: "/creation/univers-narratifs/fable-heros-fee/celebrations-fetes" },
-            { name: "Cosmogonies", path: "/creation/univers-narratifs/fable-heros-fee/cosmogonies" },
-            { name: "Moodboard", path: "/creation/univers-narratifs/fable-heros-fee/moodboard" }
+            { name: t.navbar.menus.narratif.herosFee.subItems.personnages, path: "/creation/univers-narratifs/fable-heros-fee/personnages" },
+            { name: t.navbar.menus.narratif.herosFee.subItems.regionsLieux, path: "/creation/univers-narratifs/fable-heros-fee/regions-lieux" },
+            { name: t.navbar.menus.narratif.herosFee.subItems.objets, path: "/creation/univers-narratifs/fable-heros-fee/objets" },
+            { name: t.navbar.menus.narratif.herosFee.subItems.factions, path: "/creation/univers-narratifs/fable-heros-fee/factions" },
+            { name: t.navbar.menus.narratif.herosFee.subItems.races, path: "/creation/univers-narratifs/fable-heros-fee/races" },
+            { name: t.navbar.menus.narratif.herosFee.subItems.evenementsHistoriques, path: "/creation/univers-narratifs/fable-heros-fee/evenements-historiques" },
+            { name: t.navbar.menus.narratif.herosFee.subItems.bestiaires, path: "/creation/univers-narratifs/fable-heros-fee/bestiaires" },
+            { name: t.navbar.menus.narratif.herosFee.subItems.celebrationsFetes, path: "/creation/univers-narratifs/fable-heros-fee/celebrations-fetes" },
+            { name: t.navbar.menus.narratif.herosFee.subItems.cosmogonies, path: "/creation/univers-narratifs/fable-heros-fee/cosmogonies" },
+            { name: t.navbar.menus.narratif.herosFee.subItems.moodboard, path: "/creation/univers-narratifs/fable-heros-fee/moodboard" }
           ]
         },
         { 
-          name: "VINCE DE BELII", 
+          name: t.navbar.menus.narratif.vinceBelii.title, 
           path: "/creation/univers-narratifs/vince-belii",
           subItems: [
-            { name: "Personnages", path: "/creation/univers-narratifs/vince-belii/personnages" },
-            { name: "Familles", path: "/creation/univers-narratifs/vince-belii/familles" },
-            { name: "Lieux", path: "/creation/univers-narratifs/vince-belii/lieux" },
-            { name: "Moodboard", path: "/creation/univers-narratifs/vince-belii/moodboard" }
+            { name: t.navbar.menus.narratif.vinceBelii.subItems.personnages, path: "/creation/univers-narratifs/vince-belii/personnages" },
+            { name: t.navbar.menus.narratif.vinceBelii.subItems.familles, path: "/creation/univers-narratifs/vince-belii/familles" },
+            { name: t.navbar.menus.narratif.vinceBelii.subItems.lieux, path: "/creation/univers-narratifs/vince-belii/lieux" },
+            { name: t.navbar.menus.narratif.vinceBelii.subItems.moodboard, path: "/creation/univers-narratifs/vince-belii/moodboard" }
           ]
         },
         { 
-          name: "LA PANDEMIE DE LARA", 
+          name: t.navbar.menus.narratif.pandemie.title, 
           path: "/creation/univers-narratifs/pandemie-lara",
           subItems: [
-            { name: "Personnages", path: "/creation/univers-narratifs/pandemie-lara/personnages" },
-            { name: "Régions du monde & Lieux", path: "/creation/univers-narratifs/pandemie-lara/regions-lieux" },
-            { name: "Objets", path: "/creation/univers-narratifs/pandemie-lara/objets" },
-            { name: "Factions", path: "/creation/univers-narratifs/pandemie-lara/factions" },
-            { name: "Bestiaires", path: "/creation/univers-narratifs/pandemie-lara/bestiaires" },
-            { name: "Moodboard", path: "/creation/univers-narratifs/pandemie-lara/moodboard" }
+            { name: t.navbar.menus.narratif.pandemie.subItems.personnages, path: "/creation/univers-narratifs/pandemie-lara/personnages" },
+            { name: t.navbar.menus.narratif.pandemie.subItems.regionsLieux, path: "/creation/univers-narratifs/pandemie-lara/regions-lieux" },
+            { name: t.navbar.menus.narratif.pandemie.subItems.objets, path: "/creation/univers-narratifs/pandemie-lara/objets" },
+            { name: t.navbar.menus.narratif.pandemie.subItems.factions, path: "/creation/univers-narratifs/pandemie-lara/factions" },
+            { name: t.navbar.menus.narratif.pandemie.subItems.bestiaires, path: "/creation/univers-narratifs/pandemie-lara/bestiaires" },
+            { name: t.navbar.menus.narratif.pandemie.subItems.moodboard, path: "/creation/univers-narratifs/pandemie-lara/moodboard" }
           ]
         }
       ]
     },
     labo: {
-      title: t('navbar.flameLab'),
+      title: t.navbar.flameLab,
       items: [
         { 
-          name: "Design & Interface", 
+          name: t.navbar.menus.labo.design.title, 
           path: "/creation/labo/design",
           subItems: [
-            { name: "UI/UX Design", path: "/creation/labo/design/ui-ux" },
-            { name: "Prototypes Interactifs", path: "/creation/labo/design/prototypes" }
+            { name: t.navbar.menus.labo.design.subItems.uiUx, path: "/creation/labo/design/ui-ux" },
+            { name: t.navbar.menus.labo.design.subItems.prototypes, path: "/creation/labo/design/prototypes" }
           ]
         },
         { 
-          name: "Développement", 
+          name: t.navbar.menus.labo.dev.title, 
           path: "/creation/labo/dev",
           subItems: [
-            { name: "Démo Web", path: "/creation/labo/dev/demo-web" },
-            { name: "Prototypes de Jeu", path: "/creation/labo/dev/prototypes-jeu" }
+            { name: t.navbar.menus.labo.dev.subItems.demoWeb, path: "/creation/labo/dev/demo-web" },
+            { name: t.navbar.menus.labo.dev.subItems.prototypesJeu, path: "/creation/labo/dev/prototypes-jeu" }
           ]
         },
         { 
-          name: "Projets Académiques", 
+          name: t.navbar.menus.labo.academic.title, 
           path: "/creation/labo/academique",
           subItems: [
-            { name: "Présentations CNAM", path: "/creation/labo/academique/presentations-cnam" }
+            { name: t.navbar.menus.labo.academic.subItems.presentationsCnam, path: "/creation/labo/academique/presentations-cnam" }
           ]
         }
       ]
     },
     studio: {
-      title: t('navbar.flameStudio'),
+      title: t.navbar.flameStudio,
       items: [
         { 
-          name: "Contenu Vidéo", 
+          name: t.navbar.menus.studio.video.title, 
           path: "/creation/studio/video",
           subItems: [
-            { name: "Vidéos YouTube", path: "/creation/studio/video/videos-youtube" },
-            { name: "Réels & Shorts", path: "/creation/studio/video/reels-shorts" },
-            { name: "Miniatures", path: "/creation/studio/video/miniatures" }
+            { name: t.navbar.menus.studio.video.subItems.youtube, path: "/creation/studio/video/videos-youtube" },
+            { name: t.navbar.menus.studio.video.subItems.reels, path: "/creation/studio/video/reels-shorts" },
+            { name: t.navbar.menus.studio.video.subItems.miniatures, path: "/creation/studio/video/miniatures" }
           ]
         },
         { 
-          name: "Contenu Social", 
+          name: t.navbar.menus.studio.social.title, 
           path: "/creation/studio/social",
           subItems: [
-            { name: "Threads Twitter", path: "/creation/studio/social/threads-twitter" },
+            { name: t.navbar.menus.studio.social.subItems.twitter, path: "/creation/studio/social/threads-twitter" },
           ]
         },
         { 
-          name: "Branding", 
+          name: t.navbar.menus.studio.branding.title, 
           path: "/creation/studio/branding",
           subItems: [
-            { name: "Identité Visuelle", path: "/creation/studio/branding/identite-visuelle" },
-            { name: "Templates", path: "/creation/studio/branding/templates" }
+            { name: t.navbar.menus.studio.branding.subItems.identite, path: "/creation/studio/branding/identite-visuelle" },
+            { name: t.navbar.menus.studio.branding.subItems.templates, path: "/creation/studio/branding/templates" }
           ]
         }
       ]
     },
     atelier: {
-      title: t('navbar.flameAtelier'),
+      title: t.navbar.flameAtelier,
       items: [
         { 
-          name: "Art Traditionnel", 
+          name: t.navbar.menus.atelier.traditionnel.title, 
           path: "/creation/atelier/traditionnel",
           subItems: [
-            { name: "Illustrations Finalisées", path: "/creation/atelier/traditionnel/illustrations-finalisees" },
-            { name: "Études & Progression", path: "/creation/atelier/traditionnel/etudes-progression" },
-            { name: "Croquis & Roughs", path: "/creation/atelier/traditionnel/croquis-roughs" }
+            { name: t.navbar.menus.atelier.traditionnel.subItems.illustrations, path: "/creation/atelier/traditionnel/illustrations-finalisees" },
+            { name: t.navbar.menus.atelier.traditionnel.subItems.etudes, path: "/creation/atelier/traditionnel/etudes-progression" },
+            { name: t.navbar.menus.atelier.traditionnel.subItems.croquis, path: "/creation/atelier/traditionnel/croquis-roughs" }
           ]
         },
         { 
-          name: "Art Numérique", 
+          name: t.navbar.menus.atelier.numerique.title, 
           path: "/creation/atelier/numerique",
           subItems: [
-            { name: "Concept Art", path: "/creation/atelier/numerique/concept-art" },
-            { name: "Illustrations Digitales", path: "/creation/atelier/numerique/illustrations-digitales" },
-            { name: "Animations 2D", path: "/creation/atelier/numerique/animations-2d" }
+            { name: t.navbar.menus.atelier.numerique.subItems.conceptArt, path: "/creation/atelier/numerique/concept-art" },
+            { name: t.navbar.menus.atelier.numerique.subItems.illustrations, path: "/creation/atelier/numerique/illustrations-digitales" },
+            { name: t.navbar.menus.atelier.numerique.subItems.animations2d, path: "/creation/atelier/numerique/animations-2d" }
           ]
         },
         { 
-          name: "Modélisation 3D", 
+          name: t.navbar.menus.atelier.modelisation3d.title, 
           path: "/creation/atelier/3d",
           subItems: [
-            { name: "Modèles 3D", path: "/creation/atelier/3d/modeles" },
-            { name: "Textures & Matériaux", path: "/creation/atelier/3d/textures-materiaux" },
-            { name: "Animations 3D", path: "/creation/atelier/3d/animations-3d" }
+            { name: t.navbar.menus.atelier.modelisation3d.subItems.modeles, path: "/creation/atelier/3d/modeles" },
+            { name: t.navbar.menus.atelier.modelisation3d.subItems.textures, path: "/creation/atelier/3d/textures-materiaux" },
+            { name: t.navbar.menus.atelier.modelisation3d.subItems.animations3d, path: "/creation/atelier/3d/animations-3d" }
           ]
         },
         { 
-          name: "Work in Progress", 
+          name: t.navbar.menus.atelier.wip.title, 
           path: "/creation/atelier/wip",
           subItems: [
-            { name: "Projets en Cours", path: "/creation/atelier/wip/projets-cours" },
-            { name: "Expérimentations", path: "/creation/atelier/wip/experimentations" }
+            { name: t.navbar.menus.atelier.wip.subItems.projets, path: "/creation/atelier/wip/projets-cours" },
+            { name: t.navbar.menus.atelier.wip.subItems.experimentations, path: "/creation/atelier/wip/experimentations" }
           ]
         }
       ]
@@ -325,14 +325,14 @@ const Navbar = ({ theme }) => {
               href="/" 
               className="px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-500 ease-out hover:transform hover:scale-105 hover:shadow-lg text-sm uppercase tracking-wide shadow-lg"
             >
-              {t('navbar.home')}
+              {t.navbar.home}
             </a>
             
             <a 
               href="/about" 
               className="px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-500 ease-out hover:transform hover:scale-105 hover:shadow-lg text-sm uppercase tracking-wide shadow-lg"
             >
-              {t('navbar.about')}
+              {t.navbar.about}
             </a>
 
             <div className="relative">
@@ -342,7 +342,7 @@ const Navbar = ({ theme }) => {
                   isPortailsOpen ? 'scale-105 shadow-xl from-orange-500 to-red-600' : ''
                 }`}
               >
-                {t('navbar.portals')}
+                {t.navbar.portals}
               </button>
 
               {/* Menu principal avec animations améliorées */}
@@ -469,7 +469,7 @@ const Navbar = ({ theme }) => {
               to="/contact" 
               className="px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-500 ease-out hover:transform hover:scale-105 hover:shadow-lg text-sm uppercase tracking-wide shadow-lg"
             >
-              {t('navbar.contact')}
+              {t.navbar.contact}
             </Link>
 
             <div className="flex items-center">

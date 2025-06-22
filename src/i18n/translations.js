@@ -174,7 +174,144 @@ export const translations = {
       narrativeUniverses: "LES UNIVERS DE FLAME",
       flameLab: "LABO DE FLAME",
       flameStudio: "LE STUDIO DE FLAME",
-      flameAtelier: "ATELIER DE FLAME"
+      flameAtelier: "ATELIER DE FLAME",
+      // Menus détaillés
+      menus: {
+        // Univers Narratifs
+        narratif: {
+          flammeImaginaire: {
+            title: "LE HEROS A LA FLAMME IMAGINAIRE",
+            subItems: {
+              personnages: "Personnages",
+              regionsLieux: "Régions du monde & Lieux",
+              objets: "Objets",
+              concepts: "Concepts",
+              factions: "Factions",
+              creatures: "Créatures",
+              evenements: "Évènements",
+              dogmes: "Dogmes",
+              traditions: "Traditions",
+              celebrations: "Célébrations"
+            }
+          },
+          herosFee: {
+            title: "LA FABLE DU HÉROS ET LA FÉE",
+            subItems: {
+              personnages: "Personnages",
+              regionsLieux: "Régions du monde & Lieux",
+              objets: "Objets",
+              factions: "Factions",
+              races: "Races",
+              evenementsHistoriques: "Évènements historiques",
+              bestiaires: "Bestiaires",
+              celebrationsFetes: "Célébrations et fêtes",
+              cosmogonies: "Cosmogonies",
+              moodboard: "Moodboard"
+            }
+          },
+          vinceBelii: {
+            title: "VINCE DE BELII",
+            subItems: {
+              personnages: "Personnages",
+              familles: "Familles",
+              lieux: "Lieux",
+              moodboard: "Moodboard"
+            }
+          },
+          pandemie: {
+            title: "LA PANDEMIE DE LARA",
+            subItems: {
+              personnages: "Personnages",
+              regionsLieux: "Régions du monde & Lieux",
+              objets: "Objets",
+              factions: "Factions",
+              bestiaires: "Bestiaires",
+              moodboard: "Moodboard"
+            }
+          }
+        },
+        // Labo
+        labo: {
+          design: {
+            title: "Design & Interface",
+            subItems: {
+              uiUx: "UI/UX Design",
+              prototypes: "Prototypes Interactifs"
+            }
+          },
+          dev: {
+            title: "Développement",
+            subItems: {
+              demoWeb: "Démo Web",
+              prototypesJeu: "Prototypes de Jeu"
+            }
+          },
+          academic: {
+            title: "Projets Académiques",
+            subItems: {
+              presentationsCnam: "Présentations CNAM"
+            }
+          }
+        },
+        // Studio
+        studio: {
+          video: {
+            title: "Contenu Vidéo",
+            subItems: {
+              youtube: "Vidéos YouTube",
+              reels: "Réels & Shorts",
+              miniatures: "Miniatures"
+            }
+          },
+          social: {
+            title: "Contenu Social",
+            subItems: {
+              twitter: "Threads Twitter"
+            }
+          },
+          branding: {
+            title: "Branding",
+            subItems: {
+              identite: "Identité Visuelle",
+              templates: "Templates"
+            }
+          }
+        },
+        // Atelier
+        atelier: {
+          traditionnel: {
+            title: "Art Traditionnel",
+            subItems: {
+              illustrations: "Illustrations Finalisées",
+              etudes: "Études & Progression",
+              croquis: "Croquis & Roughs"
+            }
+          },
+          numerique: {
+            title: "Art Numérique",
+            subItems: {
+              conceptArt: "Concept Art",
+              illustrations: "Illustrations Digitales",
+              animations2d: "Animations 2D"
+            }
+          },
+          modelisation3d: {
+            title: "Modélisation 3D",
+            subItems: {
+              modeles: "Modèles 3D",
+              textures: "Textures & Matériaux",
+              animations3d: "Animations 3D"
+            }
+          },
+          wip: {
+            title: "Work in Progress",
+            subItems: {
+              projets: "Projets en Cours",
+              experimentations: "Expérimentations"
+            }
+          }
+        }
+      }
     },
 
     // Projects Section
@@ -480,7 +617,144 @@ export const translations = {
       narrativeUniverses: "FLAME'S UNIVERSES",
       flameLab: "FLAME'S LAB",
       flameStudio: "FLAME'S STUDIO",
-      flameAtelier: "FLAME'S ATELIER"
+      flameAtelier: "FLAME'S ATELIER",
+      // Menus détaillés
+      menus: {
+        // Univers Narratifs
+        narratif: {
+          flammeImaginaire: {
+            title: "THE HERO WITH THE IMAGINARY FLAME",
+            subItems: {
+              personnages: "Characters",
+              regionsLieux: "World Regions & Places",
+              objets: "Objects",
+              concepts: "Concepts",
+              factions: "Factions",
+              creatures: "Creatures",
+              evenements: "Events",
+              dogmes: "Dogmas",
+              traditions: "Traditions",
+              celebrations: "Celebrations"
+            }
+          },
+          herosFee: {
+            title: "THE FABLE OF THE HERO AND THE FAIRY",
+            subItems: {
+              personnages: "Characters",
+              regionsLieux: "World Regions & Places",
+              objets: "Objects",
+              factions: "Factions",
+              races: "Races",
+              evenementsHistoriques: "Historical Events",
+              bestiaires: "Bestiaries",
+              celebrationsFetes: "Celebrations & Festivals",
+              cosmogonies: "Cosmogonies",
+              moodboard: "Moodboard"
+            }
+          },
+          vinceBelii: {
+            title: "VINCE DE BELII",
+            subItems: {
+              personnages: "Characters",
+              familles: "Families",
+              lieux: "Places",
+              moodboard: "Moodboard"
+            }
+          },
+          pandemie: {
+            title: "LARA'S PANDEMIC",
+            subItems: {
+              personnages: "Characters",
+              regionsLieux: "World Regions & Places",
+              objets: "Objects",
+              factions: "Factions",
+              bestiaires: "Bestiaries",
+              moodboard: "Moodboard"
+            }
+          }
+        },
+        // Labo
+        labo: {
+          design: {
+            title: "Design & Interface",
+            subItems: {
+              uiUx: "UI/UX Design",
+              prototypes: "Interactive Prototypes"
+            }
+          },
+          dev: {
+            title: "Development",
+            subItems: {
+              demoWeb: "Web Demo",
+              prototypesJeu: "Game Prototypes"
+            }
+          },
+          academic: {
+            title: "Academic Projects",
+            subItems: {
+              presentationsCnam: "CNAM Presentations"
+            }
+          }
+        },
+        // Studio
+        studio: {
+          video: {
+            title: "Video Content",
+            subItems: {
+              youtube: "YouTube Videos",
+              reels: "Reels & Shorts",
+              miniatures: "Thumbnails"
+            }
+          },
+          social: {
+            title: "Social Content",
+            subItems: {
+              twitter: "Twitter Threads"
+            }
+          },
+          branding: {
+            title: "Branding",
+            subItems: {
+              identite: "Visual Identity",
+              templates: "Templates"
+            }
+          }
+        },
+        // Atelier
+        atelier: {
+          traditionnel: {
+            title: "Traditional Art",
+            subItems: {
+              illustrations: "Finished Illustrations",
+              etudes: "Studies & Progress",
+              croquis: "Sketches & Roughs"
+            }
+          },
+          numerique: {
+            title: "Digital Art",
+            subItems: {
+              conceptArt: "Concept Art",
+              illustrations: "Digital Illustrations",
+              animations2d: "2D Animations"
+            }
+          },
+          modelisation3d: {
+            title: "3D Modeling",
+            subItems: {
+              modeles: "3D Models",
+              textures: "Textures & Materials",
+              animations3d: "3D Animations"
+            }
+          },
+          wip: {
+            title: "Work in Progress",
+            subItems: {
+              projets: "Current Projects",
+              experimentations: "Experiments"
+            }
+          }
+        }
+      }
     },
 
     // Projects Section
@@ -788,7 +1062,144 @@ export const translations = {
       narrativeUniverses: "UNIVERSOS DE FLAME",
       flameLab: "LABORATÓRIO DE FLAME",
       flameStudio: "ESTÚDIO DE FLAME",
-      flameAtelier: "ATELIÊ DE FLAME"
+      flameAtelier: "ATELIÊ DE FLAME",
+      // Menus détaillés
+      menus: {
+        // Univers Narratifs
+        narratif: {
+          flammeImaginaire: {
+            title: "O HERÓI COM A CHAMA IMAGINÁRIA",
+            subItems: {
+              personnages: "Personagens",
+              regionsLieux: "Regiões do Mundo & Lugares",
+              objets: "Objetos",
+              concepts: "Conceitos",
+              factions: "Facções",
+              creatures: "Criaturas",
+              evenements: "Eventos",
+              dogmes: "Dogmas",
+              traditions: "Tradições",
+              celebrations: "Celebrações"
+            }
+          },
+          herosFee: {
+            title: "A FÁBULA DO HERÓI E A FADA",
+            subItems: {
+              personnages: "Personagens",
+              regionsLieux: "Regiões do Mundo & Lugares",
+              objets: "Objetos",
+              factions: "Facções",
+              races: "Raças",
+              evenementsHistoriques: "Eventos Históricos",
+              bestiaires: "Bestiários",
+              celebrationsFetes: "Celebrações & Festivais",
+              cosmogonies: "Cosmogonias",
+              moodboard: "Moodboard"
+            }
+          },
+          vinceBelii: {
+            title: "VINCE DE BELII",
+            subItems: {
+              personnages: "Personagens",
+              familles: "Famílias",
+              lieux: "Lugares",
+              moodboard: "Moodboard"
+            }
+          },
+          pandemie: {
+            title: "A PANDEMIA DE LARA",
+            subItems: {
+              personnages: "Personagens",
+              regionsLieux: "Regiões do Mundo & Lugares",
+              objets: "Objetos",
+              factions: "Facções",
+              bestiaires: "Bestiários",
+              moodboard: "Moodboard"
+            }
+          }
+        },
+        // Labo
+        labo: {
+          design: {
+            title: "Design & Interface",
+            subItems: {
+              uiUx: "UI/UX Design",
+              prototypes: "Protótipos Interativos"
+            }
+          },
+          dev: {
+            title: "Desenvolvimento",
+            subItems: {
+              demoWeb: "Demo Web",
+              prototypesJeu: "Protótipos de Jogo"
+            }
+          },
+          academic: {
+            title: "Projetos Acadêmicos",
+            subItems: {
+              presentationsCnam: "Apresentações CNAM"
+            }
+          }
+        },
+        // Studio
+        studio: {
+          video: {
+            title: "Conteúdo de Vídeo",
+            subItems: {
+              youtube: "Vídeos do YouTube",
+              reels: "Reels & Shorts",
+              miniatures: "Miniaturas"
+            }
+          },
+          social: {
+            title: "Conteúdo Social",
+            subItems: {
+              twitter: "Threads do Twitter"
+            }
+          },
+          branding: {
+            title: "Branding",
+            subItems: {
+              identite: "Identidade Visual",
+              templates: "Templates"
+            }
+          }
+        },
+        // Atelier
+        atelier: {
+          traditionnel: {
+            title: "Arte Tradicional",
+            subItems: {
+              illustrations: "Ilustrações Finalizadas",
+              etudes: "Estudos & Progresso",
+              croquis: "Esboços & Rascunhos"
+            }
+          },
+          numerique: {
+            title: "Arte Digital",
+            subItems: {
+              conceptArt: "Concept Art",
+              illustrations: "Ilustrações Digitais",
+              animations2d: "Animações 2D"
+            }
+          },
+          modelisation3d: {
+            title: "Modelagem 3D",
+            subItems: {
+              modeles: "Modelos 3D",
+              textures: "Texturas & Materiais",
+              animations3d: "Animações 3D"
+            }
+          },
+          wip: {
+            title: "Work in Progress",
+            subItems: {
+              projets: "Projetos em Andamento",
+              experimentations: "Experimentações"
+            }
+          }
+        }
+      }
     },
 
     // Projects Section
@@ -1096,7 +1507,144 @@ export const translations = {
       narrativeUniverses: "フレイムの宇宙",
       flameLab: "フレイムの研究室",
       flameStudio: "フレイムのスタジオ",
-      flameAtelier: "フレイムのアトリエ"
+      flameAtelier: "フレイムのアトリエ",
+      // Menus détaillés
+      menus: {
+        // Univers Narratifs
+        narratif: {
+          flammeImaginaire: {
+            title: "想像の炎を持つ英雄",
+            subItems: {
+              personnages: "キャラクター",
+              regionsLieux: "世界の地域・場所",
+              objets: "オブジェクト",
+              concepts: "概念",
+              factions: "派閥",
+              creatures: "クリーチャー",
+              evenements: "イベント",
+              dogmes: "教義",
+              traditions: "伝統",
+              celebrations: "祝祭"
+            }
+          },
+          herosFee: {
+            title: "英雄と妖精の寓話",
+            subItems: {
+              personnages: "キャラクター",
+              regionsLieux: "世界の地域・場所",
+              objets: "オブジェクト",
+              factions: "派閥",
+              races: "種族",
+              evenementsHistoriques: "歴史的イベント",
+              bestiaires: "獣の図鑑",
+              celebrationsFetes: "祝祭・祭り",
+              cosmogonies: "宇宙論",
+              moodboard: "ムードボード"
+            }
+          },
+          vinceBelii: {
+            title: "ヴィンス・デ・ベリー",
+            subItems: {
+              personnages: "キャラクター",
+              familles: "家族",
+              lieux: "場所",
+              moodboard: "ムードボード"
+            }
+          },
+          pandemie: {
+            title: "ララのパンデミック",
+            subItems: {
+              personnages: "キャラクター",
+              regionsLieux: "世界の地域・場所",
+              objets: "オブジェクト",
+              factions: "派閥",
+              bestiaires: "獣の図鑑",
+              moodboard: "ムードボード"
+            }
+          }
+        },
+        // Labo
+        labo: {
+          design: {
+            title: "デザイン＆インターフェース",
+            subItems: {
+              uiUx: "UI/UXデザイン",
+              prototypes: "インタラクティブプロトタイプ"
+            }
+          },
+          dev: {
+            title: "開発",
+            subItems: {
+              demoWeb: "ウェブデモ",
+              prototypesJeu: "ゲームプロトタイプ"
+            }
+          },
+          academic: {
+            title: "学術プロジェクト",
+            subItems: {
+              presentationsCnam: "CNAMプレゼンテーション"
+            }
+          }
+        },
+        // Studio
+        studio: {
+          video: {
+            title: "動画コンテンツ",
+            subItems: {
+              youtube: "YouTube動画",
+              reels: "リール＆ショート",
+              miniatures: "サムネイル"
+            }
+          },
+          social: {
+            title: "ソーシャルコンテンツ",
+            subItems: {
+              twitter: "Twitterスレッド"
+            }
+          },
+          branding: {
+            title: "ブランディング",
+            subItems: {
+              identite: "ビジュアルアイデンティティ",
+              templates: "テンプレート"
+            }
+          }
+        },
+        // Atelier
+        atelier: {
+          traditionnel: {
+            title: "伝統アート",
+            subItems: {
+              illustrations: "完成イラスト",
+              etudes: "研究・進歩",
+              croquis: "スケッチ・ラフ"
+            }
+          },
+          numerique: {
+            title: "デジタルアート",
+            subItems: {
+              conceptArt: "コンセプトアート",
+              illustrations: "デジタルイラスト",
+              animations2d: "2Dアニメーション"
+            }
+          },
+          modelisation3d: {
+            title: "3Dモデリング",
+            subItems: {
+              modeles: "3Dモデル",
+              textures: "テクスチャ・マテリアル",
+              animations3d: "3Dアニメーション"
+            }
+          },
+          wip: {
+            title: "制作中",
+            subItems: {
+              projets: "進行中プロジェクト",
+              experimentations: "実験"
+            }
+          }
+        }
+      }
     },
 
     // Projects Section
