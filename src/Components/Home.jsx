@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Footer from './Footer';
-import Contact from './Contact';
 import Projects from './Projects';
+import { fetchProjects, urlFor } from '../config/sanityClient';
 
 // Configuration des thèmes avec leurs couleurs adaptées
 const themes = [
@@ -62,82 +62,144 @@ const themes = [
 // Context pour partager le thème
 export const ThemeContext = React.createContext();
 
+// Section Compétences
+const SkillsSection = ({ theme }) => {
+  const skills = [
+    {
+      category: "Développement",
+      icon: "💻",
+      items: [
+        { name: "JavaScript", level: 45 },
+        { name: "React", level: 40 },
+        { name: "Java", level: 35 },
+        { name: "C++", level: 30 },
+        { name: "C#", level: 25 }
+      ]
+    },
+    {
+      category: "Design & Animation",
+      icon: "🎨",
+      items: [
+        { name: "Blender", level: 40 },
+        { name: "Photoshop", level: 50 },
+        { name: "After Effects", level: 35 },
+        { name: "Clip Studio Paint", level: 45 },
+        { name: "Maya", level: 25 }
+      ]
+    },
+    {
+      category: "Création de Contenu",
+      icon: "📹",
+      items: [
+        { name: "DaVinci Resolve", level: 40 },
+        { name: "Filmora", level: 55 },
+        { name: "Streaming", level: 35 },
+        { name: "Community Management", level: 50 },
+        { name: "Écriture", level: 60 }
+      ]
+    },
+    {
+      category: "Outils & Workflow",
+      icon: "⚙️",
+      items: [
+        { name: "Git", level: 30 },
+        { name: "Figma", level: 35 },
+        { name: "Obsidian", level: 55 },
+        { name: "Final Draft", level: 45 },
+        { name: "Sanity CMS", level: 40 }
+      ]
+    }
+  ];
 
-// Nouvelle section de galerie inspirée de micro.so et menuxl.fr
+  return (
+    <section id="skills" className="py-20 relative overflow-hidden">
+      {/* Background avec overlay */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-fixed"
+        style={{ backgroundImage: `url('${theme.background}')` }}
+      />
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+      
+      <div className="relative z-10 max-w-7xl mx-auto px-8">
+        {/* Titre de section */}
+        <div className="text-center mb-16">
+          <h2 className="text-5xl font-bold text-white mb-6 drop-shadow-2xl">
+            Compétences & Expertise
+          </h2>
+          <p className="text-xl text-gray-200 max-w-3xl mx-auto drop-shadow-lg">
+            Un aperçu de mes compétences techniques et créatives développées au fil de mes projets
+          </p>
+        </div>
+
+        {/* Grille des compétences */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {skills.map((skillCategory, index) => (
+            <div
+              key={skillCategory.category}
+              className="bg-black/40 backdrop-blur-sm rounded-2xl p-6 border border-white/10 
+                         hover:border-purple-500/30 transition-all duration-300 hover:transform hover:scale-105"
+            >
+              {/* Header de catégorie */}
+              <div className="text-center mb-6">
+                <div className="text-4xl mb-3">{skillCategory.icon}</div>
+                <h3 className="text-xl font-bold text-white">{skillCategory.category}</h3>
+              </div>
+
+              {/* Liste des compétences */}
+              <div className="space-y-4">
+                {skillCategory.items.map((skill, skillIndex) => (
+                  <div key={skill.name} className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-200 font-medium">{skill.name}</span>
+                      <span className="text-purple-400 text-sm">{skill.level}%</span>
+                    </div>
+                    <div className="w-full bg-gray-700/50 rounded-full h-2">
+                      <div 
+                        className="bg-gradient-to-r from-purple-500 to-blue-500 h-2 rounded-full transition-all duration-1000 ease-out"
+                        style={{ 
+                          width: `${skill.level}%`,
+                          animationDelay: `${index * 0.2 + skillIndex * 0.1}s`
+                        }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Stats générales */}
+        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8">
+          {[
+            { number: "1+", label: "Année d'expérience" },
+            { number: "3+", label: "Projets réalisés" },
+            { number: "4", label: "Univers créés" },
+            { number: "∞", label: "Passion créative" }
+          ].map((stat, index) => (
+            <div key={stat.label} className="text-center">
+              <div className="text-4xl md:text-5xl font-bold text-white mb-2 drop-shadow-lg">
+                {stat.number}
+              </div>
+              <div className="text-gray-300 text-sm md:text-base">
+                {stat.label}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// Nouvelle section de galerie avec vrais projets Sanity
 const ProjectGallery = ({ theme }) => {
   const scrollRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
   const [randomProjects, setRandomProjects] = useState([]);
-
-  // Tous les projets disponibles
-  const allProjects = [
-    {
-      id: 1,
-      title: "Héros à la Flamme Imaginaire - Chapitre 1",
-      category: "Héros à la Flamme",
-      image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      type: "story",
-      section: "flame-hero"
-    },
-    {
-      id: 2,
-      title: "La Fée des Rivières",
-      category: "Fable du Héros et la Fée",
-      image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      type: "story",
-      section: "fairy-tale"
-    },
-    {
-      id: 3,
-      title: "Concept Art - Dragon",
-      category: "Design & Art",
-      image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      type: "artwork",
-      section: "subItems"
-    },
-    {
-      id: 4,
-      title: "Interface Gaming",
-      category: "UI/UX Design",
-      image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      type: "design",
-      section: "subItems"
-    },
-    {
-      id: 5,
-      title: "Héros à la Flamme - Combat Final",
-      category: "Héros à la Flamme",
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      type: "story",
-      section: "flame-hero"
-    },
-    {
-      id: 6,
-      title: "La Forêt Enchantée",
-      category: "Fable du Héros et la Fée",
-      image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      type: "story",
-      section: "fairy-tale"
-    },
-    {
-      id: 7,
-      title: "Character Design - Mage",
-      category: "Character Design",
-      image: "https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      type: "character",
-      section: "subItems"
-    },
-    {
-      id: 8,
-      title: "Animation 2D",
-      category: "Animation",
-      image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      type: "animation",
-      section: "subItems"
-    }
-  ];
+  const [loading, setLoading] = useState(true);
 
   // Fonction pour mélanger un tableau
   const shuffleArray = (array) => {
@@ -149,10 +211,25 @@ const ProjectGallery = ({ theme }) => {
     return newArray;
   };
 
-  // Sélectionner aléatoirement 10 projets
+  // Récupérer les projets depuis Sanity
   useEffect(() => {
-    const shuffledProjects = shuffleArray(allProjects);
-    setRandomProjects(shuffledProjects.slice(0, 10));
+    const loadProjects = async () => {
+      try {
+        setLoading(true);
+        const projects = await fetchProjects();
+        
+        // Mélanger et prendre 7 projets aléatoires
+        const shuffledProjects = shuffleArray(projects);
+        setRandomProjects(shuffledProjects.slice(0, 7));
+      } catch (error) {
+        console.error('Erreur lors du chargement des projets:', error);
+        setRandomProjects([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProjects();
   }, []);
 
   const handleMouseDown = (e) => {
@@ -178,21 +255,51 @@ const ProjectGallery = ({ theme }) => {
   };
 
   const handleProjectClick = (project) => {
-    // Ici vous pouvez gérer la navigation selon le type de projet
-    switch (project.section) {
-      case 'flame-hero':
-        console.log('Navigation vers Héros à la Flamme Imaginaire:', project.title);
-        break;
-      case 'fairy-tale':
-        console.log('Navigation vers La Fable du Héros et la Fée:', project.title);
-        break;
-      case 'subItems':
-        console.log('Navigation vers fichier subItems:', project.title);
-        break;
+    console.log('Projet sélectionné:', project.title);
+    // Ici vous pouvez ajouter la navigation vers le projet
+  };
+
+  const getCategoryColor = (category) => {
+    switch (category) {
+      case 'arts':
+        return 'from-purple-600/80 to-pink-600/80';
+      case 'dev':
+        return 'from-blue-600/80 to-cyan-600/80';
+      case 'video':
+        return 'from-red-600/80 to-orange-600/80';
       default:
-        console.log('Projet sélectionné:', project.title);
+        return 'from-gray-600/80 to-gray-700/80';
     }
   };
+
+  const getCategoryLabel = (category) => {
+    switch (category) {
+      case 'arts':
+        return 'Arts Visuels & Narratifs';
+      case 'dev':
+        return 'Développement & Tech';
+      case 'video':
+        return 'Vidéaste';
+      default:
+        return category;
+    }
+  };
+
+  if (loading) {
+    return (
+      <section id="gallery" className="py-20 relative overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-fixed"
+          style={{ backgroundImage: `url('${theme.background}')` }}
+        />
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+        
+        <div className="relative z-10 flex items-center justify-center h-64">
+          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500"></div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="gallery" className="py-20 relative overflow-hidden">
@@ -211,8 +318,8 @@ const ProjectGallery = ({ theme }) => {
               Galerie Interactive
             </h2>
             <p className="text-xl text-gray-200 max-w-3xl mx-auto drop-shadow-lg">
-              Explorez mes créations - histoires, designs et projets créatifs. 
-              Faites défiler horizontalement pour découvrir l'univers complet.
+              Explorez mes créations - projets, designs et univers créatifs. 
+              Découvrez un aperçu aléatoire de mon travail qui change à chaque visite.
             </p>
           </div>
         </div>
@@ -241,7 +348,7 @@ const ProjectGallery = ({ theme }) => {
           >
             {randomProjects.map((project, index) => (
               <div
-                key={project.id}
+                key={project._id}
                 className="flex-shrink-0 w-80 group cursor-pointer"
                 onClick={() => handleProjectClick(project)}
               >
@@ -250,50 +357,72 @@ const ProjectGallery = ({ theme }) => {
                                transform transition-all duration-500 hover:scale-105 hover:shadow-purple-500/25">
                   
                   {/* Image */}
-                  <img 
-                    src={project.image} 
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-700 
-                               group-hover:scale-110"
-                  />
+                  {project.image ? (
+                    <img 
+                      src={urlFor(project.image).width(400).height(400).url()} 
+                      alt={project.title?.fr || project.title || 'Projet'}
+                      className="w-full h-full object-cover transition-transform duration-700 
+                                 group-hover:scale-110"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-purple-600 to-blue-600 
+                                    flex items-center justify-center">
+                      <div className="text-white text-6xl opacity-50">🎨</div>
+                    </div>
+                  )}
                   
                   {/* Overlay avec gradient */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                   
                   {/* Badge de catégorie */}
                   <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 bg-purple-600/80 backdrop-blur-sm rounded-full 
-                                   text-white text-sm font-medium border border-purple-400/30">
-                      {project.category}
+                    <span className={`px-3 py-1 bg-gradient-to-r ${getCategoryColor(project.category)} 
+                                   backdrop-blur-sm rounded-full text-white text-sm font-medium 
+                                   border border-white/20`}>
+                      {getCategoryLabel(project.category)}
                     </span>
                   </div>
 
                   {/* Icône selon le type */}
                   <div className="absolute top-4 right-4 opacity-70">
-                    {project.type === 'story' && (
-                      <div className="bg-white/20 backdrop-blur-sm rounded-full p-2">
-                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                        </svg>
-                      </div>
-                    )}
-                    {project.type !== 'story' && (
-                      <div className="bg-white/20 backdrop-blur-sm rounded-full p-2">
-                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                      </div>
-                    )}
+                    <div className="bg-white/20 backdrop-blur-sm rounded-full p-2">
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+                              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </div>
                   </div>
                   
                   {/* Contenu en bas */}
                   <div className="absolute bottom-0 left-0 right-0 p-6">
                     <h3 className="text-xl font-bold text-white mb-2 group-hover:text-purple-300 
                                    transition-colors duration-300">
-                      {project.title}
+                      {project.title?.fr || project.title || 'Projet sans titre'}
                     </h3>
+                    
+                    {project.description && (
+                      <p className="text-gray-300 text-sm mb-3 line-clamp-2">
+                        {typeof project.description === 'object' 
+                          ? project.description.fr || project.description.en || ''
+                          : project.description.substring(0, 100) + '...'
+                        }
+                      </p>
+                    )}
+                    
+                    {/* Technologies */}
+                    {project.technologies && project.technologies.length > 0 && (
+                      <div className="flex flex-wrap gap-1 mb-3">
+                        {project.technologies.slice(0, 3).map((tech, techIndex) => (
+                          <span 
+                            key={techIndex}
+                            className="px-2 py-1 bg-white/10 backdrop-blur-sm rounded-full 
+                                       text-xs text-gray-300 border border-white/20"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                     
                     {/* Flèche d'action */}
                     <div className="flex items-center justify-between">
@@ -324,7 +453,7 @@ const ProjectGallery = ({ theme }) => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
                       d="M7 16l-4-4m0 0l4-4m-4 4h18" />
               </svg>
-              Faites glisser pour explorer plus de projets
+              Faites glisser pour explorer plus de projets • Actualisez pour voir d'autres créations
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
                       d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -337,76 +466,9 @@ const ProjectGallery = ({ theme }) => {
   );
 };
 
-const ProjectModal = ({ project, isOpen, onClose }) => {
-  if (!isOpen) return null;
 
-  return (
-    <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50 backdrop-blur-sm"
-         onClick={onClose}>
-      <div className="bg-white rounded-2xl max-w-5xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
-           onClick={e => e.stopPropagation()}>
-        <div className="relative">
-          <button 
-            onClick={onClose}
-            className="absolute top-6 right-6 bg-white/90 backdrop-blur-sm rounded-full p-3
-                       hover:bg-white transition-all duration-200 z-10 shadow-lg
-                       hover:scale-110 active:scale-95"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-          <div className="h-[50vh] overflow-hidden rounded-t-2xl">
-            <img 
-              src={project.image} 
-              alt={project.title}
-              className="w-full h-full object-cover object-center"
-            />
-          </div>
-        </div>
-        <div className="p-8">
-          <h2 className="text-4xl font-bold text-gray-900 mb-6">{project.title}</h2>
-          <p className="text-gray-700 text-lg leading-relaxed mb-8">
-            {project.content}
-          </p>
-          <div className="flex flex-wrap gap-3 mb-8">
-            {project.tags.map((tag, index) => (
-              <span 
-                key={index}
-                className="px-4 py-2 bg-gradient-to-r from-purple-100 to-blue-100 
-                         text-purple-800 rounded-full text-sm font-semibold
-                         border border-purple-200"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-          <div className="border-t border-gray-200 pt-8">
-            <h3 className="text-2xl font-semibold text-gray-900 mb-6">Détails du projet</h3>
-            <p className="text-gray-600 mb-6 leading-relaxed">
-              Ce projet représente une exploration créative unique, mêlant innovation technique et 
-              vision artistique. Chaque élément a été soigneusement pensé pour créer une expérience 
-              immersive et mémorable.
-            </p>
-            <div className="flex gap-4">
-              <button className="px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 
-                               text-white rounded-lg font-semibold transition-all duration-300 
-                               hover:from-purple-700 hover:to-blue-700 hover:shadow-lg
-                               transform hover:scale-105 active:scale-95">
-                Voir le projet complet
-              </button>
-              <button className="px-8 py-3 border-2 border-gray-300 text-gray-700 rounded-lg 
-                               font-semibold transition-all duration-300 
-                               hover:border-gray-400 hover:bg-gray-50">
-                Code source
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+
+
 
 const Banner = ({ theme }) => {
   const [loopNum, setLoopNum] = useState(0);
@@ -447,10 +509,13 @@ const Banner = ({ theme }) => {
 
   return (
     <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      <div 
-        className="absolute inset-0 bg-cover bg-center transition-all duration-1000"
-        style={{ backgroundImage: `url('${theme.background}')` }}
-      ></div>
+              <div 
+          className="absolute inset-0 bg-cover transition-all duration-1000"
+          style={{ 
+            backgroundImage: `url('${theme.background}')`,
+            backgroundPosition: 'center 20%'
+          }}
+        ></div>
       <div className="absolute inset-0 bg-black/40"></div>
       
       <div className="relative z-10 max-w-6xl mx-auto px-8 text-center">
@@ -494,71 +559,8 @@ const Banner = ({ theme }) => {
   );
 };
 
-const ProjectCard = ({ project, onClick, index }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
-  return (
-    <div 
-      className="relative aspect-square overflow-hidden rounded-2xl cursor-pointer group
-                 transform transition-all duration-500 hover:scale-105"
-      onClick={onClick}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <img 
-        src={project.image} 
-        alt={project.title}
-        className="w-full h-full object-cover transition-transform duration-700 
-                   group-hover:scale-110"
-      />
-      
-      <div className={`absolute inset-0 bg-black/60 transition-opacity duration-300 
-                      ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
-        
-        <div className="absolute inset-0 flex flex-col items-center justify-center 
-                        text-white p-6 text-center">
-          <h3 className="text-2xl font-bold mb-3 transform transition-transform duration-300
-                         translate-y-4 group-hover:translate-y-0">
-            {project.title}
-          </h3>
-          <p className="text-sm opacity-90 mb-4 transform transition-all duration-300 delay-75
-                        translate-y-4 group-hover:translate-y-0">
-            {project.content.substring(0, 100)}...
-          </p>
-          <div className="flex flex-wrap gap-2 justify-center transform transition-all duration-300 delay-150
-                          translate-y-4 group-hover:translate-y-0">
-            {project.tags.slice(0, 2).map((tag, tagIndex) => (
-              <span 
-                key={tagIndex}
-                className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full 
-                           text-xs font-medium border border-white/30"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <div className="absolute top-4 right-4 transform transition-all duration-300
-                        opacity-0 group-hover:opacity-100 scale-75 group-hover:scale-100">
-          <div className="bg-white/20 backdrop-blur-sm rounded-full p-2 border border-white/30">
-            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-            </svg>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const Home = () => {
-  const [selectedProject, setSelectedProject] = useState(null);
   const [currentTheme, setCurrentTheme] = useState(themes[0]);
-  const [showContact, setShowContact] = useState(false);
 
   useEffect(() => {
     setCurrentTheme(themes[0]);
@@ -569,42 +571,11 @@ const Home = () => {
       <div className="w-full">
         <Banner theme={currentTheme} />
         <ProjectGallery theme={currentTheme} />
+        <SkillsSection theme={currentTheme} />
         
         {/* Section Projects avec les trois onglets */}
         <Projects />
 
-        {/* Section de contact avec fond sombre et effet de flou */}
-        {/* <div className="w-full bg-black/60 backdrop-blur-sm py-20 border-t border-white/10">
-          <div className="max-w-7xl mx-auto px-8 text-center">
-
-            <h2 className="text-4xl font-bold text-white mb-8 drop-shadow-2xl">
-              Intéressé par une collaboration ?
-            </h2>
-
-            <p className="text-xl text-gray-200 mb-10 drop-shadow-lg max-w-2xl mx-auto">
-              N'hésitez pas à me contacter pour discuter de vos projets créatifs
-            </p>
-
-            <button 
-              onClick={() => setShowContact(true)}
-              className={`px-10 py-4 bg-${currentTheme.colors.button} text-white rounded-xl 
-                        font-semibold text-lg transition-all duration-300 
-                        hover:bg-${currentTheme.colors.buttonHover} hover:shadow-xl 
-                        hover:scale-105 drop-shadow-lg`}
-            >
-              Me Contacter
-            </button>
-          </div>
-        </div> */}
-
-        <ProjectModal 
-          project={selectedProject}
-          isOpen={selectedProject !== null}
-          onClose={() => setSelectedProject(null)}
-        />
-
-        {showContact && <Contact onClose={() => setShowContact(false)} />}
-        
         <Footer />
       </div>
     </ThemeContext.Provider>
