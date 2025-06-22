@@ -1,5 +1,4 @@
 import { Card, CardContent } from "@/Components/ui/card";
-import { Sparkles, Code, Paintbrush2, Gamepad2, Flame, Users, Video, Instagram, Twitter, MessageCircle } from "lucide-react";
 
 export default function AboutSection() {
   return (
@@ -83,9 +82,9 @@ export default function AboutSection() {
       <div className="max-w-5xl mx-auto space-y-8">
         <div className="mt-20 animate-fade-in delay-100">
           <h1 className="text-4xl md:text-5xl font-bold text-center flex items-center justify-center">
-            <Flame className="mr-3 text-orange-500 animate-pulse" />
+            <span className="mr-3 text-orange-500 animate-pulse text-3xl">🔥</span>
             Imaginary Flame
-            <Flame className="ml-3 text-orange-500 animate-pulse" />
+            <span className="ml-3 text-orange-500 animate-pulse text-3xl">🔥</span>
           </h1>
         </div>
 
@@ -111,7 +110,7 @@ export default function AboutSection() {
           <Card className="bg-[#121212] border-orange-500/20 border shadow-xl hover:shadow-orange-500/10 transition-all duration-300 animate-slide-left delay-300">
             <CardContent className="space-y-4 p-6">
               <h2 className="text-2xl font-semibold text-orange-400 flex items-center">
-                <Code className="mr-2" /> Stack Technique
+                <span className="mr-2 text-2xl">💻</span> Stack Technique
               </h2>
               <div className="space-y-3">
                 <p>
@@ -133,7 +132,7 @@ export default function AboutSection() {
           <Card className="bg-[#121212] border-orange-500/20 border shadow-xl hover:shadow-orange-500/10 transition-all duration-300 animate-slide-right delay-400">
             <CardContent className="space-y-4 p-6">
               <h2 className="text-2xl font-semibold text-orange-400 flex items-center">
-                <Paintbrush2 className="mr-2" /> Setup Créatif
+                <span className="mr-2 text-2xl">🎨</span> Setup Créatif
               </h2>
               <div className="space-y-3">
                 <p>
@@ -154,7 +153,7 @@ export default function AboutSection() {
           <Card className="bg-[#121212] border-orange-500/20 border shadow-xl hover:shadow-orange-500/10 transition-all duration-300 md:col-span-2 animate-slide-bottom delay-500">
             <CardContent className="space-y-4 p-6">
               <h2 className="text-2xl font-semibold text-orange-400 flex items-center">
-                <Gamepad2 className="mr-2" /> Univers & Licence Principale
+                <span className="mr-2 text-2xl">🎮</span> Univers & Licence Principale
               </h2>
               <div className="space-y-3">
                 <p>
@@ -187,7 +186,7 @@ export default function AboutSection() {
           <Card className="bg-[#121212] border-orange-500/20 border shadow-xl hover:shadow-orange-500/10 transition-all duration-300 md:col-span-2 animate-slide-left delay-600">
             <CardContent className="space-y-4 p-6">
               <h2 className="text-2xl font-semibold text-orange-400 flex items-center">
-                <Sparkles className="mr-2" /> Projets Narratifs
+                <span className="mr-2 text-2xl">✨</span> Projets Narratifs
               </h2>
               <div className="space-y-4">
                 <div>
@@ -246,7 +245,7 @@ export default function AboutSection() {
           <Card className="bg-[#121212] border-orange-500/20 border shadow-xl hover:shadow-orange-500/10 transition-all duration-300 animate-slide-right delay-700">
             <CardContent className="space-y-4 p-6">
               <h2 className="text-2xl font-semibold text-orange-400 flex items-center">
-                <Video className="mr-2" /> Création de Contenu & Réseaux
+                <span className="mr-2 text-2xl">📹</span> Création de Contenu & Réseaux
               </h2>
               <div className="space-y-3">
                 <p>
@@ -345,7 +344,7 @@ export default function AboutSection() {
           <Card className="bg-[#121212] border-orange-500/20 border shadow-xl hover:shadow-orange-500/10 transition-all duration-300 animate-slide-left delay-800">
             <CardContent className="space-y-4 p-6">
               <h2 className="text-2xl font-semibold text-orange-400 flex items-center">
-                <Users className="mr-2" /> Community Management & BMS Talents
+                <span className="mr-2 text-2xl">👥</span> Community Management & BMS Talents
               </h2>
               <div className="space-y-3">
                 <p>
@@ -367,7 +366,7 @@ export default function AboutSection() {
           <Card className="bg-[#121212] border-orange-500/20 border shadow-xl hover:shadow-orange-500/10 transition-all duration-300 animate-slide-right delay-900">
             <CardContent className="space-y-4 p-6">
               <h2 className="text-2xl font-semibold text-orange-400 flex items-center">
-                <Flame className="mr-2" /> Vision : Illunaris
+                <span className="mr-2 text-2xl">🔥</span> Vision : Illunaris
               </h2>
               <div className="space-y-3">
                 <p>
