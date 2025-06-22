@@ -1,5 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useLanguage } from '../hooks/useLanguage.jsx';
 import { 
   faGithub, 
   faLinkedin, 
@@ -13,6 +14,7 @@ import {
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 
 const Footer = () => {
+  const { t } = useLanguage();
   return (
     <footer className="bg-gradient-to-r from-orange-500 via-red-500 to-yellow-500 text-white py-8">
       <div className="container mx-auto px-4">
@@ -130,7 +132,7 @@ const Footer = () => {
             />
           </a>
 
-          <p className="text-center">Copyright 2024. All Rights Reserved</p>
+          <p className="text-center">{t('footer.copyright')}</p>
         </div>
       </div>
     </footer>

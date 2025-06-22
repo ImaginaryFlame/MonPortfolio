@@ -67,7 +67,7 @@ export const translations = {
     // About Section
     about: {
       title: "Imaginary Flame",
-      intro: "Je suis Flame, 25 ans, créateur autodidacte passionné par l'art numérique et la narration transmédia. Je développe des univers où se mêlent code, animation, écriture et design, avec l'ambition de devenir animateur 2D/3D, game designer et créateur indépendant de récits qui transcendent les frontières culturelles.",
+      intro: "Je suis <strong>Flame</strong>, 25 ans, créateur autodidacte passionné par l'art numérique et la narration transmédia. Je développe des univers où se mêlent <em>code</em>, <em>animation</em>, <em>écriture</em> et <em>design</em>, avec l'ambition de devenir <strong>animateur 2D/3D</strong>, <strong>game designer</strong> et <strong>créateur indépendant</strong> de récits qui transcendent les frontières culturelles.",
       
       sections: {
         techStack: "Stack Technique",
@@ -80,24 +80,62 @@ export const translations = {
       },
 
       techStack: {
-        development: "Développement : Java, JavaScript, C++, C#",
-        creation: "Création 3D/2D : Blender, Maya, Photoshop, Clip Studio Paint",
-        postProduction: "Post-production : After Effects, Nuke, DaVinci Resolve, Filmora",
-        writing: "Écriture & Organisation : Final Draft, Word, Obsidian"
+        development: "<strong>Développement :</strong> Java, JavaScript, C++, C#",
+        creation: "<strong>Création 3D/2D :</strong> Blender, Maya, Photoshop, Clip Studio Paint",
+        postProduction: "<strong>Post-production :</strong> After Effects, Nuke, DaVinci Resolve, Filmora",
+        writing: "<strong>Écriture & Organisation :</strong> Final Draft, Word, Obsidian"
       },
 
       setup: {
-        mainPC: "PC principal :",
-        specs: "Alienware Aurora R13 • Intel Core i5-12400F\nRTX 3070 • 16 Go RAM DDR5 • SSD NVMe 2 To\nConfiguration double écran QHD",
-        peripherals: "Périphériques :",
-        devices: "Tablette Gaomon pour le dessin numérique et l'animation\niPad Air M1 pour le dessin et l'animation mobile"
+        mainPC: "<strong>PC principal :</strong>",
+        specs: "Alienware Aurora R13 • Intel Core i5-12400F<br/>RTX 3070 • 16 Go RAM DDR5 • SSD NVMe 2 To<br/>Configuration double écran QHD",
+        peripherals: "<strong>Périphériques :</strong>",
+        devices: "Tablette Gaomon pour le dessin numérique et l'animation<br/>iPad Air M1 pour le dessin et l'animation mobile"
       },
 
       socialNetworks: {
-        main: "Réseaux sociaux principaux :",
-        mainDescription: "Retrouvez-moi sur mes différentes plateformes pour suivre mes actualités et échanger avec la communauté.",
-        art: "Comptes dédiés au dessin :",
-        artDescription: "Suivez ma progression artistique et mes créations en cours sur mes comptes spécialisés."
+        main: "<strong>Réseaux sociaux principaux :</strong> Retrouvez-moi sur mes différentes plateformes pour suivre mes actualités et échanger avec la communauté.",
+        art: "<strong>Comptes dédiés au dessin :</strong> Suivez ma progression artistique et mes créations en cours sur mes comptes spécialisés."
+      },
+
+      mainUniverse: {
+        description: "Je développe <strong>\"Le Héros à la Flamme Imaginaire\"</strong>, une licence transmédia ambitieuse mêlant shōnen, slice of life, aventure psychologique et comédie satirique dans la lignée de <em>Tout le Monde Déteste Chris</em>, <em>Malcolm</em> ou <em>Boondocks</em>. L'histoire suit Travis Wetu Cardoso dans un monde fracturé, inspiré de <strong>Vesontio</strong> (Besançon alternatif) et de dimensions parallèles, explorant les luttes identitaires et la quête de soi avec un humour oscillant entre cartoon, comédie de buddy movie et satire, parsemé de moments slapstick.",
+        themes: "<strong>Thématiques centrales :</strong> Le pardon, la rédemption, le passage à l'âge adulte, la maladie, l'espoir, la force et la fragilité des idéaux, le rejet, l'exclusion et la revalorisation de ceux laissés pour compte, le rapport au temps, l'impossible utopie et la lutte pour la rédemption, la technologie comme écho de l'humain, la famille.",
+        influences: "<strong>Influences :</strong> Vinland Saga, Fate Realta Nua, Static Shock, Boondocks, Tout le Monde Déteste Chris, My Hero Academia, Superman, Spider-Man, Magi: The Labyrinth of Magic, Black Clover, Evangelion, Dragon Quest: la Quête de Daï, Medaka Box, Bleach, la Métamorphose, Bel-Ami, Gravity Rush, Devil May Cry, Jak and Daxter, Ratchet & Clank, la licence Fallout.",
+        visualStyles: "<strong>Styles visuels :</strong> Megumi Ishitani, Vincent Chansard, Naotoshi Shida, Katsuyoshi Nakatsuru, Yuya Takahashi, Yuki Hayashi, sute (dont l'impact frame de l'épisode 167 m'a donné envie de devenir animateur)."
+      },
+
+      contentCreation: {
+        description: "<strong>Créateur de contenu</strong> sur <strong>YouTube</strong>, <strong>TikTok</strong> et <strong>Twitch</strong>, je partage ma passion pour l'animation, le game design et l'univers créatif. Mes contenus explorent les coulisses de mes projets, des tutoriels et des analyses d'œuvres qui m'inspirent. Sur Twitch, je live également des jeux vidéo en partageant mes découvertes et mes réflexions gaming."
+      },
+
+      community: {
+        hasJoel: "Gestionnaire du compte gimmick <strong>\"Has Joel Streamed Today?\"</strong>, j'ai développé une expertise en community management et en création d'événements en ligne. Cette expérience m'a appris à fédérer une communauté active, à créer de l'engagement et à maintenir une présence digitale cohérente.",
+        bmsTalents: "<strong>Fondateur de BMS Talents</strong>, un projet dédié à la valorisation des créateurs au sein de la communauté esport BMS : artistes, développeurs, monteurs et streamers. Grâce au reach de mon compte \"Has Joël Streamed Today?\", j'ai pu réunir et fédérer une communauté de talents créatifs passionnés, leur offrant une plateforme pour se faire connaître et collaborer."
+      },
+
+      vision: {
+        objective: "<strong>Objectif à long terme :</strong> Créer <strong>Illunaris</strong> (nom provisoire), un studio transmédia rassemblant des talents de France, d'Angola et d'ailleurs pour développer des mondes visuellement époustouflants et humainement authentiques.",
+        construction: "La construction d'Illunaris est un objectif que je veux atteindre en poursuivant mon apprentissage dans l'animation, l'informatique et le game design pour offrir au monde les univers créatifs auxquels je souhaite donner vie. Cette vision s'appuie sur l'expérience acquise en animation, développement, écriture, design et gestion de communauté pour créer des projets collaboratifs innovants."
+      },
+
+      narrativeProjects: {
+        heroFairy: {
+          title: "La Fable du Héros et la Fée",
+          description: "Une trilogie de romans explorant l'amitié improbable entre un héros déchu et une fée mystérieuse. Cette saga mélange fantasy épique et introspection psychologique, questionnant la nature du heroïsme et la valeur de la rédemption à travers des personnages complexes naviguant entre lumière et ombres.",
+          summary: "<strong>Résumé :</strong> Dans un monde déchiré par la fusion ancienne entre l'univers humain et le royaume féérique, les cendres de la guerre, du rejet et de l'injustice continuent d'alimenter les rêves brisés de ceux qu'on a toujours laissés de côté. Elle, c'est une jeune Fée née sans ailes, méprisée de tous, vivant dans les Basfonds de Sylvania, dernier bastion d'une monarchie aussi brillante que pourrie de l'intérieur. Lui, c'est un humain errant, survivant d'un massacre oublié, porteur d'un pouvoir dévastateur et d'un nom effacé, que l'on surnomme avec crainte… le Héros. Entre complots royaux, rivalités tribales, assassinats politiques et tournois meurtriers, ils devront apprendre à survivre, à se haïr, à s'entraider… et peut-être à réécrire les règles d'un monde qui ne leur a jamais laissé de place."
+        },
+        vinceBelii: {
+          title: "Vince de Belii",
+          description: "Un light novel intimiste centré sur la reconstruction personnelle et la poursuite de rêves apparemment impossibles. Cette histoire explore les thèmes de la solitude, de l'espoir et de la persévérance face à l'adversité. Actuellement en cours d'adaptation en visual novel que je développe moi-même dans le cadre de mon apprentissage du médium.",
+          summary: "<strong>Résumé :</strong> Vince, fraîchement diplômé de son master, se retrouve perdu sur la suite de sa vie et n'en voit pas le bout. Contacté par sa tante Déameline, il décide de rentrer dans sa ville natale de Belii, là où la nuit ne se finit jamais, pour se ressourcer le temps des vacances d'été, voire plus longtemps. Là-bas il y fera la rencontre de nouveaux amis et retrouvera de nouvelles têtes, tous ne seront pas amicaux avec lui. Il devra alors renouer certains liens et faire la lumière sur des éléments de son passé qu'il avait enfui en lui. Entre drames, cauchemars, fantastique, amours (et plus encore), découvrez le passé, le présent et le futur de celui qu'on surnommait, autrefois, \"Vince the Stampede\"."
+        },
+        laraPandemic: {
+          title: "La Pandémie de Lara",
+          description: "Un récit post-apocalyptique explorant les conséquences humaines d'une crise sanitaire à travers le prisme d'une protagoniste confrontée à un monde en mutation. Cette histoire examine les liens sociaux, la résilience humaine et les transformations personnelles dans un contexte de bouleversement global.",
+          summary: "<strong>Résumé :</strong> Un récit post-apocalyptique avec des zombies suivant une protagoniste amnésique qui essaie de refaire sa vie. Son quotidien morbide est perturbé par la venue de deux jeunes filles qui semblent être ses meilleures amies de l'ancien monde. L'une d'entre elles semble avoir un objectif derrière la tête malgré la chaleur qu'elle dégage. Cette histoire explore la reconstruction de l'identité, les liens du passé et les mystères qui persistent même dans un monde en ruines."
+        },
+        otherStories: "D'autres récits sont en développement, chacun explorant des genres et thématiques qui leur sont propres, bien qu'ils puissent partager certaines résonances narratives et philosophiques."
       }
     },
 
@@ -152,6 +190,26 @@ export const translations = {
         arts: "Arts Visuels & Narratifs",
         dev: "Développement & Tech",
         video: "Vidéaste"
+      }
+    },
+
+    // Contact Section
+    contact: {
+      title: "Contactez-moi",
+      form: {
+        nom: "Nom",
+        prenom: "Prénom",
+        email: "Email",
+        telephone: "Téléphone",
+        sujet: "Sujet",
+        message: "Message",
+        send: "Envoyer",
+        sending: "En cours d'envoi..."
+      },
+      messages: {
+        success: "Message envoyé avec succès",
+        error: "Quelque chose s'est mal passé, veuillez réessayer plus tard.",
+        connectionError: "Erreur de connexion au serveur. Veuillez vérifier votre connexion."
       }
     }
   },
@@ -224,7 +282,7 @@ export const translations = {
     // About Section
     about: {
       title: "Imaginary Flame",
-      intro: "I'm Flame, 25 years old, a self-taught creator passionate about digital art and transmedia storytelling. I develop universes where code, animation, writing and design blend together, with the ambition to become a 2D/3D animator, game designer and independent creator of stories that transcend cultural boundaries.",
+      intro: "I'm <strong>Flame</strong>, 25 years old, a self-taught creator passionate about digital art and transmedia storytelling. I develop universes where <em>code</em>, <em>animation</em>, <em>writing</em> and <em>design</em> blend together, with the ambition to become a <strong>2D/3D animator</strong>, <strong>game designer</strong> and <strong>independent creator</strong> of stories that transcend cultural boundaries.",
       
       sections: {
         techStack: "Tech Stack",
@@ -237,24 +295,22 @@ export const translations = {
       },
 
       techStack: {
-        development: "Development: Java, JavaScript, C++, C#",
-        creation: "3D/2D Creation: Blender, Maya, Photoshop, Clip Studio Paint",
-        postProduction: "Post-production: After Effects, Nuke, DaVinci Resolve, Filmora", 
-        writing: "Writing & Organization: Final Draft, Word, Obsidian"
+        development: "<strong>Development:</strong> Java, JavaScript, C++, C#",
+        creation: "<strong>3D/2D Creation:</strong> Blender, Maya, Photoshop, Clip Studio Paint",
+        postProduction: "<strong>Post-production:</strong> After Effects, Nuke, DaVinci Resolve, Filmora", 
+        writing: "<strong>Writing & Organization:</strong> Final Draft, Word, Obsidian"
       },
 
       setup: {
-        mainPC: "Main PC:",
-        specs: "Alienware Aurora R13 • Intel Core i5-12400F\nRTX 3070 • 16 GB DDR5 RAM • 2TB NVMe SSD\nDual QHD monitor setup",
-        peripherals: "Peripherals:",
-        devices: "Gaomon tablet for digital drawing and animation\niPad Air M1 for mobile drawing and animation"
+        mainPC: "<strong>Main PC:</strong>",
+        specs: "Alienware Aurora R13 • Intel Core i5-12400F<br/>RTX 3070 • 16 GB DDR5 RAM • 2TB NVMe SSD<br/>Dual QHD monitor setup",
+        peripherals: "<strong>Peripherals:</strong>",
+        devices: "Gaomon tablet for digital drawing and animation<br/>iPad Air M1 for mobile drawing and animation"
       },
 
       socialNetworks: {
-        main: "Main social networks:",
-        mainDescription: "Find me on my different platforms to follow my news and chat with the community.",
-        art: "Art dedicated accounts:",
-        artDescription: "Follow my artistic progress and my current creations on my specialized accounts."
+        main: "<strong>Main social networks:</strong> Find me on my different platforms to follow my news and chat with the community.",
+        art: "<strong>Art dedicated accounts:</strong> Follow my artistic progress and my current creations on my specialized accounts."
       }
     },
 
@@ -309,6 +365,26 @@ export const translations = {
         arts: "Visual & Narrative Arts",
         dev: "Development & Tech",
         video: "Video Creator"
+      }
+    },
+
+    // Contact Section
+    contact: {
+      title: "Contact me",
+      form: {
+        nom: "Last Name",
+        prenom: "First Name",
+        email: "Email",
+        telephone: "Phone",
+        sujet: "Subject",
+        message: "Message",
+        send: "Send",
+        sending: "Sending..."
+      },
+      messages: {
+        success: "Message sent successfully",
+        error: "Something went wrong, please try again later.",
+        connectionError: "Server connection error. Please check your connection."
       }
     }
   },
@@ -467,6 +543,26 @@ export const translations = {
         dev: "Desenvolvimento & Tech",
         video: "Criador de Vídeo"
       }
+    },
+
+    // Contact Section
+    contact: {
+      title: "Entre em contato",
+      form: {
+        nom: "Sobrenome",
+        prenom: "Nome",
+        email: "Email",
+        telephone: "Telefone",
+        sujet: "Assunto",
+        message: "Mensagem",
+        send: "Enviar",
+        sending: "Enviando..."
+      },
+      messages: {
+        success: "Mensagem enviada com sucesso",
+        error: "Algo deu errado, tente novamente mais tarde.",
+        connectionError: "Erro de conexão com o servidor. Verifique sua conexão."
+      }
     }
   },
 
@@ -623,6 +719,26 @@ export const translations = {
         arts: "ビジュアル＆ナラティブアート",
         dev: "開発＆テック",
         video: "ビデオクリエイター"
+      }
+    },
+
+    // Contact Section
+    contact: {
+      title: "お問い合わせ",
+      form: {
+        nom: "姓",
+        prenom: "名",
+        email: "メール",
+        telephone: "電話",
+        sujet: "件名",
+        message: "メッセージ",
+        send: "送信",
+        sending: "送信中..."
+      },
+      messages: {
+        success: "メッセージが正常に送信されました",
+        error: "何か問題が発生しました。後でもう一度お試しください。",
+        connectionError: "サーバー接続エラー。接続を確認してください。"
       }
     }
   }

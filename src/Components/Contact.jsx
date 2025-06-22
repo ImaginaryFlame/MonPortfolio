@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useLanguage } from '../hooks/useLanguage.jsx';
 
 export const Contact = ({ onClose }) => {
+    const { t } = useLanguage();
     const formInitialDetails = {
         nom: '',
         prenom: '',
@@ -11,7 +13,7 @@ export const Contact = ({ onClose }) => {
     };
 
     const [formDetails, setFormDetails] = useState(formInitialDetails);
-    const [buttonText, setButtonText] = useState('Envoyer');
+    const [buttonText, setButtonText] = useState(t('contact.form.send'));
     const [status, setStatus] = useState({});
     const [isVisible, setIsVisible] = useState(false);
     const [submissionFailed, setSubmissionFailed] = useState(false);
@@ -36,7 +38,7 @@ export const Contact = ({ onClose }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setButtonText("En cours d'envoi...");
+        setButtonText(t('contact.form.sending'));
         setSubmissionFailed(false);
         setStatus({});
 
@@ -51,18 +53,18 @@ export const Contact = ({ onClose }) => {
             let result = await response.json();
             setFormDetails(formInitialDetails);
             if (result.code === 200) {
-                setStatus({ success: true, message: 'Message envoyé avec succès' });
+                setStatus({ success: true, message: t('contact.messages.success') });
             } else {
-                setStatus({ success: false, message: 'Quelque chose s\'est mal passé, veuillez réessayer plus tard.' });
+                setStatus({ success: false, message: t('contact.messages.error') });
                 setSubmissionFailed(true);
                 setTimeout(() => setSubmissionFailed(false), 800);
             }
         } catch (error) {
-            setStatus({ success: false, message: 'Erreur de connexion au serveur. Veuillez vérifier votre connexion.' });
+            setStatus({ success: false, message: t('contact.messages.connectionError') });
             setSubmissionFailed(true);
             setTimeout(() => setSubmissionFailed(false), 800);
         } finally {
-            setButtonText("Envoyer");
+            setButtonText(t('contact.form.send'));
         }
     };
 
@@ -89,24 +91,24 @@ export const Contact = ({ onClose }) => {
                 </button>
 
                 <div className="p-8 relative z-30">
-                    <h2 className="text-4xl font-bold text-gray-900 mb-6">Contactez-moi</h2>
+                    <h2 className="text-4xl font-bold text-gray-900 mb-6">{t('contact.title')}</h2>
                     <form onSubmit={handleSubmit}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                            <input type="text" value={formDetails.nom} placeholder="Nom" onChange={(e) => onFormUpdate('nom', e.target.value)} 
+                            <input type="text" value={formDetails.nom} placeholder={t('contact.form.nom')} onChange={(e) => onFormUpdate('nom', e.target.value)} 
                                 className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-200" />
-                            <input type="text" value={formDetails.prenom} placeholder="Prénom" onChange={(e) => onFormUpdate('prenom', e.target.value)} 
+                            <input type="text" value={formDetails.prenom} placeholder={t('contact.form.prenom')} onChange={(e) => onFormUpdate('prenom', e.target.value)} 
                                 className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-200" />
-                            <input type="email" value={formDetails.email} placeholder="Email" onChange={(e) => onFormUpdate('email', e.target.value)} 
+                            <input type="email" value={formDetails.email} placeholder={t('contact.form.email')} onChange={(e) => onFormUpdate('email', e.target.value)} 
                                 className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-200" />
-                            <input type="tel" value={formDetails.téléphone} placeholder="Téléphone" onChange={(e) => onFormUpdate('téléphone', e.target.value)} 
+                            <input type="tel" value={formDetails.téléphone} placeholder={t('contact.form.telephone')} onChange={(e) => onFormUpdate('téléphone', e.target.value)} 
                                 className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-200" />
                         </div>
                         <div className="mb-4">
-                            <input type="text" value={formDetails.sujet} placeholder="Sujet" onChange={(e) => onFormUpdate('sujet', e.target.value)} 
+                            <input type="text" value={formDetails.sujet} placeholder={t('contact.form.sujet')} onChange={(e) => onFormUpdate('sujet', e.target.value)} 
                                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-200" />
                         </div>
                         <div className="mb-6">
-                            <textarea rows="6" value={formDetails.message} placeholder="Message" onChange={(e) => onFormUpdate('message', e.target.value)} 
+                            <textarea rows="6" value={formDetails.message} placeholder={t('contact.form.message')} onChange={(e) => onFormUpdate('message', e.target.value)} 
                                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-200 resize-y" />
                         </div>
                         <button type="submit" className="w-full py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-semibold text-lg transition-all duration-300 hover:from-purple-700 hover:to-blue-700 hover:shadow-lg transform hover:scale-105 active:scale-95">
