@@ -1,3 +1,5 @@
+import { localizedField, localizedRequiredField, localizedArrayField } from './utils/localization';
+
 export default {
     name: 'personnage',
     title: '📋 Personnages',
@@ -18,32 +20,31 @@ export default {
       },
   
       // Identité (connue/apparente dans le récit actuel)
-      {
+      localizedRequiredField({
         name: 'nom',
         type: 'string',
         title: 'Nom complet (connu)',
-        description: 'Nom et prénom connus dans le récit actuel',
-        validation: Rule => Rule.required()
-      },
-      {
+        description: 'Nom et prénom connus dans le récit actuel'
+      }),
+      localizedField({
         name: 'prenom',
         type: 'string',
         title: 'Prénom (connu)',
         description: 'Prénom utilisé dans le récit actuel'
-      },
-      {
+      }),
+      localizedField({
         name: 'nomFamille',
         type: 'string',
         title: 'Nom de famille (connu)',
         description: 'Nom de famille connu dans le récit actuel'
-      },
-      {
+      }),
+      localizedArrayField({
         name: 'surnoms',
         type: 'array',
         title: 'Surnoms',
-        of: [{ type: 'string' }],
-        description: 'Liste des surnoms du personnage'
-      },
+        description: 'Liste des surnoms du personnage',
+        of: [{ type: 'string' }]
+      }),
       {
         name: 'univers',
         title: 'Univers d\'appartenance',
@@ -142,7 +143,7 @@ export default {
           ]
         }]
       },
-      {
+      localizedField({
         name: 'positionPolitique',
         type: 'string',
         title: 'Position politique',
@@ -160,8 +161,8 @@ export default {
             { title: 'Apolitique', value: 'apolitique' }
           ]
         }
-      },
-      {
+      }),
+      localizedField({
         name: 'positionReligieuse',
         type: 'string',
         title: 'Position religieuse',
@@ -176,7 +177,7 @@ export default {
             { title: 'En questionnement', value: 'questionnement' }
           ]
         }
-      },
+      }),
   
       // Véritable identité (révélations/spoilers) - OPTIONNEL
       {
@@ -912,12 +913,12 @@ export default {
       },
   
       // Apparence
-      {
+      localizedField({
         name: 'apparence',
         type: 'text',
         title: 'Apparence physique',
         description: 'Description physique détaillée'
-      },
+      }),
       {
         name: 'image',
         type: 'image',
@@ -1037,16 +1038,15 @@ export default {
     
     preview: {
       select: {
-        title: 'nom',
-        subtitle: 'races.0.nom',
-        media: 'image',
-        version: 'versionFiche'
+        title: 'nom.fr',
+        subtitle: 'prenom.fr',
+        media: 'image'
       },
       prepare(selection) {
-        const { title, subtitle, media, version } = selection;
+        const { title, subtitle, media } = selection;
         return {
-          title: title,
-          subtitle: `${subtitle || 'Race inconnue'} • ${version === 'entiere' ? 'Fiche complète' : 'Fiche résumée'}`,
+          title: title || 'Sans nom',
+          subtitle: subtitle,
           media: media
         };
       }

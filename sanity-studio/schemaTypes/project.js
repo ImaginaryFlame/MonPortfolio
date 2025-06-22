@@ -1,19 +1,22 @@
+import { localizedField, localizedRequiredField } from './utils/localization';
+
 export default {
   name: "project",
   title: "Project",
   type: "document",
   fields: [
-    {
+    localizedRequiredField({
       name: "title",
       title: "Title",
-      type: "string",
-      validation: (Rule) => Rule.required(),
-    },
-    {
+      type: "string"
+    }),
+
+    localizedField({
       name: "description",
       title: "Description",
-      type: "text",
-    },
+      type: "text"
+    }),
+
     {
       name: "category",
       title: "Category",
@@ -27,12 +30,14 @@ export default {
       },
       validation: (Rule) => Rule.required(),
     },
+
     {
       name: "subcategory",
       title: "Subcategory",
       type: "reference",
       to: [{ type: "subcategory" }],
     },
+
     {
       name: "image",
       title: "Main Image",
@@ -41,28 +46,33 @@ export default {
         hotspot: true,
       },
     },
+
     {
       name: "images",
       title: "Additional Images",
       type: "array",
       of: [{ type: "image" }],
     },
+
     {
       name: "projectUrl",
       title: "Project URL",
       type: "url",
     },
+
     {
       name: "githubUrl",
       title: "GitHub URL",
       type: "url",
     },
+
     {
       name: "technologies",
       title: "Technologies",
       type: "array",
       of: [{ type: "string" }],
     },
+
     {
       name: "featured",
       title: "Featured",
@@ -70,4 +80,20 @@ export default {
       initialValue: false,
     },
   ],
+
+  preview: {
+    select: {
+      title: "title.fr",
+      subtitle: "category",
+      media: "image"
+    },
+    prepare(selection) {
+      const { title, subtitle, media } = selection;
+      return {
+        title: title || "Sans titre",
+        subtitle: subtitle,
+        media: media
+      };
+    }
+  }
 }; 

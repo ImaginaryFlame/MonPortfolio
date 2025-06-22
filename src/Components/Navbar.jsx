@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import LanguageSelector from './ui/LanguageSelector';
 
 const Navbar = ({ theme }) => {
   const [isPortailsOpen, setIsPortailsOpen] = useState(false);
@@ -468,6 +469,10 @@ const Navbar = ({ theme }) => {
             >
               CONTACT
             </Link>
+
+            <div className="flex items-center">
+              <LanguageSelector />
+            </div>
           </div>
         </nav>
 

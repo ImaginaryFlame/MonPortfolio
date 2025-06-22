@@ -1,94 +1,138 @@
+import { localizedField, localizedRequiredField, localizedArrayField } from './utils/localization';
+
 const univers = {
   name: 'univers',
   title: 'Univers',
   type: 'document',
   fields: [
-    {
+    localizedRequiredField({
       name: 'nom',
       type: 'string',
-      title: 'Nom de l\'univers',
-      validation: Rule => Rule.required()
-    },
-    {
+      title: 'Nom de l\'univers'
+    }),
+    localizedField({
       name: 'description',
       type: 'text',
       title: 'Description générale',
       rows: 4
-    },
-    {
+    }),
+    localizedArrayField({
       name: 'genres',
       title: 'Genres de l\'univers',
       type: 'array',
-      of: [{type: 'string'}],
+      of: [{ type: 'string' }],
       options: {
         list: [
           // Fantasy et dérivés
-          {title: 'Fantasy', value: 'fantasy'},
-          {title: 'High Fantasy', value: 'high_fantasy'},
-          {title: 'Low Fantasy', value: 'low_fantasy'},
-          {title: 'Dark Fantasy', value: 'dark_fantasy'},
-          {title: 'Fantasy contemporaine', value: 'contemporary_fantasy'},
-          {title: 'Urban Fantasy', value: 'urban_fantasy'},
-          {title: 'Fantasy historique', value: 'historical_fantasy'},
-          {title: 'Fantasy romantique', value: 'romantic_fantasy'},
-          {title: 'Fantasy épique', value: 'epic_fantasy'},
+          { title: 'Fantasy', value: 'fantasy' },
+          { title: 'High Fantasy', value: 'high_fantasy' },
+          { title: 'Low Fantasy', value: 'low_fantasy' },
+          { title: 'Dark Fantasy', value: 'dark_fantasy' },
+          { title: 'Fantasy contemporaine', value: 'contemporary_fantasy' },
+          { title: 'Urban Fantasy', value: 'urban_fantasy' },
+          { title: 'Fantasy historique', value: 'historical_fantasy' },
+          { title: 'Fantasy romantique', value: 'romantic_fantasy' },
+          { title: 'Fantasy épique', value: 'epic_fantasy' },
           
           // Science-Fiction et dérivés
-          {title: 'Science-Fiction', value: 'science_fiction'},
-          {title: 'Space Opera', value: 'space_opera'},
-          {title: 'Science-Fantasy', value: 'science_fantasy'},
-          {title: 'Cyberpunk', value: 'cyberpunk'},
-          {title: 'Steampunk', value: 'steampunk'},
-          {title: 'Biopunk', value: 'biopunk'},
-          {title: 'Post-apocalyptique', value: 'post_apocalyptic'},
-          {title: 'Dystopie', value: 'dystopia'},
-          {title: 'Utopie', value: 'utopia'},
+          { title: 'Science-Fiction', value: 'science_fiction' },
+          { title: 'Space Opera', value: 'space_opera' },
+          { title: 'Science-Fantasy', value: 'science_fantasy' },
+          { title: 'Cyberpunk', value: 'cyberpunk' },
+          { title: 'Steampunk', value: 'steampunk' },
+          { title: 'Biopunk', value: 'biopunk' },
+          { title: 'Post-apocalyptique', value: 'post_apocalyptic' },
+          { title: 'Dystopie', value: 'dystopia' },
+          { title: 'Utopie', value: 'utopia' },
           
           // Fantastique et Surnaturel
-          {title: 'Fantastique', value: 'fantastique'},
-          {title: 'Paranormal', value: 'paranormal'},
-          {title: 'Gothique', value: 'gothic'},
-          {title: 'Mythologie', value: 'mythology'},
-          {title: 'Folklore', value: 'folklore'},
-          {title: 'Contes de fées', value: 'fairy_tales'},
-          {title: 'Légendes', value: 'legends'},
+          { title: 'Fantastique', value: 'fantastique' },
+          { title: 'Paranormal', value: 'paranormal' },
+          { title: 'Gothique', value: 'gothic' },
+          { title: 'Mythologie', value: 'mythology' },
+          { title: 'Folklore', value: 'folklore' },
+          { title: 'Contes de fées', value: 'fairy_tales' },
+          { title: 'Légendes', value: 'legends' },
           
           // Action et Aventure
-          {title: 'Aventure', value: 'adventure'},
-          {title: 'Action-Aventure', value: 'action_adventure'},
-          {title: 'Super-héros', value: 'superhero'},
-          {title: 'Arts martiaux', value: 'martial_arts'},
-          {title: 'Exploration', value: 'exploration'},
+          { title: 'Aventure', value: 'adventure' },
+          { title: 'Action-Aventure', value: 'action_adventure' },
+          { title: 'Super-héros', value: 'superhero' },
+          { title: 'Arts martiaux', value: 'martial_arts' },
+          { title: 'Exploration', value: 'exploration' },
           
           // Thriller et Horror
-          {title: 'Thriller', value: 'thriller'},
-          {title: 'Thriller psychologique', value: 'psychological_thriller'},
-          {title: 'Horreur', value: 'horror'},
-          {title: 'Horreur psychologique', value: 'psychological_horror'},
-          {title: 'Survival Horror', value: 'survival_horror'},
-          {title: 'Mystère', value: 'mystery'},
-          {title: 'Crime', value: 'crime'},
+          { title: 'Thriller', value: 'thriller' },
+          { title: 'Thriller psychologique', value: 'psychological_thriller' },
+          { title: 'Horreur', value: 'horror' },
+          { title: 'Horreur psychologique', value: 'psychological_horror' },
+          { title: 'Survival Horror', value: 'survival_horror' },
+          { title: 'Mystère', value: 'mystery' },
+          { title: 'Crime', value: 'crime' },
           
           // Drama et Romance
-          {title: 'Drame', value: 'drama'},
-          {title: 'Romance', value: 'romance'},
-          {title: 'Tragédie', value: 'tragedy'},
-          {title: 'Mélodrame', value: 'melodrama'},
-          {title: 'Saga familiale', value: 'family_saga'},
+          { title: 'Drame', value: 'drama' },
+          { title: 'Romance', value: 'romance' },
+          { title: 'Tragédie', value: 'tragedy' },
+          { title: 'Mélodrame', value: 'melodrama' },
+          { title: 'Saga familiale', value: 'family_saga' },
           
           // Autres genres
-          {title: 'Historique', value: 'historical'},
-          {title: 'Contemporain', value: 'contemporary'},
-          {title: 'Comédie', value: 'comedy'},
-          {title: 'Satire', value: 'satire'},
-          {title: 'Expérimental', value: 'experimental'},
-          {title: 'Slice of Life', value: 'slice_of_life'},
-          {title: 'Young Adult', value: 'young_adult'},
-          {title: 'New Adult', value: 'new_adult'},
-          {title: 'Autre', value: 'other'}
-        ],
-      },
-    },
+          { title: 'Historique', value: 'historical' },
+          { title: 'Contemporain', value: 'contemporary' },
+          { title: 'Comédie', value: 'comedy' },
+          { title: 'Satire', value: 'satire' },
+          { title: 'Expérimental', value: 'experimental' },
+          { title: 'Slice of Life', value: 'slice_of_life' },
+          { title: 'Young Adult', value: 'young_adult' },
+          { title: 'New Adult', value: 'new_adult' },
+          { title: 'Autre', value: 'other' }
+        ]
+      }
+    }),
+    localizedField({
+      name: 'tonalite',
+      type: 'string',
+      title: 'Tonalité générale',
+      options: {
+        list: [
+          { title: 'Sombre', value: 'sombre' },
+          { title: 'Léger', value: 'leger' },
+          { title: 'Dramatique', value: 'dramatique' },
+          { title: 'Humoristique', value: 'humoristique' },
+          { title: 'Épique', value: 'epique' },
+          { title: 'Mélancolique', value: 'melancolique' },
+          { title: 'Mystérieux', value: 'mysterieux' }
+        ]
+      }
+    }),
+    localizedField({
+      name: 'themes',
+      type: 'array',
+      title: 'Thèmes principaux',
+      of: [{ type: 'string' }]
+    }),
+    localizedField({
+      name: 'conceptsCles',
+      type: 'array',
+      title: 'Concepts clés',
+      of: [{
+        type: 'object',
+        fields: [
+          {
+            name: 'nom',
+            type: 'string',
+            title: 'Nom du concept'
+          },
+          {
+            name: 'description',
+            type: 'text',
+            title: 'Description',
+            rows: 2
+          }
+        ]
+      }]
+    }),
     {
       name: 'regions',
       type: 'array',
@@ -243,17 +287,14 @@ const univers = {
   ],
   preview: {
     select: {
-      title: 'nom',
-      genres: 'genres',
-      media: 'image'
+      title: 'nom.fr',
+      subtitle: 'description.fr'
     },
     prepare(selection) {
-      const {title, genres, media} = selection;
-      const displayGenres = genres && genres.length > 0 ? genres.join(', ') : 'Genre non spécifié';
+      const { title, subtitle } = selection;
       return {
-        title: title,
-        subtitle: displayGenres,
-        media: media
+        title: title || 'Sans nom',
+        subtitle: subtitle
       };
     }
   }

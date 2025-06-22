@@ -2,6 +2,7 @@ import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
+import { i18nConfig } from './config/languages'
 
 export default defineConfig({
   name: 'default',
@@ -32,5 +33,17 @@ export default defineConfig({
     allowCredentials: true,
     allowHeaders: ['Authorization', 'Content-Type'],
     allowMethods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+  },
+
+  i18n: i18nConfig,
+
+  document: {
+    productionUrl: async (prev, context) => {
+      const { document } = context;
+      if (!document._id) return prev;
+      
+      const baseUrl = process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:3003';
+      return `${baseUrl}/${document._type}/${document._id}`;
+    },
   }
 })
