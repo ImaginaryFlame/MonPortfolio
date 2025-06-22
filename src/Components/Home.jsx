@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Footer from './Footer';
 import Projects from './Projects';
 import { fetchProjects, urlFor } from '../config/sanityClient';
+import { useLanguage } from '../hooks/useLanguage.jsx';
 
 // Configuration des thèmes avec leurs couleurs adaptées
 const themes = [
@@ -64,9 +65,11 @@ export const ThemeContext = React.createContext();
 
 // Section Compétences
 const SkillsSection = ({ theme }) => {
+  const { t } = useLanguage();
+  
   const skills = [
     {
-      category: "Développement",
+      category: t('skills.categories.development'),
       icon: "💻",
       items: [
         { name: "JavaScript", level: 45 },
@@ -77,7 +80,7 @@ const SkillsSection = ({ theme }) => {
       ]
     },
     {
-      category: "Design & Animation",
+      category: t('skills.categories.design'),
       icon: "🎨",
       items: [
         { name: "Blender", level: 40 },
@@ -88,7 +91,7 @@ const SkillsSection = ({ theme }) => {
       ]
     },
     {
-      category: "Création de Contenu",
+      category: t('skills.categories.content'),
       icon: "📹",
       items: [
         { name: "DaVinci Resolve", level: 40 },
@@ -99,7 +102,7 @@ const SkillsSection = ({ theme }) => {
       ]
     },
     {
-      category: "Outils & Workflow",
+      category: t('skills.categories.tools'),
       icon: "⚙️",
       items: [
         { name: "Git", level: 30 },
@@ -124,10 +127,10 @@ const SkillsSection = ({ theme }) => {
         {/* Titre de section */}
         <div className="text-center mb-16">
           <h2 className="text-5xl font-bold text-white mb-6 drop-shadow-2xl">
-            Compétences & Expertise
+            {t('skills.title')}
           </h2>
           <p className="text-xl text-gray-200 max-w-3xl mx-auto drop-shadow-lg">
-            Un aperçu de mes compétences techniques et créatives développées au fil de mes projets
+            {t('skills.description')}
           </p>
         </div>
 
@@ -172,10 +175,10 @@ const SkillsSection = ({ theme }) => {
         {/* Stats générales */}
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
-            { number: "1+", label: "Année d'expérience" },
-            { number: "3+", label: "Projets réalisés" },
-            { number: "4", label: "Univers créés" },
-            { number: "∞", label: "Passion créative" }
+            { number: "1+", label: t('skills.stats.experience') },
+            { number: "3+", label: t('skills.stats.projects') },
+            { number: "4", label: t('skills.stats.universes') },
+            { number: "∞", label: t('skills.stats.passion') }
           ].map((stat, index) => (
             <div key={stat.label} className="text-center">
               <div className="text-4xl md:text-5xl font-bold text-white mb-2 drop-shadow-lg">
@@ -194,6 +197,7 @@ const SkillsSection = ({ theme }) => {
 
 // Nouvelle section de galerie avec vrais projets Sanity
 const ProjectGallery = ({ theme }) => {
+  const { t } = useLanguage();
   const scrollRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -275,11 +279,11 @@ const ProjectGallery = ({ theme }) => {
   const getCategoryLabel = (category) => {
     switch (category) {
       case 'arts':
-        return 'Arts Visuels & Narratifs';
+        return t('gallery.categories.arts');
       case 'dev':
-        return 'Développement & Tech';
+        return t('gallery.categories.dev');
       case 'video':
-        return 'Vidéaste';
+        return t('gallery.categories.video');
       default:
         return category;
     }
@@ -315,11 +319,10 @@ const ProjectGallery = ({ theme }) => {
         <div className="max-w-7xl mx-auto px-8 mb-12">
           <div className="text-center">
             <h2 className="text-5xl font-bold text-white mb-6 drop-shadow-2xl">
-              Galerie Interactive
+              {t('gallery.title')}
             </h2>
             <p className="text-xl text-gray-200 max-w-3xl mx-auto drop-shadow-lg">
-              Explorez mes créations - projets, designs et univers créatifs. 
-              Découvrez un aperçu aléatoire de mon travail qui change à chaque visite.
+              {t('gallery.description')}
             </p>
           </div>
         </div>
@@ -427,7 +430,7 @@ const ProjectGallery = ({ theme }) => {
                     {/* Flèche d'action */}
                     <div className="flex items-center justify-between">
                       <div className="text-gray-300 text-sm">
-                        Cliquez pour explorer
+                        {t('gallery.clickToExplore')}
                       </div>
                       <div className="transform transition-transform duration-300 group-hover:translate-x-1">
                         <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -453,7 +456,7 @@ const ProjectGallery = ({ theme }) => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
                       d="M7 16l-4-4m0 0l4-4m-4 4h18" />
               </svg>
-              Faites glisser pour explorer plus de projets • Actualisez pour voir d'autres créations
+              {t('gallery.scrollInstructions')}
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
                       d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -471,9 +474,10 @@ const ProjectGallery = ({ theme }) => {
 
 
 const Banner = ({ theme }) => {
+  const { t } = useLanguage();
   const [loopNum, setLoopNum] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
-  const toRotate = ["Web Développeur", "Web Designer", "UI/UX Designer", "Youtubeur", "Streamer", "Game Developer", "Prince d'Angola", "Héros à mi-temps", "Écrivain", "Scénariste", "Tiktoker", "Twittos", "Animateur 2D/3D"];
+  const toRotate = t('banner.roles');
   const [text, setText] = useState('');
   const [delta, setDelta] = useState(300 - Math.random() * 100);
   const period = 2000;
@@ -518,43 +522,43 @@ const Banner = ({ theme }) => {
         ></div>
       <div className="absolute inset-0 bg-black/40"></div>
       
-      <div className="relative z-10 max-w-6xl mx-auto px-8 text-center">
-        <div className="mb-8">
-          <span className="text-xl font-medium drop-shadow-lg transition-colors duration-500" style={{ color: '#E0E0E0', textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>
-            BIENVENUE DANS MON UNIVERS !
-          </span>
+              <div className="relative z-10 max-w-6xl mx-auto px-8 text-center">
+          <div className="mb-8">
+           <span className="text-xl font-medium drop-shadow-lg transition-colors duration-500" style={{ color: '#E0E0E0', textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>
+             {t('banner.welcome')}
+           </span>
+         </div>
+         
+         <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight drop-shadow-2xl" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>
+           {t('banner.greeting')}
+           <br />
+           <span className={`text-${theme.colors.secondary} border-r-2 border-${theme.colors.secondary} animate-pulse drop-shadow-lg transition-colors duration-500`} style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>
+             {text}
+           </span>
+         </h1>
+         
+         <p className="text-xl max-w-3xl mx-auto mb-12 leading-relaxed text-gray-200 drop-shadow-lg" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>
+           {t('banner.description')}
+         </p>
+         
+         <button 
+           onClick={() => document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' })}
+           className="group flex flex-col items-center gap-2 px-12 py-2 bg-gradient-to-r from-violet-600 via-purple-600 to-blue-500 
+                    text-white rounded-full font-semibold text-lg transition-all duration-300 
+                    hover:from-violet-700 hover:via-purple-700 hover:to-blue-600
+                    hover:shadow-xl hover:shadow-purple-500/25 hover:scale-105
+                    drop-shadow-lg mx-auto"
+         >
+           <span>{t('banner.cta')}</span>
+           <span className="flex justify-center">
+             {/* Flèche minimaliste blanche, style V épais, non remplie */}
+             <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" 
+                  className="transform transition-all duration-300 group-hover:scale-150 animate-bounce">
+               <polyline points="8,14 18,26 28,14" stroke="#fff" strokeWidth="4" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+             </svg>
+           </span>
+         </button>
         </div>
-        
-        <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight drop-shadow-2xl" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>
-          Salut, je suis
-          <br />
-          <span className={`text-${theme.colors.secondary} border-r-2 border-${theme.colors.secondary} animate-pulse drop-shadow-lg transition-colors duration-500`} style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>
-            {text}
-          </span>
-        </h1>
-        
-        <p className="text-xl max-w-3xl mx-auto mb-12 leading-relaxed text-gray-200 drop-shadow-lg" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>
-          Créateur passionné, je donne vie à mes idées à travers le code et le dessin. Explorez mon univers créatif et découvrez mes projets !!
-        </p>
-        
-        <button 
-          onClick={() => document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' })}
-          className="group flex flex-col items-center gap-2 px-12 py-2 bg-gradient-to-r from-violet-600 via-purple-600 to-blue-500 
-                   text-white rounded-full font-semibold text-lg transition-all duration-300 
-                   hover:from-violet-700 hover:via-purple-700 hover:to-blue-600
-                   hover:shadow-xl hover:shadow-purple-500/25 hover:scale-105
-                   drop-shadow-lg mx-auto"
-        >
-          <span>EXPLOREZ MON MONDE</span>
-          <span className="flex justify-center">
-            {/* Flèche minimaliste blanche, style V épais, non remplie */}
-            <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" 
-                 className="transform transition-all duration-300 group-hover:scale-150 animate-bounce">
-              <polyline points="8,14 18,26 28,14" stroke="#fff" strokeWidth="4" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </span>
-        </button>
-      </div>
     </section>
   );
 };

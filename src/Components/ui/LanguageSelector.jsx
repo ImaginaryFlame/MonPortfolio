@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useLanguage } from '../../hooks/useLanguage.jsx';
 
 function LanguageSelector() {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState('FR');
   const dropdownRef = useRef(null);
+  const { currentLanguage, changeLanguage, t } = useLanguage();
 
   const languages = [
     { 
-      code: 'FR', 
-      name: 'Français', 
+      code: 'fr', 
+      name: t('language.french'), 
       flag: (
         <svg width="16" height="12" viewBox="0 0 3 2" className="inline-block">
           <rect width="1" height="2" fill="#002654"/>
@@ -18,8 +19,8 @@ function LanguageSelector() {
       )
     },
     { 
-      code: 'EN', 
-      name: 'English', 
+      code: 'en', 
+      name: t('language.english'), 
       flag: (
         <svg width="16" height="10" viewBox="0 0 60 30" className="inline-block">
           <clipPath id="t">
@@ -34,8 +35,8 @@ function LanguageSelector() {
       )
     },
     { 
-      code: 'PT', 
-      name: 'Português', 
+      code: 'pt', 
+      name: t('language.portuguese'), 
       flag: (
         <svg width="16" height="11" viewBox="0 0 3 2" className="inline-block">
           <rect width="3" height="2" fill="#FF0000"/>
@@ -44,8 +45,8 @@ function LanguageSelector() {
       )
     },
     { 
-      code: 'JP', 
-      name: '日本語', 
+      code: 'ja', 
+      name: t('language.japanese'), 
       flag: (
         <svg width="16" height="11" viewBox="0 0 3 2" className="inline-block">
           <rect width="3" height="2" fill="#FFFFFF"/>
@@ -70,22 +71,21 @@ function LanguageSelector() {
   }, []);
 
   const handleLanguageChange = (language) => {
-    setSelectedLanguage(language.code);
+    changeLanguage(language.code);
     setIsOpen(false);
-    console.log(`Langue changée vers: ${language.name}`);
   };
 
-  const currentLanguage = languages.find(lang => lang.code === selectedLanguage);
+  const currentLang = languages.find(lang => lang.code === currentLanguage);
 
   return (
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="px-3 py-2 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-500 ease-out hover:transform hover:scale-105 hover:shadow-lg shadow-lg flex items-center justify-center"
-        title={`Langue: ${currentLanguage?.name}`}
+        title={`${t('language.french')}: ${currentLang?.name}`}
       >
         <span className="flex items-center justify-center">
-          {currentLanguage?.flag}
+          {currentLang?.flag}
         </span>
       </button>
 
@@ -103,7 +103,7 @@ function LanguageSelector() {
               key={language.code}
               onClick={() => handleLanguageChange(language)}
               className={`w-full flex items-center space-x-3 px-4 py-3 text-left transition-all duration-300 ease-out hover:bg-gradient-to-r hover:from-orange-600/90 hover:to-red-600/90 ${
-                selectedLanguage === language.code
+                currentLanguage === language.code
                   ? 'bg-gradient-to-r from-orange-500/80 to-red-500/80 text-white'
                   : 'text-white hover:text-white'
               }`}
@@ -113,9 +113,9 @@ function LanguageSelector() {
               </span>
               <div className="flex flex-col">
                 <span className="font-semibold text-sm">{language.name}</span>
-                <span className="text-xs opacity-75">{language.code}</span>
+                <span className="text-xs opacity-75">{language.code.toUpperCase()}</span>
               </div>
-              {selectedLanguage === language.code && (
+              {currentLanguage === language.code && (
                 <span className="ml-auto text-orange-400">✓</span>
               )}
             </button>

@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import LanguageSelector from './ui/LanguageSelector';
+import { useLanguage } from '../hooks/useLanguage.jsx';
 
 const Navbar = ({ theme }) => {
+  const { t } = useLanguage();
   const [isPortailsOpen, setIsPortailsOpen] = useState(false);
   const [portailType, setPortailType] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -142,7 +144,7 @@ const Navbar = ({ theme }) => {
 
   const menuItems = {
     narratif: {
-      title: "LES UNIVERS DE FLAME",
+      title: t('navbar.narrativeUniverses'),
       items: [
         { 
           name: "LE HEROS A LA FLAMME IMAGINAIRE", 
@@ -201,7 +203,7 @@ const Navbar = ({ theme }) => {
       ]
     },
     labo: {
-      title: "LABO DE FLAME",
+      title: t('navbar.flameLab'),
       items: [
         { 
           name: "Design & Interface", 
@@ -229,7 +231,7 @@ const Navbar = ({ theme }) => {
       ]
     },
     studio: {
-      title: "LE STUDIO DE FLAME",
+      title: t('navbar.flameStudio'),
       items: [
         { 
           name: "Contenu Vidéo", 
@@ -258,7 +260,7 @@ const Navbar = ({ theme }) => {
       ]
     },
     atelier: {
-      title: "ATELIER DE FLAME",
+      title: t('navbar.flameAtelier'),
       items: [
         { 
           name: "Art Traditionnel", 
@@ -323,14 +325,14 @@ const Navbar = ({ theme }) => {
               href="/" 
               className="px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-500 ease-out hover:transform hover:scale-105 hover:shadow-lg text-sm uppercase tracking-wide shadow-lg"
             >
-              HOME
+              {t('navbar.home')}
             </a>
             
             <a 
               href="/about" 
               className="px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-500 ease-out hover:transform hover:scale-105 hover:shadow-lg text-sm uppercase tracking-wide shadow-lg"
             >
-              A PROPOS DE MOI
+              {t('navbar.about')}
             </a>
 
             <div className="relative">
@@ -340,7 +342,7 @@ const Navbar = ({ theme }) => {
                   isPortailsOpen ? 'scale-105 shadow-xl from-orange-500 to-red-600' : ''
                 }`}
               >
-                PORTAILS DE CRÉATION
+                {t('navbar.portals')}
               </button>
 
               {/* Menu principal avec animations améliorées */}
@@ -467,7 +469,7 @@ const Navbar = ({ theme }) => {
               to="/contact" 
               className="px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-500 ease-out hover:transform hover:scale-105 hover:shadow-lg text-sm uppercase tracking-wide shadow-lg"
             >
-              CONTACT
+              {t('navbar.contact')}
             </Link>
 
             <div className="flex items-center">

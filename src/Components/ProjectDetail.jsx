@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { client, urlFor } from '../config/sanityClient';
 import { Link } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
 
 export default function ProjectDetail() {
   const [projectData, setProjectData] = useState(null);
@@ -47,7 +46,9 @@ export default function ProjectDetail() {
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
         <Link to="/projects" className="inline-flex items-center text-purple-400 hover:text-purple-300 mb-8 transition-colors">
-          <ArrowLeft className="mr-2" />
+          <svg className="mr-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
           Retour aux projets
         </Link>
 

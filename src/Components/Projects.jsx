@@ -6,8 +6,10 @@ import {
   fetchProjectsBySubcategory,
   urlFor 
 } from '../config/sanityClient';
+import { useLanguage } from '../hooks/useLanguage.jsx';
 
 const Projects = () => {
+  const { t } = useLanguage();
   const [allProjects, setAllProjects] = useState([]);
   const [filteredProjects, setFilteredProjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -102,20 +104,20 @@ const Projects = () => {
         {/* Titre de la section */}
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Mes Projets
+            {t('projects.title')}
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Découvrez mes différentes créations à travers ces trois domaines d'expertise
+            {t('projects.description')}
           </p>
         </div>
 
         {loading ? (
           <div className="text-center text-white text-xl">
-            Chargement des projets...
+            {t('projects.loading')}
           </div>
         ) : error ? (
           <div className="text-center text-red-400 text-xl">
-            Erreur: {error}
+            {t('projects.error')}: {error}
           </div>
         ) : (
           <div>
@@ -131,7 +133,7 @@ const Projects = () => {
                       : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
                   }`}
                 >
-                  Tous les projets
+                  {t('projects.allProjects')}
                 </button>
 
                 {/* Boutons des catégories */}
@@ -147,9 +149,9 @@ const Projects = () => {
                               : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
                           }`}
                         >
-                          {category === 'arts' && 'Arts Visuels & Narratifs'}
-                          {category === 'dev' && 'Développement & Tech'}
-                          {category === 'video' && 'Vidéaste'}
+                          {category === 'arts' && t('projects.categories.arts')}
+                          {category === 'dev' && t('projects.categories.dev')}
+                          {category === 'video' && t('projects.categories.video')}
                         </button>
                         
                         {/* Menu déroulant avec Tailwind hover */}
@@ -159,7 +161,7 @@ const Projects = () => {
                               onClick={() => handleSubCategorySelect('all')}
                               className={`w-full text-left px-4 py-2 text-white hover:bg-gray-700/70 transition-colors ${activeSubCategory === 'all' ? 'bg-gray-700/50' : ''}`}
                             >
-                              Toutes les sous-catégories
+                              {t('projects.allSubcategories')}
                             </button>
                             <div className="border-t border-gray-600/50 my-1"></div>
                             {subCategories.map(subCat => (
@@ -182,10 +184,10 @@ const Projects = () => {
                             ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg transform scale-105'
                             : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
                         }`}
-                      >
-                        {category === 'arts' && 'Arts Visuels & Narratifs'}
-                        {category === 'dev' && 'Développement & Tech'}
-                        {category === 'video' && 'Vidéaste'}
+                                              >
+                        {category === 'arts' && t('projects.categories.arts')}
+                        {category === 'dev' && t('projects.categories.dev')}
+                        {category === 'video' && t('projects.categories.video')}
                       </button>
                     )}
                   </div>
@@ -250,7 +252,7 @@ const Projects = () => {
               {filteredProjects.length === 0 && (
                 <div className="col-span-full text-center py-12">
                   <div className="text-gray-400 text-xl">
-                    Aucun projet trouvé dans cette catégorie
+                    {t('projects.noProjects')}
                   </div>
                 </div>
               )}

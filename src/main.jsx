@@ -14,6 +14,7 @@ import {
   faDiscord 
 } from '@fortawesome/free-brands-svg-icons'
 import { faPencil } from '@fortawesome/free-solid-svg-icons'
+import { LanguageProvider } from './hooks/useLanguage.jsx'
 
 // Ajout des icônes à la bibliothèque
 library.add(
@@ -30,6 +31,8 @@ library.add(
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    <LanguageProvider>
+      <App />
+    </LanguageProvider>
   </React.StrictMode>,
 )
