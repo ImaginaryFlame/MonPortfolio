@@ -1,33 +1,37 @@
-import project from './project'
-import subcategory from './subcategory'
-import personnage from './personnage'
 import univers from './univers'
-import race from './race'
-import objet from './objet'
-import faction from './faction'
 import region from './region'
-import evenement from './evenement'
-import creature from './creature'
-import celebration from './celebrations'
+import race from './race'
+import personnage from './personnage'
+import faction from './faction'
 import famille from './famille'
-import conceptMetaphysique from './conceptmetaphysique'
+import project from './project'
+import aboutPage from './aboutPage'
+import bestiaires from './bestiaires'
+import systemeEsoterique from './systemeEsoterique'
+import subcategory from './subcategory'
+import objet from './objet'
+import celebrations from './celebrations'
+import conceptmetaphysique from './conceptmetaphysique'
 import dogmeReligieux from './dogmeReligieux'
+import evenement from './evenement'
 import traditionAncestrale from './traditionAncestrale'
 
 export const schemaTypes = [
-  project, 
-  subcategory, 
-  personnage, 
-  univers, 
-  race, 
-  objet, 
-  faction, 
-  region, 
-  evenement, 
-  creature, 
-  celebration, 
-  famille, 
-  conceptMetaphysique,
+  univers,
+  region,
+  race,
+  personnage,
+  faction,
+  famille,
+  project,
+  aboutPage,
+  bestiaires,
+  systemeEsoterique,
+  subcategory,
+  objet,
+  celebrations,
+  conceptmetaphysique,
   dogmeReligieux,
-  traditionAncestrale,
+  evenement,
+  traditionAncestrale
 ]

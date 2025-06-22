@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 const Navbar = ({ theme }) => {
   const [isPortailsOpen, setIsPortailsOpen] = useState(false);
@@ -144,18 +145,18 @@ const Navbar = ({ theme }) => {
       items: [
         { 
           name: "LE HEROS A LA FLAMME IMAGINAIRE", 
-          path: "/creation/univers-narratifs/heros-flamme",
+          path: "/creation/univers-narratifs/flamme-imaginaire",
           subItems: [
-            { name: "Personnages", path: "/creation/univers-narratifs/heros-flamme/personnages" },
-            { name: "Régions du monde & Lieux", path: "/creation/univers-narratifs/heros-flamme/regions-lieux" },
-            { name: "Objets", path: "/creation/univers-narratifs/heros-flamme/objets" },
-            { name: "Factions", path: "/creation/univers-narratifs/heros-flamme/factions" },
-            { name: "Races", path: "/creation/univers-narratifs/heros-flamme/races" },
-            { name: "Évènements historiques", path: "/creation/univers-narratifs/heros-flamme/evenements-historiques" },
-            { name: "Bestiaires", path: "/creation/univers-narratifs/heros-flamme/especes-non-intelligentes" },
-            { name: "Célébrations et fêtes", path: "/creation/univers-narratifs/heros-flamme/celebrations-fetes" },
-            { name: "Cosmogonies", path: "/creation/univers-narratifs/heros-flamme/cosmogonies" },
-            { name: "Moodboard", path: "/creation/univers-narratifs/heros-flamme/moodboard" }
+            { name: "Personnages", path: "/creation/univers-narratifs/flamme-imaginaire/personnages" },
+            { name: "Régions du monde & Lieux", path: "/creation/univers-narratifs/flamme-imaginaire/regions-lieux" },
+            { name: "Objets", path: "/creation/univers-narratifs/flamme-imaginaire/objets" },
+            { name: "Concepts", path: "/creation/univers-narratifs/flamme-imaginaire/concepts" },
+            { name: "Factions", path: "/creation/univers-narratifs/flamme-imaginaire/factions" },
+            { name: "Créatures", path: "/creation/univers-narratifs/flamme-imaginaire/creatures" },
+            { name: "Évènements", path: "/creation/univers-narratifs/flamme-imaginaire/evenements" },
+            { name: "Dogmes", path: "/creation/univers-narratifs/flamme-imaginaire/dogmes" },
+            { name: "Traditions", path: "/creation/univers-narratifs/flamme-imaginaire/traditions" },
+            { name: "Célébrations", path: "/creation/univers-narratifs/flamme-imaginaire/celebrations" }
           ]
         },
         { 
@@ -407,15 +408,15 @@ const Navbar = ({ theme }) => {
                           }}
                         >
                           {item.subItems ? (
-                            <a
-                              href={item.path}
+                            <Link
+                              to={item.path}
                               className="text-left px-6 py-3 rounded-lg font-medium transition-all duration-500 ease-out shadow-lg w-full border bg-gradient-to-r from-orange-500/95 to-red-600/95 text-white hover:from-blue-700/95 hover:to-blue-500/95 border-orange-400 hover:transform hover:-translate-y-1 hover:shadow-lg flex items-center justify-between"
                               onMouseEnter={() => handleMouseEnter(index)}
                               onMouseLeave={handleMouseLeave}
                             >
                               <span className="text-sm font-semibold">{item.name}</span>
                               <span className={`transition-transform duration-500 ease-out ${selectedItem === index ? 'rotate-90' : ''}`}>▶</span>
-                            </a>
+                            </Link>
                           ) : (
                             <a
                               href={item.path}
@@ -441,9 +442,9 @@ const Navbar = ({ theme }) => {
                         onMouseLeave={handleMouseLeave}
                       >
                         {menuItems[portailType].items[selectedItem].subItems.map((subItem, subIndex) => (
-                          <a
+                          <Link
                             key={`${animationKey}-${subIndex}`}
-                            href={subItem.path}
+                            to={subItem.path}
                             className="bg-gradient-to-r from-yellow-400/95 to-orange-500/95 text-gray-900 text-left px-4 py-3 rounded-lg font-semibold hover:from-blue-400/95 hover:to-blue-600/95 hover:text-white shadow-md text-sm border border-yellow-300 hover:transform hover:-translate-y-1 hover:shadow-lg"
                             style={{ 
                               animation: `submenuItemAppear 0.2s ease-out ${subIndex * 30}ms forwards`,
@@ -452,7 +453,7 @@ const Navbar = ({ theme }) => {
                             }}
                           >
                             {subItem.name}
-                          </a>
+                          </Link>
                         ))}
                       </div>
                     )}
@@ -461,12 +462,12 @@ const Navbar = ({ theme }) => {
               </div>
             </div>
 
-            <a 
-              href="/contact" 
+            <Link 
+              to="/contact" 
               className="px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-500 ease-out hover:transform hover:scale-105 hover:shadow-lg text-sm uppercase tracking-wide shadow-lg"
             >
               CONTACT
-            </a>
+            </Link>
           </div>
         </nav>
 
@@ -482,63 +483,6 @@ const Navbar = ({ theme }) => {
           />
         )}
       </div>
-
-      <style jsx>{`
-        @keyframes fadeSlideIn {
-          from {
-            opacity: 0;
-            transform: translateY(10px) scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
-        }
-
-        @keyframes fadeSlideOut {
-          from {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
-          to {
-            opacity: 0;
-            transform: translateY(-10px) scale(0.95);
-          }
-        }
-
-        @keyframes menuAppear {
-          0% {
-            opacity: 0;
-            transform: translateX(20px) scale(0.95);
-          }
-          100% {
-            opacity: 1;
-            transform: translateX(0) scale(1);
-          }
-        }
-
-        @keyframes submenuItemAppear {
-          0% {
-            opacity: 0;
-            transform: translateY(20px) scale(0.95);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
-        }
-
-        @keyframes submenuItemDisappear {
-          0% {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
-          100% {
-            opacity: 0;
-            transform: translateY(20px) scale(0.95);
-          }
-        }
-      `}</style>
     </div>
   );
 };

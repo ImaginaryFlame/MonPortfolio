@@ -91,7 +91,7 @@ const evenement = {
         {
           type: 'reference',
           to: [
-            {type: 'objet'},
+            {type: 'object'},
             {type: 'conceptMetaphysique'}
           ]
         }

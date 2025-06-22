@@ -1,0 +1,98 @@
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { client } from '../../config/sanityClient';
+
+const LabDesign = ({ section }) => {
+  const [content, setContent] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const sections = {
+    'ui-ux': {
+      title: "UI/UX Design",
+      query: '*[_type == "project" && category == "ui-ux"]'
+    },
+    'prototypes': {
+      title: "Prototypes Interactifs",
+      query: '*[_type == "project" && category == "prototypes"]'
+    }
+  };
+
+  useEffect(() => {
+    if (section && sections[section]) {
+      setLoading(true);
+      client.fetch(sections[section].query)
+        .then(data => {
+          setContent(data);
+          setLoading(false);
+        })
+        .catch(error => {
+          console.error("Erreur lors du chargement des données:", error);
+          setLoading(false);
+        });
+    }
+  }, [section]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white p-8 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-cyan-500"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white p-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex items-center mb-8">
+          <Link 
+            to="/creation/labo/design"
+            className="text-cyan-400 hover:text-cyan-300 mr-4"
+          >
+            ← Retour au Labo
+          </Link>
+          <h1 className="text-3xl md:text-4xl font-bold">
+            {sections[section]?.title || "Design & Interface"}
+          </h1>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {content && content.map((project) => (
+            <div 
+              key={project._id}
+              className="group relative overflow-hidden rounded-2xl border border-cyan-900/30 hover:border-cyan-500/50 transition-all duration-500"
+            >
+              {project.image && (
+                <div className="relative h-48">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60 z-10" />
+                  <img 
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover object-center transform group-hover:scale-110 transition-transform duration-500"
+                  />
+                </div>
+              )}
+              
+              <div className="p-6">
+                <h3 className="text-xl font-bold mb-2">{project.title}</h3>
+                <p className="text-gray-300 mb-4">{project.description}</p>
+                
+                {project.projectUrl && (
+                  <a 
+                    href={project.projectUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block px-4 py-2 bg-cyan-600 hover:bg-cyan-700 rounded-lg text-sm font-medium transition-colors duration-300"
+                  >
+                    Voir le projet
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default LabDesign; 

@@ -1,18 +1,23 @@
 export default {
-  name: "subcategory",
-  title: "Subcategory",
-  type: "document",
+  name: 'subcategory',
+  title: 'Sous-catégorie',
+  type: 'document',
   fields: [
     {
-      name: "name",
-      title: "Name",
-      type: "string",
+      name: 'title',
+      title: 'Titre',
+      type: 'string',
       validation: (Rule) => Rule.required(),
     },
     {
-      name: "mainCategory",
-      title: "Main Category",
-      type: "string",
+      name: 'description',
+      title: 'Description',
+      type: 'text',
+    },
+    {
+      name: 'parentCategory',
+      title: 'Catégorie parente',
+      type: 'string',
       options: {
         list: [
           { title: "Arts Visuels & Narratifs", value: "arts" },

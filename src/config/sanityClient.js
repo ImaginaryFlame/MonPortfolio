@@ -3,10 +3,12 @@ import imageUrlBuilder from '@sanity/image-url'
 
 // Configuration du client Sanity
 export const client = createClient({
-  projectId: import.meta.env.VITE_SANITY_PROJECT_ID, // Vous devrez ajouter ceci dans votre .env
+  projectId: import.meta.env.VITE_SANITY_PROJECT_ID,
   dataset: import.meta.env.VITE_SANITY_DATASET || 'production',
-  useCdn: true, // Utilise le CDN pour de meilleures performances
-  apiVersion: '2023-01-01', // Version de l'API Sanity
+  useCdn: true, // Activé pour de meilleures performances
+  apiVersion: '2023-01-01',
+  token: import.meta.env.VITE_SANITY_TOKEN,
+  ignoreBrowserTokenWarning: true // Pour éviter l'avertissement de token dans le navigateur
 })
 
 // Configuration pour les URLs d'images

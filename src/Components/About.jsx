@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/Components/ui/card";
 import { Sparkles, Code, Paintbrush2, Gamepad2, Flame } from "lucide-react";
 
 export default function AboutSection() {
@@ -12,7 +12,7 @@ export default function AboutSection() {
         <div className="flex flex-col lg:flex-row items-center gap-8 mb-8">
           <div className="lg:w-1/3">
             <img 
-              src="https://i.imgur.com/your-image-id.jpg" 
+              src="/assets/20220726_002242.webp"
               alt="Flame - Créateur transmédia" 
               className="w-full max-w-sm mx-auto rounded-lg shadow-2xl border-2 border-orange-500/30"
             />

@@ -1,4 +1,4 @@
-const personnage = {
+export default {
     name: 'personnage',
     title: '📋 Personnages',
     type: 'document',
@@ -107,110 +107,75 @@ const personnage = {
         title: 'Orientation sexuelle'
       },
       {
-        name: 'opinionsReligieuses',
+        name: 'relationsSimplifiees',
         type: 'array',
-        title: 'Opinions religieuses (évolution)',
-        description: 'Évolution des opinions religieuses au fil du récit',
+        title: 'Relations principales',
+        hidden: ({ document }) => document?.versionFiche !== 'ramifiee',
         of: [{
           type: 'object',
           fields: [
             {
-              name: 'periode',
+              name: 'personnage',
+              type: 'reference',
+              title: 'Personnage',
+              to: [{ type: 'personnage' }],
+              validation: Rule => Rule.required()
+            },
+            {
+              name: 'typeRelation',
               type: 'string',
-              title: 'Période/Moment',
-              description: 'À quel moment du récit cette opinion est-elle valable ?'
-            },
-            {
-              name: 'opinion',
-              type: 'text',
-              title: 'Opinion religieuse',
-              description: 'Description de l\'opinion religieuse à cette période'
-            },
-            {
-              name: 'raisonChangement',
-              type: 'text',
-              title: 'Raison du changement',
-              description: 'Qu\'est-ce qui a causé ce changement d\'opinion ?'
-            },
-            {
-              name: 'spoilerLevel',
-              type: 'string',
-              title: 'Niveau de spoiler',
+              title: 'Type de relation',
               options: {
                 list: [
-                  { title: 'Aucun spoiler', value: 'none' },
-                  { title: 'Spoiler léger', value: 'light' },
-                  { title: 'Spoiler moyen', value: 'medium' },
-                  { title: 'Spoiler majeur', value: 'major' }
+                  { title: 'Ami(e)', value: 'ami' },
+                  { title: 'Meilleur(e) ami(e)', value: 'meilleur_ami' },
+                  { title: 'Amour', value: 'amour' },
+                  { title: 'Famille', value: 'famille' },
+                  { title: 'Rival(e)', value: 'rival' },
+                  { title: 'Ennemi(e)', value: 'ennemi' },
+                  { title: 'Mentor', value: 'mentor' },
+                  { title: 'Élève', value: 'eleve' },
+                  { title: 'Allié(e)', value: 'allie' }
                 ]
-              },
-              initialValue: 'none'
+              }
             }
           ]
         }]
       },
       {
-        name: 'opinionsPolitiques',
-        type: 'array',
-        title: 'Opinions politiques (évolution) - Optionnel',
-        description: 'Évolution des opinions et engagements politiques au fil du récit (optionnel)',
-        of: [{
-          type: 'object',
-          fields: [
-            {
-              name: 'periode',
-              type: 'string',
-              title: 'Période/Moment',
-              description: 'À quel moment du récit cette opinion est-elle valable ?'
-            },
-            {
-              name: 'ideologiePolitique',
-              type: 'text',
-              title: 'Idéologie politique',
-              description: 'Description détaillée de l\'idéologie politique (conservateur, progressiste, anarchiste, monarchiste, républicain, socialiste, libéral, etc.)'
-            },
-            {
-              name: 'engagements',
-              type: 'array',
-              title: 'Engagements politiques',
-              description: 'Organisations, partis, mouvements auxquels le personnage adhère',
-              of: [{ type: 'string' }]
-            },
-            {
-              name: 'positionsSpecifiques',
-              type: 'array',
-              title: 'Positions spécifiques',
-              description: 'Positions sur des sujets politiques précis',
-              of: [{
-                type: 'object',
-                fields: [
-                  { name: 'sujet', type: 'string', title: 'Sujet politique' },
-                  { name: 'position', type: 'text', title: 'Position du personnage' }
-                ]
-              }]
-            },
-            {
-              name: 'raisonChangement',
-              type: 'text',
-              title: 'Raison du changement',
-              description: 'Qu\'est-ce qui a causé ce changement d\'opinion politique ?'
-            },
-            {
-              name: 'spoilerLevel',
-              type: 'string',
-              title: 'Niveau de spoiler',
-              options: {
-                list: [
-                  { title: 'Aucun spoiler', value: 'none' },
-                  { title: 'Spoiler léger', value: 'light' },
-                  { title: 'Spoiler moyen', value: 'medium' },
-                  { title: 'Spoiler majeur', value: 'major' }
-                ]
-              },
-              initialValue: 'none'
-            }
+        name: 'positionPolitique',
+        type: 'string',
+        title: 'Position politique',
+        hidden: ({ document }) => document?.versionFiche !== 'ramifiee',
+        options: {
+          list: [
+            { title: 'Extrême gauche', value: 'extreme_gauche' },
+            { title: 'Gauche', value: 'gauche' },
+            { title: 'Centre gauche', value: 'centre_gauche' },
+            { title: 'Centre', value: 'centre' },
+            { title: 'Centre droit', value: 'centre_droit' },
+            { title: 'Droite', value: 'droite' },
+            { title: 'Extrême droite', value: 'extreme_droite' },
+            { title: 'Anarchiste', value: 'anarchiste' },
+            { title: 'Apolitique', value: 'apolitique' }
           ]
-        }]
+        }
+      },
+      {
+        name: 'positionReligieuse',
+        type: 'string',
+        title: 'Position religieuse',
+        hidden: ({ document }) => document?.versionFiche !== 'ramifiee',
+        options: {
+          list: [
+            { title: 'Croyant pratiquant', value: 'croyant_pratiquant' },
+            { title: 'Croyant non-pratiquant', value: 'croyant_non_pratiquant' },
+            { title: 'Agnostique', value: 'agnostique' },
+            { title: 'Athée', value: 'athee' },
+            { title: 'Spirituel non-religieux', value: 'spirituel' },
+            { title: 'En questionnement', value: 'questionnement' }
+          ]
+        }
       },
   
       // Véritable identité (révélations/spoilers) - OPTIONNEL
@@ -393,6 +358,7 @@ const personnage = {
         name: 'relations',
         type: 'array',
         title: '💝 Relations interpersonnelles',
+        hidden: ({ document }) => document?.versionFiche !== 'entiere',
         description: 'Relations avec d\'autres personnages (amitié, amour, rivalité, inimitié, etc.)',
         of: [{ 
           type: 'object',
@@ -523,16 +489,10 @@ const personnage = {
                     }
                   },
                   {
-                    name: 'nouvelleIntensite',
-                    type: 'number',
-                    title: 'Nouvelle intensité (1-10)',
-                    validation: Rule => Rule.min(1).max(10)
-                  },
-                  {
-                    name: 'raisonEvolution',
+                    name: 'raison',
                     type: 'text',
-                    title: 'Raison de l\'évolution',
-                    description: 'Qu\'est-ce qui a causé ce changement ?'
+                    title: 'Raison du changement',
+                    description: 'Qu\'est-ce qui a causé ce changement dans la relation ?'
                   },
                   {
                     name: 'spoilerLevel',
@@ -734,7 +694,12 @@ const personnage = {
         name: 'equipement',
         type: 'array',
         title: 'Équipement',
-        of: [{ type: 'reference', to: [{ type: 'objet' }] }]
+        of: [
+          {
+            type: 'reference',
+            to: [{type: 'objet'}]
+          }
+        ]
       },
   
       // Pouvoirs et Capacités
@@ -853,7 +818,7 @@ const personnage = {
                       name: 'objet',
                       type: 'reference',
                       title: 'Objet amplificateur',
-                      to: [{ type: 'objet' }],
+                      to: [{type: 'objet'}],
                       hidden: ({ parent }) => parent?.type !== 'objet'
                     },
                     { 
@@ -977,6 +942,96 @@ const personnage = {
         },
         initialValue: 'none',
         description: 'Niveau de spoiler général pour ce personnage'
+      },
+  
+      // Version détaillée des opinions politiques (pour la fiche complète)
+      {
+        name: 'opinionsPolitiques',
+        type: 'array',
+        title: 'Opinions politiques (évolution)',
+        hidden: ({ document }) => document?.versionFiche !== 'entiere',
+        description: 'Évolution des opinions et engagements politiques au fil du récit',
+        of: [{
+          type: 'object',
+          fields: [
+            {
+              name: 'periode',
+              type: 'string',
+              title: 'Période/Moment',
+              description: 'À quel moment du récit cette opinion est-elle valable ?'
+            },
+            {
+              name: 'ideologiePolitique',
+              type: 'text',
+              title: 'Idéologie politique',
+              description: 'Description détaillée de l\'idéologie politique'
+            },
+            {
+              name: 'engagements',
+              type: 'array',
+              title: 'Engagements politiques',
+              description: 'Organisations, partis, mouvements auxquels le personnage adhère',
+              of: [{ type: 'string' }]
+            },
+            {
+              name: 'positionsSpecifiques',
+              type: 'array',
+              title: 'Positions spécifiques',
+              description: 'Positions sur des sujets politiques précis',
+              of: [{
+                type: 'object',
+                fields: [
+                  { name: 'sujet', type: 'string', title: 'Sujet politique' },
+                  { name: 'position', type: 'text', title: 'Position du personnage' }
+                ]
+              }]
+            },
+            {
+              name: 'raisonChangement',
+              type: 'text',
+              title: 'Raison du changement',
+              description: 'Qu\'est-ce qui a causé ce changement d\'opinion politique ?'
+            }
+          ]
+        }]
+      },
+  
+      // Version détaillée des opinions religieuses (pour la fiche complète)
+      {
+        name: 'opinionsReligieuses',
+        type: 'array',
+        title: 'Opinions religieuses (évolution)',
+        hidden: ({ document }) => document?.versionFiche !== 'entiere',
+        description: 'Évolution des croyances et pratiques religieuses au fil du récit',
+        of: [{
+          type: 'object',
+          fields: [
+            {
+              name: 'periode',
+              type: 'string',
+              title: 'Période/Moment',
+              description: 'À quel moment du récit cette opinion est-elle valable ?'
+            },
+            {
+              name: 'croyances',
+              type: 'text',
+              title: 'Croyances',
+              description: 'Description détaillée des croyances religieuses'
+            },
+            {
+              name: 'pratiques',
+              type: 'array',
+              title: 'Pratiques religieuses',
+              of: [{ type: 'string' }]
+            },
+            {
+              name: 'raisonChangement',
+              type: 'text',
+              title: 'Raison du changement',
+              description: 'Qu\'est-ce qui a causé ce changement de croyances ?'
+            }
+          ]
+        }]
       }
     ],
     
@@ -1010,5 +1065,3 @@ const personnage = {
       }
     ]
   }
-  
-  export default personnage

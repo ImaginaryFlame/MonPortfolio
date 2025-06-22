@@ -167,7 +167,7 @@ const conceptMetaphysique = {
                 type: 'reference',
                 title: 'Élément lié',
                 to: [
-                  {type: 'objet'},
+                  {type: 'object'},
                   {type: 'region'}
                 ]
               },
