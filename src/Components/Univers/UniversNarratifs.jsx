@@ -1,32 +1,35 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../../hooks/useLanguage';
 
 const UniversNarratifs = () => {
+  const { t } = useLanguage();
+  
   const univers = [
     {
-      title: "LE HÉROS À LA FLAMME IMAGINAIRE",
+      title: t.universes.projects.flammeImaginaire.title,
       path: "/creation/univers-narratifs/flamme-imaginaire",
-      description: "Une épopée fantastique sur le pouvoir de l'imagination",
+      description: t.universes.projects.flammeImaginaire.description,
       image: "/assets/img/flammeimaginaire-banner.webp",
       isMainSeries: true
     },
     {
-      title: "LA FABLE DU HÉROS ET LA FÉE",
+      title: t.universes.projects.herosFee.title,
       path: "/creation/univers-narratifs/fable-heros-fee",
-      description: "Un conte moderne mêlant magie et aventure",
+      description: t.universes.projects.herosFee.description,
       image: "/assets/img/herosfee-banner.webp",
       connectedTo: "flamme-imaginaire"
     },
     {
-      title: "VINCE DE BELII",
+      title: t.universes.projects.vinceBelii.title,
       path: "/creation/univers-narratifs/vince-belii",
-      description: "Une saga familiale aux multiples rebondissements",
+      description: t.universes.projects.vinceBelii.description,
       image: "/assets/img/vincebelii-banner.webp"
     },
     {
-      title: "LA PANDÉMIE DE LARA",
+      title: t.universes.projects.pandemie.title,
       path: "/creation/univers-narratifs/pandemie-lara",
-      description: "Un thriller post-apocalyptique haletant",
+      description: t.universes.projects.pandemie.description,
       image: "/assets/img/pandemielara-banner.webp"
     }
   ];
@@ -35,7 +38,7 @@ const UniversNarratifs = () => {
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white p-8">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl md:text-6xl font-bold mb-8 text-center">
-          Univers Narratifs
+          {t.universes.title}
         </h1>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
@@ -66,7 +69,7 @@ const UniversNarratifs = () => {
                 }`}>{univers.description}</p>
                 {univers.connectedTo && (
                   <span className="inline-block mt-2 text-sm text-purple-400">
-                    Connecté à l'univers principal
+                    {t.universes.connectedToMain}
                   </span>
                 )}
               </div>

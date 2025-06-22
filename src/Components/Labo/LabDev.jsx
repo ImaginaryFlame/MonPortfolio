@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { client } from '../../config/sanityClient';
+import { useLanguage } from '../../hooks/useLanguage';
 
 const LabDev = ({ section }) => {
+  const { t } = useLanguage();
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const sections = {
     'demo-web': {
-      title: "Démo Web",
+      title: t.labo.dev.demoWeb,
       query: '*[_type == "project" && category == "demo-web"]'
     },
     'prototypes-jeu': {
-      title: "Prototypes de Jeu",
+      title: t.labo.dev.gamePrototypes,
       query: '*[_type == "project" && category == "game-prototype"]'
     }
   };
@@ -26,11 +28,11 @@ const LabDev = ({ section }) => {
           setLoading(false);
         })
         .catch(error => {
-          console.error("Erreur lors du chargement des données:", error);
+          console.error(t.common.error, error);
           setLoading(false);
         });
     }
-  }, [section]);
+  }, [section, t.common.error]);
 
   if (loading) {
     return (
@@ -48,10 +50,10 @@ const LabDev = ({ section }) => {
             to="/creation/labo"
             className="text-blue-400 hover:text-blue-300 mr-4"
           >
-            ← Retour au Labo
+            {t.labo.backToLab}
           </Link>
           <h1 className="text-3xl md:text-4xl font-bold">
-            {sections[section]?.title || "Développement"}
+            {sections[section]?.title || t.labo.dev.defaultTitle}
           </h1>
         </div>
 
@@ -95,7 +97,7 @@ const LabDev = ({ section }) => {
                       rel="noopener noreferrer"
                       className="inline-block px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition-colors duration-300"
                     >
-                      Voir la démo
+                      {t.labo.dev.viewDemo}
                     </a>
                   )}
                   {project.githubUrl && (
@@ -105,7 +107,7 @@ const LabDev = ({ section }) => {
                       rel="noopener noreferrer"
                       className="inline-block px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm font-medium transition-colors duration-300"
                     >
-                      GitHub
+                      {t.labo.dev.github}
                     </a>
                   )}
                 </div>

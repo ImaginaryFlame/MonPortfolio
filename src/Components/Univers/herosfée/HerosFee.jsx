@@ -1,46 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { client } from '../../../config/sanityClient';
+import { useLanguage } from '../../../hooks/useLanguage';
 
 const HerosFee = ({ section }) => {
+  const { t } = useLanguage();
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const sections = {
     personnages: {
-      title: "Personnages",
+      title: t.universes.sections.personnages,
       query: '*[_type == "personnage" && universe == "herosfee"]'
     },
     "regions-lieux": {
-      title: "Régions & Lieux",
+      title: t.universes.sections.regionsLieux,
       query: '*[_type == "region" && universe == "herosfee"]'
     },
     objets: {
-      title: "Objets",
+      title: t.universes.sections.objets,
       query: '*[_type == "objet" && universe == "herosfee"]'
     },
     factions: {
-      title: "Factions",
+      title: t.universes.sections.factions,
       query: '*[_type == "faction" && universe == "herosfee"]'
     },
     races: {
-      title: "Races",
+      title: t.universes.sections.races,
       query: '*[_type == "race" && universe == "herosfee"]'
     },
     evenements: {
-      title: "Événements Historiques",
+      title: t.universes.sections.evenementsHistoriques,
       query: '*[_type == "evenement" && universe == "herosfee"]'
     },
     bestiaires: {
-      title: "Bestiaires",
+      title: t.universes.sections.bestiaires,
       query: '*[_type == "creature" && universe == "herosfee"]'
     },
     celebrations: {
-      title: "Célébrations & Fêtes",
+      title: t.universes.sections.celebrationsFetes,
       query: '*[_type == "celebrations" && universe == "herosfee"]'
     },
     cosmogonies: {
-      title: "Cosmogonies",
+      title: t.universes.sections.cosmogonies,
       query: '*[_type == "conceptmetaphysique" && universe == "herosfee"]'
     }
   };
@@ -54,18 +56,18 @@ const HerosFee = ({ section }) => {
           setLoading(false);
         })
         .catch(error => {
-          console.error("Erreur lors du chargement des données:", error);
+          console.error(t.common.error, error);
           setLoading(false);
         });
     }
-  }, [section]);
+  }, [section, t.common.error]);
 
   if (!section) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white p-8">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-4xl md:text-6xl font-bold mb-8">
-            La Fable du Héros et la Fée
+            {t.universes.projects.herosFee.title}
           </h1>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -100,7 +102,7 @@ const HerosFee = ({ section }) => {
             to="/creation/univers-narratifs/fable-heros-fee"
             className="text-purple-400 hover:text-purple-300 mr-4"
           >
-            ← Retour
+            {t.universes.actions.back}
           </Link>
           <h1 className="text-3xl md:text-4xl font-bold">
             {sections[section].title}

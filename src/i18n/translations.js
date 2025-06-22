@@ -211,6 +211,137 @@ export const translations = {
         error: "Quelque chose s'est mal passé, veuillez réessayer plus tard.",
         connectionError: "Erreur de connexion au serveur. Veuillez vérifier votre connexion."
       }
+    },
+
+    // Univers Narratifs
+    universes: {
+      title: "Univers Narratifs",
+      connectedToMain: "Connecté à l'univers principal",
+      projects: {
+        flammeImaginaire: {
+          title: "LE HÉROS À LA FLAMME IMAGINAIRE",
+          description: "Une épopée fantastique sur le pouvoir de l'imagination"
+        },
+        herosFee: {
+          title: "LA FABLE DU HÉROS ET LA FÉE",
+          description: "Un conte moderne mêlant magie et aventure"
+        },
+        vinceBelii: {
+          title: "VINCE DE BELII",
+          description: "Une saga familiale aux multiples rebondissements"
+        },
+        pandemie: {
+          title: "LA PANDÉMIE DE LARA",
+          description: "Un thriller post-apocalyptique haletant"
+        }
+      },
+      // Sections communes
+      sections: {
+        personnages: "Personnages",
+        regionsLieux: "Régions & Lieux",
+        objets: "Objets",
+        factions: "Factions",
+        races: "Races",
+        evenements: "Événements",
+        evenementsHistoriques: "Événements Historiques",
+        bestiaires: "Bestiaires",
+        creatures: "Créatures",
+        celebrations: "Célébrations",
+        celebrationsFetes: "Célébrations & Fêtes",
+        cosmogonies: "Cosmogonies",
+        conceptsMetaphysiques: "Concepts Métaphysiques",
+        dogmesReligieux: "Dogmes Religieux",
+        traditionsAncestrales: "Traditions Ancestrales",
+        familles: "Familles",
+        lieux: "Lieux"
+      },
+      // Actions communes
+      actions: {
+        back: "← Retour",
+        clickForDetails: "Cliquez pour voir les détails",
+        close: "×",
+        noDescription: "Aucune description disponible"
+      },
+      // Détails des personnages
+      characterDetails: {
+        generalInfo: "Informations générales",
+        age: "Âge",
+        years: "ans",
+        gender: "Sexe",
+        origin: "Origine",
+        race: "Race(s)",
+        personality: "Personnalité",
+        appearance: "Apparence",
+        relations: "Relations",
+        objectives: "Objectifs",
+        type: "Type",
+        priority: {
+          critique: "critique",
+          elevee: "élevée",
+          moyenne: "moyenne",
+          faible: "faible"
+        }
+      }
+    },
+
+    // Studio Components
+    studio: {
+      backToStudio: "← Retour au Studio",
+      video: {
+        youtube: "Vidéos YouTube",
+        reels: "Réels & Shorts",
+        miniatures: "Miniatures",
+        defaultTitle: "Contenu Vidéo",
+        watch: "Regarder",
+        behindScenes: "Coulisses"
+      },
+      social: {
+        title: "Contenu Social",
+        backToStudio: "← Retour au Studio",
+        twitter: "Threads Twitter",
+        viewThread: "Voir le thread",
+        unrolledVersion: "Version déroulée"
+      },
+      branding: {
+        title: "Branding",
+        backToStudio: "← Retour au Studio",
+        visualIdentity: "Identité Visuelle",
+        templates: "Templates",
+        preview: "Aperçu",
+        download: "Télécharger"
+      }
+    },
+
+    // Labo Components
+    labo: {
+      backToLab: "← Retour au Labo",
+      dev: {
+        demoWeb: "Démo Web",
+        gamePrototypes: "Prototypes de Jeu",
+        defaultTitle: "Développement",
+        viewDemo: "Voir la démo",
+        github: "GitHub"
+      },
+      design: {
+        title: "Design & Interface",
+        backToLab: "← Retour au Labo",
+        uiUx: "UI/UX Design",
+        interactivePrototypes: "Prototypes Interactifs",
+        viewProject: "Voir le projet"
+      },
+      academic: {
+        title: "Projets Académiques",
+        backToLab: "← Retour au Labo",
+        cnamPresentations: "Présentations CNAM",
+        viewPresentation: "Voir la présentation",
+        resources: "Ressources"
+      }
+    },
+
+    // Common
+    common: {
+      loading: "Chargement...",
+      error: "Erreur lors du chargement des données"
     }
   },
 
@@ -386,6 +517,137 @@ export const translations = {
         error: "Something went wrong, please try again later.",
         connectionError: "Server connection error. Please check your connection."
       }
+    },
+
+    // Univers Narratifs
+    universes: {
+      title: "Narrative Universes",
+      connectedToMain: "Connected to the main universe",
+      projects: {
+        flammeImaginaire: {
+          title: "THE HERO WITH THE IMAGINARY FLAME",
+          description: "A fantastic epic about the power of imagination"
+        },
+        herosFee: {
+          title: "THE FABLE OF THE HERO AND THE FAIRY",
+          description: "A modern tale mixing magic and adventure"
+        },
+        vinceBelii: {
+          title: "VINCE DE BELII",
+          description: "A family saga with multiple twists"
+        },
+        pandemie: {
+          title: "LARA'S PANDEMIC",
+          description: "A thrilling post-apocalyptic thriller"
+        }
+      },
+      // Sections communes
+      sections: {
+        personnages: "Characters",
+        regionsLieux: "Regions & Places",
+        objets: "Objects",
+        factions: "Factions",
+        races: "Races",
+        evenements: "Events",
+        evenementsHistoriques: "Historical Events",
+        bestiaires: "Bestiaries",
+        creatures: "Creatures",
+        celebrations: "Celebrations",
+        celebrationsFetes: "Celebrations & Festivals",
+        cosmogonies: "Cosmogonies",
+        conceptsMetaphysiques: "Metaphysical Concepts",
+        dogmesReligieux: "Religious Dogmas",
+        traditionsAncestrales: "Ancestral Traditions",
+        familles: "Families",
+        lieux: "Places"
+      },
+      // Actions communes
+      actions: {
+        back: "← Back",
+        clickForDetails: "Click to see details",
+        close: "×",
+        noDescription: "No description available"
+      },
+      // Détails des personnages
+      characterDetails: {
+        generalInfo: "General Information",
+        age: "Age",
+        years: "years old",
+        gender: "Gender",
+        origin: "Origin",
+        race: "Race(s)",
+        personality: "Personality",
+        appearance: "Appearance",
+        relations: "Relations",
+        objectives: "Objectives",
+        type: "Type",
+        priority: {
+          critique: "critical",
+          elevee: "high",
+          moyenne: "medium",
+          faible: "low"
+        }
+      }
+    },
+
+    // Studio Components
+    studio: {
+      backToStudio: "← Back to Studio",
+      video: {
+        youtube: "YouTube Videos",
+        reels: "Reels & Shorts",
+        miniatures: "Thumbnails",
+        defaultTitle: "Video Content",
+        watch: "Watch",
+        behindScenes: "Behind the Scenes"
+      },
+      social: {
+        title: "Social Content",
+        backToStudio: "← Back to Studio",
+        twitter: "Twitter Threads",
+        viewThread: "View thread",
+        unrolledVersion: "Unrolled version"
+      },
+      branding: {
+        title: "Branding",
+        backToStudio: "← Back to Studio",
+        visualIdentity: "Visual Identity",
+        templates: "Templates",
+        preview: "Preview",
+        download: "Download"
+      }
+    },
+
+    // Labo Components
+    labo: {
+      backToLab: "← Back to Lab",
+      dev: {
+        demoWeb: "Web Demo",
+        gamePrototypes: "Game Prototypes",
+        defaultTitle: "Development",
+        viewDemo: "View Demo",
+        github: "GitHub"
+      },
+      design: {
+        title: "Design & Interface",
+        backToLab: "← Back to Lab",
+        uiUx: "UI/UX Design",
+        interactivePrototypes: "Interactive Prototypes",
+        viewProject: "View project"
+      },
+      academic: {
+        title: "Academic Projects",
+        backToLab: "← Back to Lab",
+        cnamPresentations: "CNAM Presentations",
+        viewPresentation: "View presentation",
+        resources: "Resources"
+      }
+    },
+
+    // Common
+    common: {
+      loading: "Loading...",
+      error: "Error loading data"
     }
   },
 
@@ -563,6 +825,137 @@ export const translations = {
         error: "Algo deu errado, tente novamente mais tarde.",
         connectionError: "Erro de conexão com o servidor. Verifique sua conexão."
       }
+    },
+
+    // Univers Narratifs
+    universes: {
+      title: "Universos Narrativos",
+      connectedToMain: "Conectado ao universo principal",
+      projects: {
+        flammeImaginaire: {
+          title: "O HERÓI COM A CHAMA IMAGINÁRIA",
+          description: "Uma épica fantástica sobre o poder da imaginação"
+        },
+        herosFee: {
+          title: "A FÁBULA DO HERÓI E A FADA",
+          description: "Um conto moderno misturando magia e aventura"
+        },
+        vinceBelii: {
+          title: "VINCE DE BELII",
+          description: "Uma saga familiar com múltiplas reviravoltas"
+        },
+        pandemie: {
+          title: "A PANDEMIA DE LARA",
+          description: "Um thriller pós-apocalíptico emocionante"
+        }
+      },
+      // Sections communes
+      sections: {
+        personnages: "Personagens",
+        regionsLieux: "Regiões & Lugares",
+        objets: "Objetos",
+        factions: "Facções",
+        races: "Raças",
+        evenements: "Eventos",
+        evenementsHistoriques: "Eventos Históricos",
+        bestiaires: "Bestiários",
+        creatures: "Criaturas",
+        celebrations: "Celebrações",
+        celebrationsFetes: "Celebrações & Festivais",
+        cosmogonies: "Cosmogonias",
+        conceptsMetaphysiques: "Conceitos Metafísicos",
+        dogmesReligieux: "Dogmas Religiosos",
+        traditionsAncestrales: "Tradições Ancestrais",
+        familles: "Famílias",
+        lieux: "Lugares"
+      },
+      // Actions communes
+      actions: {
+        back: "← Voltar",
+        clickForDetails: "Clique para ver detalhes",
+        close: "×",
+        noDescription: "Nenhuma descrição disponível"
+      },
+      // Détails des personnages
+      characterDetails: {
+        generalInfo: "Informações Gerais",
+        age: "Idade",
+        years: "anos",
+        gender: "Sexo",
+        origin: "Origem",
+        race: "Raça(s)",
+        personality: "Personalidade",
+        appearance: "Aparência",
+        relations: "Relações",
+        objectives: "Objetivos",
+        type: "Tipo",
+        priority: {
+          critique: "crítica",
+          elevee: "alta",
+          moyenne: "média",
+          faible: "baixa"
+        }
+      }
+    },
+
+    // Studio Components
+    studio: {
+      backToStudio: "← Voltar ao Estúdio",
+      video: {
+        youtube: "Vídeos do YouTube",
+        reels: "Reels & Shorts",
+        miniatures: "Miniaturas",
+        defaultTitle: "Conteúdo de Vídeo",
+        watch: "Assistir",
+        behindScenes: "Bastidores"
+      },
+      social: {
+        title: "Conteúdo Social",
+        backToStudio: "← Voltar ao Estúdio",
+        twitter: "Threads do Twitter",
+        viewThread: "Ver thread",
+        unrolledVersion: "Versão desenrolada"
+      },
+      branding: {
+        title: "Branding",
+        backToStudio: "← Voltar ao Estúdio",
+        visualIdentity: "Identidade Visual",
+        templates: "Templates",
+        preview: "Prévia",
+        download: "Baixar"
+      }
+    },
+
+    // Labo Components
+    labo: {
+      backToLab: "← Voltar ao Laboratório",
+      dev: {
+        demoWeb: "Demo Web",
+        gamePrototypes: "Protótipos de Jogo",
+        defaultTitle: "Desenvolvimento",
+        viewDemo: "Ver Demo",
+        github: "GitHub"
+      },
+      design: {
+        title: "Design & Interface",
+        backToLab: "← Voltar ao Laboratório",
+        uiUx: "UI/UX Design",
+        interactivePrototypes: "Protótipos Interativos",
+        viewProject: "Ver projeto"
+      },
+      academic: {
+        title: "Projetos Acadêmicos",
+        backToLab: "← Voltar ao Laboratório",
+        cnamPresentations: "Apresentações CNAM",
+        viewPresentation: "Ver apresentação",
+        resources: "Recursos"
+      }
+    },
+
+    // Common
+    common: {
+      loading: "Carregando...",
+      error: "Erro ao carregar dados"
     }
   },
 
@@ -740,6 +1133,137 @@ export const translations = {
         error: "何か問題が発生しました。後でもう一度お試しください。",
         connectionError: "サーバー接続エラー。接続を確認してください。"
       }
+    },
+
+    // Univers Narratifs
+    universes: {
+      title: "物語の世界",
+      connectedToMain: "メイン世界に接続",
+      projects: {
+        flammeImaginaire: {
+          title: "想像の炎を持つ英雄",
+          description: "想像力の力についての壮大なファンタジー"
+        },
+        herosFee: {
+          title: "英雄と妖精の寓話",
+          description: "魔法と冒険を織り交ぜた現代の物語"
+        },
+        vinceBelii: {
+          title: "ヴィンス・デ・ベリー",
+          description: "多くの展開を持つ家族の物語"
+        },
+        pandemie: {
+          title: "ララのパンデミック",
+          description: "息をのむようなポストアポカリプティック・スリラー"
+        }
+      },
+      // Sections communes
+      sections: {
+        personnages: "キャラクター",
+        regionsLieux: "地域・場所",
+        objets: "オブジェクト",
+        factions: "派閥",
+        races: "種族",
+        evenements: "イベント",
+        evenementsHistoriques: "歴史的イベント",
+        bestiaires: "獣の図鑑",
+        creatures: "クリーチャー",
+        celebrations: "祝祭",
+        celebrationsFetes: "祝祭・祭り",
+        cosmogonies: "宇宙論",
+        conceptsMetaphysiques: "形而上学的概念",
+        dogmesReligieux: "宗教的教義",
+        traditionsAncestrales: "祖先の伝統",
+        familles: "家族",
+        lieux: "場所"
+      },
+      // Actions communes
+      actions: {
+        back: "← 戻る",
+        clickForDetails: "詳細を見るにはクリック",
+        close: "×",
+        noDescription: "説明がありません"
+      },
+      // Détails des personnages
+      characterDetails: {
+        generalInfo: "一般情報",
+        age: "年齢",
+        years: "歳",
+        gender: "性別",
+        origin: "出身",
+        race: "種族",
+        personality: "性格",
+        appearance: "外見",
+        relations: "関係",
+        objectives: "目標",
+        type: "タイプ",
+        priority: {
+          critique: "重要",
+          elevee: "高",
+          moyenne: "中",
+          faible: "低"
+        }
+      }
+    },
+
+    // Studio Components
+    studio: {
+      backToStudio: "← スタジオに戻る",
+      video: {
+        youtube: "YouTube動画",
+        reels: "リール＆ショート",
+        miniatures: "サムネイル",
+        defaultTitle: "動画コンテンツ",
+        watch: "視聴",
+        behindScenes: "舞台裏"
+      },
+      social: {
+        title: "ソーシャルコンテンツ",
+        backToStudio: "← スタジオに戻る",
+        twitter: "Twitterスレッド",
+        viewThread: "スレッドを見る",
+        unrolledVersion: "展開版"
+      },
+      branding: {
+        title: "ブランディング",
+        backToStudio: "← スタジオに戻る",
+        visualIdentity: "ビジュアルアイデンティティ",
+        templates: "テンプレート",
+        preview: "プレビュー",
+        download: "ダウンロード"
+      }
+    },
+
+    // Labo Components
+    labo: {
+      backToLab: "← ラボに戻る",
+      dev: {
+        demoWeb: "ウェブデモ",
+        gamePrototypes: "ゲームプロトタイプ",
+        defaultTitle: "開発",
+        viewDemo: "デモを見る",
+        github: "GitHub"
+      },
+      design: {
+        title: "デザイン＆インターフェース",
+        backToLab: "← ラボに戻る",
+        uiUx: "UI/UXデザイン",
+        interactivePrototypes: "インタラクティブプロトタイプ",
+        viewProject: "プロジェクトを見る"
+      },
+      academic: {
+        title: "学術プロジェクト",
+        backToLab: "← ラボに戻る",
+        cnamPresentations: "CNAMプレゼンテーション",
+        viewPresentation: "プレゼンテーションを見る",
+        resources: "リソース"
+      }
+    },
+
+    // Common
+    common: {
+      loading: "読み込み中...",
+      error: "データの読み込みエラー"
     }
   }
 }; 

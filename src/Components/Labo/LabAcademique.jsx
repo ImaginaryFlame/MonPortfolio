@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { client } from '../../config/sanityClient';
+import { useLanguage } from '../../hooks/useLanguage';
 
 const LabAcademique = ({ section }) => {
+  const { t } = useLanguage();
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const sections = {
     'presentations-cnam': {
-      title: "Présentations CNAM",
+      title: t.labo.academic.cnamPresentations,
       query: '*[_type == "project" && category == "academic-presentation"]'
     }
   };
@@ -22,11 +24,11 @@ const LabAcademique = ({ section }) => {
           setLoading(false);
         })
         .catch(error => {
-          console.error("Erreur lors du chargement des données:", error);
+          console.error(t.common.error, error);
           setLoading(false);
         });
     }
-  }, [section]);
+  }, [section, t.common.error]);
 
   if (loading) {
     return (
@@ -44,10 +46,10 @@ const LabAcademique = ({ section }) => {
             to="/creation/labo"
             className="text-yellow-400 hover:text-yellow-300 mr-4"
           >
-            ← Retour au Labo
+            {t.labo.academic.backToLab}
           </Link>
           <h1 className="text-3xl md:text-4xl font-bold">
-            {sections[section]?.title || "Projets Académiques"}
+            {sections[section]?.title || t.labo.academic.title}
           </h1>
         </div>
 
@@ -104,7 +106,7 @@ const LabAcademique = ({ section }) => {
                       rel="noopener noreferrer"
                       className="inline-block px-4 py-2 bg-yellow-600 hover:bg-yellow-700 rounded-lg text-sm font-medium transition-colors duration-300"
                     >
-                      Voir la présentation
+                      {t.labo.academic.viewPresentation}
                     </a>
                   )}
                   {project.resourceUrl && (
@@ -114,7 +116,7 @@ const LabAcademique = ({ section }) => {
                       rel="noopener noreferrer"
                       className="inline-block px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm font-medium transition-colors duration-300"
                     >
-                      Ressources
+                      {t.labo.academic.resources}
                     </a>
                   )}
                 </div>

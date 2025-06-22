@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { client } from '../../../config/sanityClient';
+import { useLanguage } from '../../../hooks/useLanguage';
 
 const FlammeImaginaire = ({ section }) => {
+  const { t } = useLanguage();
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -10,43 +12,43 @@ const FlammeImaginaire = ({ section }) => {
 
   const sections = {
     personnages: {
-      title: "Personnages",
+      title: t.universes.sections.personnages,
       query: '*[_type == "personnage" && univers._ref in *[_type=="univers" && nom=="Le Héros à la Flamme Imaginaire"]._id]'
     },
     "regions-lieux": {
-      title: "Régions & Lieux",
+      title: t.universes.sections.regionsLieux,
       query: '*[_type == "region" && univers._ref in *[_type=="univers" && nom=="Le Héros à la Flamme Imaginaire"]._id]'
     },
     objets: {
-      title: "Objets",
+      title: t.universes.sections.objets,
       query: '*[_type == "objet" && univers._ref in *[_type=="univers" && nom=="Le Héros à la Flamme Imaginaire"]._id]'
     },
     concepts: {
-      title: "Concepts Métaphysiques",
+      title: t.universes.sections.conceptsMetaphysiques,
       query: '*[_type == "conceptmetaphysique" && univers._ref in *[_type=="univers" && nom=="Le Héros à la Flamme Imaginaire"]._id]'
     },
     factions: {
-      title: "Factions",
+      title: t.universes.sections.factions,
       query: '*[_type == "faction" && univers._ref in *[_type=="univers" && nom=="Le Héros à la Flamme Imaginaire"]._id]'
     },
     creatures: {
-      title: "Créatures",
+      title: t.universes.sections.creatures,
       query: '*[_type == "bestiaires" && univers._ref in *[_type=="univers" && nom=="Le Héros à la Flamme Imaginaire"]._id]'
     },
     evenements: {
-      title: "Événements",
+      title: t.universes.sections.evenements,
       query: '*[_type == "evenement" && univers._ref in *[_type=="univers" && nom=="Le Héros à la Flamme Imaginaire"]._id]'
     },
     dogmes: {
-      title: "Dogmes Religieux",
+      title: t.universes.sections.dogmesReligieux,
       query: '*[_type == "dogmeReligieux" && univers._ref in *[_type=="univers" && nom=="Le Héros à la Flamme Imaginaire"]._id]'
     },
     traditions: {
-      title: "Traditions Ancestrales",
+      title: t.universes.sections.traditionsAncestrales,
       query: '*[_type == "traditionAncestrale" && univers._ref in *[_type=="univers" && nom=="Le Héros à la Flamme Imaginaire"]._id]'
     },
     celebrations: {
-      title: "Célébrations",
+      title: t.universes.sections.celebrations,
       query: '*[_type == "celebrations" && univers._ref in *[_type=="univers" && nom=="Le Héros à la Flamme Imaginaire"]._id]'
     }
   };
@@ -70,11 +72,11 @@ const FlammeImaginaire = ({ section }) => {
           setLoading(false);
         })
         .catch(error => {
-          console.error("Erreur lors du chargement des données:", error);
+          console.error(t.common.error, error);
           setLoading(false);
         });
     }
-  }, [section]);
+  }, [section, t.common.error]);
 
   const handleItemClick = async (item) => {
     setLoading(true);
@@ -105,7 +107,7 @@ const FlammeImaginaire = ({ section }) => {
       setSelectedItem(detailedItem);
       setShowModal(true);
     } catch (error) {
-      console.error("Erreur lors du chargement des détails:", error);
+      console.error(t.common.error, error);
     }
     setLoading(false);
   };
@@ -130,35 +132,35 @@ const FlammeImaginaire = ({ section }) => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <h3 className="text-lg font-semibold text-orange-400 mb-2">Informations générales</h3>
+            <h3 className="text-lg font-semibold text-orange-400 mb-2">{t.universes.characterDetails.generalInfo}</h3>
             <div className="space-y-2 text-sm">
-              {personnage.age && <p><strong>Âge:</strong> {personnage.age} ans</p>}
-              {personnage.sexe && <p><strong>Sexe:</strong> {personnage.sexe}</p>}
-              {personnage.origine && <p><strong>Origine:</strong> {personnage.origine.nom}</p>}
+              {personnage.age && <p><strong>{t.universes.characterDetails.age}:</strong> {personnage.age} {t.universes.characterDetails.years}</p>}
+              {personnage.sexe && <p><strong>{t.universes.characterDetails.gender}:</strong> {personnage.sexe}</p>}
+              {personnage.origine && <p><strong>{t.universes.characterDetails.origin}:</strong> {personnage.origine.nom}</p>}
               {personnage.races && personnage.races.length > 0 && (
-                <p><strong>Race(s):</strong> {personnage.races.map(race => race.nom).join(', ')}</p>
+                <p><strong>{t.universes.characterDetails.race}:</strong> {personnage.races.map(race => race.nom).join(', ')}</p>
               )}
             </div>
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold text-orange-400 mb-2">Personnalité</h3>
+            <h3 className="text-lg font-semibold text-orange-400 mb-2">{t.universes.characterDetails.personality}</h3>
             <p className="text-sm text-gray-300">
-              {personnage.resumePersonnalite || "Aucune description disponible"}
+              {personnage.resumePersonnalite || t.universes.actions.noDescription}
             </p>
           </div>
         </div>
 
         {personnage.apparence && (
           <div>
-            <h3 className="text-lg font-semibold text-orange-400 mb-2">Apparence</h3>
+            <h3 className="text-lg font-semibold text-orange-400 mb-2">{t.universes.characterDetails.appearance}</h3>
             <p className="text-sm text-gray-300">{personnage.apparence.fr || personnage.apparence}</p>
           </div>
         )}
 
         {personnage.relationsSimplifiees && personnage.relationsSimplifiees.length > 0 && (
           <div>
-            <h3 className="text-lg font-semibold text-orange-400 mb-2">Relations</h3>
+            <h3 className="text-lg font-semibold text-orange-400 mb-2">{t.universes.characterDetails.relations}</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {personnage.relationsSimplifiees.map((relation, index) => (
                 <div key={index} className="bg-gray-800/50 p-2 rounded">
@@ -173,7 +175,7 @@ const FlammeImaginaire = ({ section }) => {
 
         {personnage.objectifs && personnage.objectifs.length > 0 && (
           <div>
-            <h3 className="text-lg font-semibold text-orange-400 mb-2">Objectifs</h3>
+            <h3 className="text-lg font-semibold text-orange-400 mb-2">{t.universes.characterDetails.objectives}</h3>
             <div className="space-y-2">
               {personnage.objectifs.map((objectif, index) => (
                 <div key={index} className="bg-gray-800/50 p-3 rounded">
@@ -185,7 +187,7 @@ const FlammeImaginaire = ({ section }) => {
                       objectif.priorite === 'elevee' ? 'bg-orange-600' :
                       objectif.priorite === 'moyenne' ? 'bg-yellow-600' : 'bg-gray-600'
                     }`}>
-                      {objectif.priorite}
+                      {t.universes.characterDetails.priority[objectif.priorite] || objectif.priorite}
                     </span>
                   )}
                 </div>
@@ -210,11 +212,11 @@ const FlammeImaginaire = ({ section }) => {
           </div>
         )}
         <div>
-          <p className="text-gray-300">{item.description || item.resume || "Aucune description disponible"}</p>
+          <p className="text-gray-300">{item.description || item.resume || t.universes.actions.noDescription}</p>
         </div>
         {item.type && (
           <div>
-            <h3 className="text-lg font-semibold text-orange-400 mb-2">Type</h3>
+            <h3 className="text-lg font-semibold text-orange-400 mb-2">{t.universes.characterDetails.type}</h3>
             <p className="text-sm">{item.type}</p>
           </div>
         )}
@@ -227,7 +229,7 @@ const FlammeImaginaire = ({ section }) => {
       <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white p-8">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-4xl md:text-6xl font-bold mb-8">
-            Le Héros à la Flamme Imaginaire
+            {t.universes.projects.flammeImaginaire.title}
           </h1>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -262,7 +264,7 @@ const FlammeImaginaire = ({ section }) => {
             to="/creation/univers-narratifs/flamme-imaginaire"
             className="text-orange-400 hover:text-orange-300 mr-4"
           >
-            ← Retour
+            {t.universes.actions.back}
           </Link>
           <h1 className="text-3xl md:text-4xl font-bold">
             {sections[section].title}
@@ -291,7 +293,7 @@ const FlammeImaginaire = ({ section }) => {
                 <p className="text-orange-400 mt-2 text-sm">{item.type}</p>
               )}
               <div className="mt-4 flex justify-between items-center">
-                <span className="text-xs text-gray-400">Cliquez pour voir les détails</span>
+                <span className="text-xs text-gray-400">{t.universes.actions.clickForDetails}</span>
                 <span className="text-orange-400">→</span>
               </div>
             </div>
@@ -311,7 +313,7 @@ const FlammeImaginaire = ({ section }) => {
                 onClick={closeModal}
                 className="text-gray-400 hover:text-white text-2xl"
               >
-                ×
+                {t.universes.actions.close}
               </button>
             </div>
             <div className="p-6">

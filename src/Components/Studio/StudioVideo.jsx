@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { client } from '../../config/sanityClient';
+import { useLanguage } from '../../hooks/useLanguage';
 
 const StudioVideo = ({ section }) => {
+  const { t } = useLanguage();
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const sections = {
     'youtube': {
-      title: "Vidéos YouTube",
+      title: t.studio.video.youtube,
       query: '*[_type == "project" && category == "youtube-video"]'
     },
     'reels': {
-      title: "Réels & Shorts",
+      title: t.studio.video.reels,
       query: '*[_type == "project" && category == "social-video"]'
     },
     'miniatures': {
-      title: "Miniatures",
+      title: t.studio.video.miniatures,
       query: '*[_type == "project" && category == "thumbnail"]'
     }
   };
@@ -30,11 +32,11 @@ const StudioVideo = ({ section }) => {
           setLoading(false);
         })
         .catch(error => {
-          console.error("Erreur lors du chargement des données:", error);
+          console.error(t.common.error, error);
           setLoading(false);
         });
     }
-  }, [section]);
+  }, [section, t.common.error]);
 
   if (loading) {
     return (
@@ -52,10 +54,10 @@ const StudioVideo = ({ section }) => {
             to="/creation/studio"
             className="text-red-400 hover:text-red-300 mr-4"
           >
-            ← Retour au Studio
+            {t.studio.backToStudio}
           </Link>
           <h1 className="text-3xl md:text-4xl font-bold">
-            {sections[section]?.title || "Contenu Vidéo"}
+            {sections[section]?.title || t.studio.video.defaultTitle}
           </h1>
         </div>
 
@@ -117,7 +119,7 @@ const StudioVideo = ({ section }) => {
                       rel="noopener noreferrer"
                       className="inline-block px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg text-sm font-medium transition-colors duration-300"
                     >
-                      Regarder
+                      {t.studio.video.watch}
                     </a>
                   )}
                   {video.behindTheScenes && (
@@ -127,7 +129,7 @@ const StudioVideo = ({ section }) => {
                       rel="noopener noreferrer"
                       className="inline-block px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm font-medium transition-colors duration-300"
                     >
-                      Coulisses
+                      {t.studio.video.behindScenes}
                     </a>
                   )}
                 </div>

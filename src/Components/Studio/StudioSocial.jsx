@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { client } from '../../config/sanityClient';
+import { useLanguage } from '../../hooks/useLanguage';
 
 const StudioSocial = ({ section }) => {
+  const { t } = useLanguage();
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const sections = {
     'twitter': {
-      title: "Threads Twitter",
+      title: t.studio.social.twitter,
       query: '*[_type == "project" && category == "twitter-thread"]'
     }
   };
@@ -22,11 +24,11 @@ const StudioSocial = ({ section }) => {
           setLoading(false);
         })
         .catch(error => {
-          console.error("Erreur lors du chargement des données:", error);
+          console.error(t.common.error, error);
           setLoading(false);
         });
     }
-  }, [section]);
+  }, [section, t.common.error]);
 
   if (loading) {
     return (
@@ -44,10 +46,10 @@ const StudioSocial = ({ section }) => {
             to="/creation/studio"
             className="text-blue-400 hover:text-blue-300 mr-4"
           >
-            ← Retour au Studio
+            {t.studio.social.backToStudio}
           </Link>
           <h1 className="text-3xl md:text-4xl font-bold">
-            {sections[section]?.title || "Contenu Social"}
+            {sections[section]?.title || t.studio.social.title}
           </h1>
         </div>
 
@@ -114,7 +116,7 @@ const StudioSocial = ({ section }) => {
                       rel="noopener noreferrer"
                       className="inline-block px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition-colors duration-300"
                     >
-                      Voir le thread
+                      {t.studio.social.viewThread}
                     </a>
                   )}
                   {thread.threadUnroll && (
@@ -124,7 +126,7 @@ const StudioSocial = ({ section }) => {
                       rel="noopener noreferrer"
                       className="inline-block px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm font-medium transition-colors duration-300"
                     >
-                      Version déroulée
+                      {t.studio.social.unrolledVersion}
                     </a>
                   )}
                 </div>

@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { client } from '../../config/sanityClient';
+import { useLanguage } from '../../hooks/useLanguage';
 
 const StudioBranding = ({ section }) => {
+  const { t } = useLanguage();
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const sections = {
     'identite': {
-      title: "Identité Visuelle",
+      title: t.studio.branding.visualIdentity,
       query: '*[_type == "project" && category == "visual-identity"]'
     },
     'templates': {
-      title: "Templates",
+      title: t.studio.branding.templates,
       query: '*[_type == "project" && category == "template"]'
     }
   };
@@ -26,11 +28,11 @@ const StudioBranding = ({ section }) => {
           setLoading(false);
         })
         .catch(error => {
-          console.error("Erreur lors du chargement des données:", error);
+          console.error(t.common.error, error);
           setLoading(false);
         });
     }
-  }, [section]);
+  }, [section, t.common.error]);
 
   if (loading) {
     return (
@@ -48,10 +50,10 @@ const StudioBranding = ({ section }) => {
             to="/creation/studio"
             className="text-purple-400 hover:text-purple-300 mr-4"
           >
-            ← Retour au Studio
+            {t.studio.branding.backToStudio}
           </Link>
           <h1 className="text-3xl md:text-4xl font-bold">
-            {sections[section]?.title || "Branding"}
+            {sections[section]?.title || t.studio.branding.title}
           </h1>
         </div>
 
@@ -121,7 +123,7 @@ const StudioBranding = ({ section }) => {
                       rel="noopener noreferrer"
                       className="inline-block px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-sm font-medium transition-colors duration-300"
                     >
-                      Aperçu
+                      {t.studio.branding.preview}
                     </a>
                   )}
                   {project.downloadUrl && (
@@ -131,7 +133,7 @@ const StudioBranding = ({ section }) => {
                       rel="noopener noreferrer"
                       className="inline-block px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm font-medium transition-colors duration-300"
                     >
-                      Télécharger
+                      {t.studio.branding.download}
                     </a>
                   )}
                 </div>

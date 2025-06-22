@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { client } from '../../../config/sanityClient';
+import { useLanguage } from '../../../hooks/useLanguage';
 
 const VinceDeBelii = ({ section }) => {
+  const { t } = useLanguage();
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const sections = {
     personnages: {
-      title: "Personnages",
+      title: t.universes.sections.personnages,
       query: '*[_type == "personnage" && universe == "vincebelii"]'
     },
     familles: {
-      title: "Familles",
+      title: t.universes.sections.familles,
       query: '*[_type == "famille" && universe == "vincebelii"]'
     },
     lieux: {
-      title: "Lieux",
+      title: t.universes.sections.lieux,
       query: '*[_type == "region" && universe == "vincebelii"]'
     }
   };
@@ -30,18 +32,18 @@ const VinceDeBelii = ({ section }) => {
           setLoading(false);
         })
         .catch(error => {
-          console.error("Erreur lors du chargement des données:", error);
+          console.error(t.common.error, error);
           setLoading(false);
         });
     }
-  }, [section]);
+  }, [section, t.common.error]);
 
   if (!section) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white p-8">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-4xl md:text-6xl font-bold mb-8">
-            Vince de Belii
+            {t.universes.projects.vinceBelii.title}
           </h1>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -76,7 +78,7 @@ const VinceDeBelii = ({ section }) => {
             to="/creation/univers-narratifs/vince-belii"
             className="text-red-400 hover:text-red-300 mr-4"
           >
-            ← Retour
+            {t.universes.actions.back}
           </Link>
           <h1 className="text-3xl md:text-4xl font-bold">
             {sections[section].title}

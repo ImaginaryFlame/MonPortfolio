@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { client } from '../../config/sanityClient';
+import { useLanguage } from '../../hooks/useLanguage';
 
 const LabDesign = ({ section }) => {
+  const { t } = useLanguage();
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const sections = {
     'ui-ux': {
-      title: "UI/UX Design",
+      title: t.labo.design.uiUx,
       query: '*[_type == "project" && category == "ui-ux"]'
     },
     'prototypes': {
-      title: "Prototypes Interactifs",
+      title: t.labo.design.interactivePrototypes,
       query: '*[_type == "project" && category == "prototypes"]'
     }
   };
@@ -26,11 +28,11 @@ const LabDesign = ({ section }) => {
           setLoading(false);
         })
         .catch(error => {
-          console.error("Erreur lors du chargement des données:", error);
+          console.error(t.common.error, error);
           setLoading(false);
         });
     }
-  }, [section]);
+  }, [section, t.common.error]);
 
   if (loading) {
     return (
@@ -48,10 +50,10 @@ const LabDesign = ({ section }) => {
             to="/creation/labo/design"
             className="text-cyan-400 hover:text-cyan-300 mr-4"
           >
-            ← Retour au Labo
+            {t.labo.design.backToLab}
           </Link>
           <h1 className="text-3xl md:text-4xl font-bold">
-            {sections[section]?.title || "Design & Interface"}
+            {sections[section]?.title || t.labo.design.title}
           </h1>
         </div>
 
@@ -83,7 +85,7 @@ const LabDesign = ({ section }) => {
                     rel="noopener noreferrer"
                     className="inline-block px-4 py-2 bg-cyan-600 hover:bg-cyan-700 rounded-lg text-sm font-medium transition-colors duration-300"
                   >
-                    Voir le projet
+                    {t.labo.design.viewProject}
                   </a>
                 )}
               </div>
