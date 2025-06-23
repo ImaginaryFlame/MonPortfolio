@@ -204,6 +204,7 @@ const ProjectGallery = ({ theme }) => {
   const [scrollLeft, setScrollLeft] = useState(0);
   const [randomProjects, setRandomProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Fonction pour mélanger un tableau
   const shuffleArray = (array) => {
@@ -220,16 +221,28 @@ const ProjectGallery = ({ theme }) => {
     const loadProjects = async () => {
       try {
         setLoading(true);
-        const projects = await fetchProjects();
+        console.log('🔄 Début du chargement des projets...');
         
-        // Mélanger et prendre 7 projets aléatoires
-        const shuffledProjects = shuffleArray(projects);
-        setRandomProjects(shuffledProjects.slice(0, 7));
+        const projects = await fetchProjects();
+        console.log('📊 Projets récupérés:', projects?.length || 0, projects);
+        
+        if (projects && projects.length > 0) {
+          // Mélanger et prendre 7 projets aléatoires
+          const shuffledProjects = shuffleArray(projects);
+          const selectedProjects = shuffledProjects.slice(0, 7);
+          console.log('✅ Projets sélectionnés:', selectedProjects.length);
+          setRandomProjects(selectedProjects);
+        } else {
+          console.warn('⚠️ Aucun projet trouvé');
+          setRandomProjects([]);
+        }
       } catch (error) {
-        console.error('Erreur lors du chargement des projets:', error);
+        console.error('❌ Erreur lors du chargement des projets:', error);
+        setError(error.message || 'Erreur de connexion');
         setRandomProjects([]);
       } finally {
         setLoading(false);
+        console.log('🏁 Fin du chargement des projets');
       }
     };
 
@@ -289,6 +302,31 @@ const ProjectGallery = ({ theme }) => {
     }
   };
 
+  // Projets de fallback si Sanity ne fonctionne pas
+  const fallbackProjects = [
+    {
+      _id: 'fallback-1',
+      title: 'Le Héros à la Flamme Imaginaire',
+      description: 'Une épopée fantastique sur le pouvoir de l\'imagination',
+      category: 'arts',
+      image: null
+    },
+    {
+      _id: 'fallback-2', 
+      title: 'Portfolio React',
+      description: 'Site portfolio développé avec React et Tailwind',
+      category: 'dev',
+      image: null
+    },
+    {
+      _id: 'fallback-3',
+      title: 'Contenu YouTube',
+      description: 'Création de contenu vidéo et streaming',
+      category: 'video', 
+      image: null
+    }
+  ];
+
   if (loading) {
     return (
       <section id="gallery" className="py-20 relative overflow-hidden">
@@ -304,6 +342,9 @@ const ProjectGallery = ({ theme }) => {
       </section>
     );
   }
+
+  // Si erreur ou pas de projets, utiliser les projets de fallback
+  const projectsToShow = (error || randomProjects.length === 0) ? fallbackProjects : randomProjects;
 
   return (
     <section id="gallery" className="py-20 relative overflow-hidden">
@@ -324,6 +365,11 @@ const ProjectGallery = ({ theme }) => {
             <p className="text-xl description-gradient max-w-3xl mx-auto drop-shadow-lg">
               {t.gallery.description}
             </p>
+            {error && (
+              <div className="mt-4 p-3 bg-red-500/20 border border-red-500/30 rounded-lg text-red-300 text-sm">
+                ⚠️ Problème de connexion aux données. Affichage des projets de démonstration.
+              </div>
+            )}
           </div>
         </div>
 
@@ -349,7 +395,7 @@ const ProjectGallery = ({ theme }) => {
             onMouseUp={handleMouseUp}
             onMouseMove={handleMouseMove}
           >
-            {randomProjects.map((project, index) => (
+            {projectsToShow.map((project, index) => (
               <div
                 key={project._id}
                 className="flex-shrink-0 w-80 group cursor-pointer"
