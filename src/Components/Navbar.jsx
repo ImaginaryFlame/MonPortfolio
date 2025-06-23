@@ -75,7 +75,7 @@ const Navbar = ({ theme }) => {
       setTimeout(() => {
         setIsPortailsOpen(false);
         setIsAnimating(false);
-      }, 500);
+      }, 300);
     }
   };
   
@@ -308,6 +308,8 @@ const Navbar = ({ theme }) => {
         isVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
       }`}
     >
+
+      
       <div className="flex justify-center pt-4 px-4">
         <nav className="flex items-center space-x-2 bg-gradient-to-r from-orange-500 via-red-500 to-yellow-500 p-2 rounded-full shadow-2xl">
           {/* Logo avec animation améliorée */}
@@ -321,24 +323,24 @@ const Navbar = ({ theme }) => {
 
           {/* Navigation Links avec animations améliorées */}
           <div className="flex items-center space-x-1">
-            <a 
-              href="/" 
-              className="px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-500 ease-out hover:transform hover:scale-105 hover:shadow-lg text-sm uppercase tracking-wide shadow-lg"
+            <Link 
+              to="/" 
+              className="px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-300 ease-out hover:transform hover:scale-105 hover:shadow-lg text-sm uppercase tracking-wide shadow-lg"
             >
               {t.navbar.home}
-            </a>
+            </Link>
             
-            <a 
-              href="/about" 
-              className="px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-500 ease-out hover:transform hover:scale-105 hover:shadow-lg text-sm uppercase tracking-wide shadow-lg"
+            <Link 
+              to="/about" 
+              className="px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-300 ease-out hover:transform hover:scale-105 hover:shadow-lg text-sm uppercase tracking-wide shadow-lg"
             >
               {t.navbar.about}
-            </a>
+            </Link>
 
             <div className="relative">
               <button
                 onClick={togglePortails}
-                className={`px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full transition-all duration-500 ease-out hover:from-orange-500 hover:to-red-600 hover:transform hover:scale-105 hover:shadow-lg text-sm uppercase tracking-wide shadow-lg ${
+                className={`px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full transition-all duration-300 ease-out hover:from-orange-500 hover:to-red-600 hover:transform hover:scale-105 hover:shadow-lg text-sm uppercase tracking-wide shadow-lg ${
                   isPortailsOpen ? 'scale-105 shadow-xl from-orange-500 to-red-600' : ''
                 }`}
               >
@@ -347,100 +349,65 @@ const Navbar = ({ theme }) => {
 
               {/* Menu principal avec animations améliorées */}
               <div 
-                className={`absolute left-1/2 -translate-x-1/2 top-full mt-4 flex space-x-8 z-40
-                  ${isPortailsOpen 
-                    ? 'transition-all duration-500 ease-out opacity-100 translate-y-0 scale-100' 
-                    : 'transition-all duration-200 ease-out opacity-0 -translate-y-4 scale-95 pointer-events-none'
-                  }
-                `}
+                className={`absolute left-1/2 -translate-x-1/2 top-full mt-4 flex space-x-8 z-40 ${
+                  isPortailsOpen 
+                    ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto' 
+                    : 'opacity-0 -translate-y-4 scale-95 pointer-events-none'
+                } transition-all duration-300 ease-out`}
               >
-                {/* Boutons principaux avec animations séquentielles */}
+                {/* Boutons principaux */}
                 <div className="flex flex-col space-y-3 items-start">
                   {Object.entries(menuItems).map(([key, value], index) => (
                     <button
                       key={key}
                       onClick={() => handlePortailChange(key)}
-                      className={`px-5 py-3 rounded-lg text-sm font-medium uppercase whitespace-nowrap border
-                        ${isPortailsOpen 
-                          ? 'transition-all duration-500 ease-out opacity-100 translate-x-0 scale-100' 
-                          : 'transition-all duration-200 ease-out opacity-0 -translate-x-4 scale-95'
-                        }
-                        ${portailType === key 
+                      className={`px-5 py-3 rounded-lg text-sm font-medium uppercase whitespace-nowrap border transition-all duration-300 ease-out ${
+                        portailType === key 
                           ? 'bg-gradient-to-r from-orange-500 via-red-500 to-yellow-500 text-white scale-105 shadow-xl border-orange-300' 
                           : 'bg-gradient-to-r from-slate-800/90 to-blue-900/90 text-white hover:from-orange-600/90 hover:to-red-600/90 border-slate-600'
-                        } hover:transform hover:-translate-y-1 hover:shadow-lg`}
-                      style={{ 
-                        transitionDelay: isPortailsOpen 
-                          ? `${index * 100}ms` 
-                          : `${(Object.entries(menuItems).length - index - 1) * 50}ms`
-                      }}
+                      } hover:transform hover:-translate-y-1 hover:shadow-lg`}
                     >
                       {value.title}
                     </button>
                   ))}
                 </div>
 
-                {/* Sous-menus avec animations améliorées */}
-                {portailType && (
-                  <div className={`flex space-x-6
-                    ${isAnimating 
-                      ? 'transition-all duration-150 ease-out opacity-0 translate-x-4 scale-95' 
-                      : 'transition-all duration-150 ease-out opacity-100 translate-x-0 scale-100'
-                    }
-                  `}
-                  style={{
-                    animation: portailType ? 'menuAppear 0.3s ease-out forwards' : 'none',
-                    opacity: 0,
-                    transform: 'translateX(20px) scale(0.95)'
-                  }}
-                  >
+                {/* Sous-menus */}
+                {portailType && !isAnimating && (
+                  <div className="flex space-x-6"
+                       style={{
+                         animation: 'fadeIn 0.3s ease-out forwards',
+                         opacity: 0
+                       }}>
                     <div className="flex flex-col gap-3 min-w-[200px]">
                       {menuItems[portailType].items.map((item, index) => (
-                        <div 
-                          key={index} 
-                          className="relative"
-                          style={{ 
-                            transitionDelay: isAnimating 
-                              ? `${(menuItems[portailType].items.length - index - 1) * 30}ms`
-                              : `${index * 50}ms`,
-                            opacity: isAnimating ? 0 : 1,
-                            transform: isAnimating ? 'translateY(10px) scale(0.95)' : 'translateY(0) scale(1)',
-                            transition: isAnimating 
-                              ? 'all 150ms ease-out' 
-                              : 'all 150ms ease-out'
-                          }}
-                        >
+                        <div key={index} className="relative">
                           {item.subItems ? (
                             <Link
                               to={item.path}
-                              className="text-left px-6 py-3 rounded-lg font-medium transition-all duration-500 ease-out shadow-lg w-full border bg-gradient-to-r from-orange-500/95 to-red-600/95 text-white hover:from-blue-700/95 hover:to-blue-500/95 border-orange-400 hover:transform hover:-translate-y-1 hover:shadow-lg flex items-center justify-between"
+                              className="text-left px-6 py-3 rounded-lg font-medium transition-all duration-300 ease-out shadow-lg w-full border bg-gradient-to-r from-orange-500/95 to-red-600/95 text-white hover:from-blue-700/95 hover:to-blue-500/95 border-orange-400 hover:transform hover:-translate-y-1 hover:shadow-lg flex items-center justify-between"
                               onMouseEnter={() => handleMouseEnter(index)}
                               onMouseLeave={handleMouseLeave}
                             >
                               <span className="text-sm font-semibold">{item.name}</span>
-                              <span className={`transition-transform duration-500 ease-out ${selectedItem === index ? 'rotate-90' : ''}`}>▶</span>
+                              <span className={`transition-transform duration-300 ease-out ${selectedItem === index ? 'rotate-90' : ''}`}>▶</span>
                             </Link>
                           ) : (
-                            <a
-                              href={item.path}
-                              className="bg-gradient-to-r from-orange-500/95 to-red-600/95 text-white text-left px-6 py-3 rounded-lg font-semibold hover:from-blue-700/95 hover:to-blue-500/95 transition-all duration-500 ease-out shadow-lg block w-full text-sm border border-orange-400 hover:transform hover:-translate-y-1 hover:shadow-lg"
+                            <Link
+                              to={item.path}
+                              className="bg-gradient-to-r from-orange-500/95 to-red-600/95 text-white text-left px-6 py-3 rounded-lg font-semibold hover:from-blue-700/95 hover:to-blue-500/95 transition-all duration-300 ease-out shadow-lg block w-full text-sm border border-orange-400 hover:transform hover:-translate-y-1 hover:shadow-lg"
                             >
                               {item.name}
-                            </a>
+                            </Link>
                           )}
                         </div>
                       ))}
                     </div>
                     
-                    {/* Sous-sous-menus avec animations améliorées */}
+                    {/* Sous-sous-menus */}
                     {selectedItem !== null && menuItems[portailType].items[selectedItem]?.subItems && (
                       <div 
-                        className={`flex flex-col gap-2 min-w-[200px]
-                          ${isAnimating 
-                            ? 'transition-all duration-100 ease-out opacity-0 translate-y-4 scale-95' 
-                            : 'transition-all duration-100 ease-out opacity-100 translate-y-0 scale-100'
-                          }
-                        `}
+                        className="flex flex-col gap-2 min-w-[200px] opacity-100 translate-y-0 scale-100 transition-all duration-200 ease-out"
                         onMouseEnter={() => setIsHovering(true)}
                         onMouseLeave={handleMouseLeave}
                       >
@@ -448,11 +415,9 @@ const Navbar = ({ theme }) => {
                           <Link
                             key={`${animationKey}-${subIndex}`}
                             to={subItem.path}
-                            className="bg-gradient-to-r from-yellow-400/95 to-orange-500/95 text-gray-900 text-left px-4 py-3 rounded-lg font-semibold hover:from-blue-400/95 hover:to-blue-600/95 hover:text-white shadow-md text-sm border border-yellow-300 hover:transform hover:-translate-y-1 hover:shadow-lg"
+                            className="bg-gradient-to-r from-yellow-400/95 to-orange-500/95 text-gray-900 text-left px-4 py-3 rounded-lg font-semibold hover:from-blue-400/95 hover:to-blue-600/95 hover:text-white shadow-md text-sm border border-yellow-300 hover:transform hover:-translate-y-1 hover:shadow-lg opacity-0"
                             style={{ 
-                              animation: `submenuItemAppear 0.2s ease-out ${subIndex * 30}ms forwards`,
-                              opacity: 0,
-                              transform: 'translateY(20px) scale(0.95)'
+                              animation: `fadeInUp 0.2s ease-out ${subIndex * 30}ms forwards`
                             }}
                           >
                             {subItem.name}
@@ -467,7 +432,7 @@ const Navbar = ({ theme }) => {
 
             <Link 
               to="/contact" 
-              className="px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-500 ease-out hover:transform hover:scale-105 hover:shadow-lg text-sm uppercase tracking-wide shadow-lg"
+              className="px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-300 ease-out hover:transform hover:scale-105 hover:shadow-lg text-sm uppercase tracking-wide shadow-lg"
             >
               {t.navbar.contact}
             </Link>
@@ -481,11 +446,7 @@ const Navbar = ({ theme }) => {
         {/* Overlay semi-transparent */}
         {isPortailsOpen && (
           <div 
-            className="fixed inset-0 bg-black/20 transition-opacity duration-500 ease-out"
-            style={{
-              opacity: isAnimating ? 0 : 1,
-              pointerEvents: isAnimating ? 'none' : 'auto'
-            }}
+            className="fixed inset-0 bg-black/20 transition-opacity duration-300 ease-out z-30"
             onClick={togglePortails}
           />
         )}

@@ -12,7 +12,8 @@ export const translations = {
     // Banner/Hero Section
     banner: {
       welcome: "BIENVENUE DANS MON UNIVERS !",
-      greeting: "Salut, je suis",
+      greeting: "Salut ! Je suis Flame",
+      andIAmAlso: "et je suis aussi...",
       description: "Créateur passionné, je donne vie à mes idées à travers le code et le dessin. Explorez mon univers créatif et découvrez mes projets !!",
       cta: "EXPLOREZ MON MONDE",
       scrollIndicator: "Scroll pour découvrir ↓",
@@ -495,7 +496,8 @@ export const translations = {
     // Banner/Hero Section
     banner: {
       welcome: "WELCOME TO MY UNIVERSE!",
-      greeting: "Hi, I'm",
+      greeting: "Hi! I'm Flame",
+      andIAmAlso: "and I'm also...",
       description: "Passionate creator, I bring my ideas to life through code and drawing. Explore my creative universe and discover my projects!!",
       cta: "EXPLORE MY WORLD",
       scrollIndicator: "Scroll to discover ↓",
@@ -938,7 +940,8 @@ export const translations = {
     // Banner/Hero Section
     banner: {
       welcome: "BEM-VINDO AO MEU UNIVERSO!",
-      greeting: "Oi, eu sou",
+      greeting: "Oi! Eu sou Flame",
+      andIAmAlso: "e eu também sou...",
       description: "Criador apaixonado, dou vida às minhas ideias através do código e do desenho. Explore meu universo criativo e descubra meus projetos!!",
       cta: "EXPLORE MEU MUNDO",
       scrollIndicator: "Role para descobrir ↓",
@@ -1383,7 +1386,8 @@ export const translations = {
     // Banner/Hero Section
     banner: {
       welcome: "私の宇宙へようこそ！",
-      greeting: "こんにちは、私は",
+      greeting: "こんにちは！私はFlameです",
+      andIAmAlso: "そして私は...",
       description: "情熱的なクリエイターとして、コードと絵を通してアイデアに命を吹き込みます。私のクリエイティブな宇宙を探索し、プロジェクトを発見してください！！",
       cta: "私の世界を探索",
       scrollIndicator: "スクロールして発見 ↓",

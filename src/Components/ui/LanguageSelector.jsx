@@ -9,7 +9,7 @@ function LanguageSelector() {
   const languages = [
     { 
       code: 'fr', 
-      name: t('language.french'), 
+      name: t.language.french, 
       flag: (
         <svg width="16" height="12" viewBox="0 0 3 2" className="inline-block">
           <rect width="1" height="2" fill="#002654"/>
@@ -20,7 +20,7 @@ function LanguageSelector() {
     },
     { 
       code: 'en', 
-      name: t('language.english'), 
+      name: t.language.english, 
       flag: (
         <svg width="16" height="10" viewBox="0 0 60 30" className="inline-block">
           <clipPath id="t">
@@ -36,7 +36,7 @@ function LanguageSelector() {
     },
     { 
       code: 'pt', 
-      name: t('language.portuguese'), 
+      name: t.language.portuguese, 
       flag: (
         <svg width="16" height="11" viewBox="0 0 3 2" className="inline-block">
           <rect width="3" height="2" fill="#FF0000"/>
@@ -46,7 +46,7 @@ function LanguageSelector() {
     },
     { 
       code: 'ja', 
-      name: t('language.japanese'), 
+      name: t.language.japanese, 
       flag: (
         <svg width="16" height="11" viewBox="0 0 3 2" className="inline-block">
           <rect width="3" height="2" fill="#FFFFFF"/>
@@ -82,7 +82,7 @@ function LanguageSelector() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="px-3 py-2 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-500 ease-out hover:transform hover:scale-105 hover:shadow-lg shadow-lg flex items-center justify-center"
-        title={`${t('language.french')}: ${currentLang?.name}`}
+        title={`${t.language.french}: ${currentLang?.name}`}
       >
         <span className="flex items-center justify-center">
           {currentLang?.flag}

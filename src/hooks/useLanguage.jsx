@@ -27,7 +27,8 @@ export const LanguageProvider = ({ children }) => {
     }
   };
 
-  const t = (key) => {
+  // Fonction t pour la compatibilité avec les anciens composants
+  const tFunction = (key) => {
     const keys = key.split('.');
     let translation = translations[currentLanguage];
     
@@ -51,10 +52,14 @@ export const LanguageProvider = ({ children }) => {
     return translation || key;
   };
 
+  // Objet de traductions direct
+  const translationsObject = translations[currentLanguage] || translations.fr;
+
   const value = {
     currentLanguage,
     changeLanguage,
-    t,
+    t: translationsObject, // Objet direct pour accès comme t.navbar.home
+    tFunction, // Fonction pour accès comme t('navbar.home')
     availableLanguages: Object.keys(translations)
   };
 

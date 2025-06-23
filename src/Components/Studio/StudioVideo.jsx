@@ -52,9 +52,12 @@ const StudioVideo = ({ section }) => {
         <div className="flex items-center mb-8">
           <Link 
             to="/creation/studio"
-            className="text-red-400 hover:text-red-300 mr-4"
+            className="text-red-400 hover:text-red-300 mr-4 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-red-900/20 transition-all duration-300 border border-red-500/30 hover:border-red-500 bg-gradient-to-r from-red-900/20 to-orange-900/20 backdrop-blur-sm"
           >
-            {t.studio.backToStudio}
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            <span className="font-semibold">{t.studio.backToStudio}</span>
           </Link>
           <h1 className="text-3xl md:text-4xl font-bold">
             {sections[section]?.title || t.studio.video.defaultTitle}

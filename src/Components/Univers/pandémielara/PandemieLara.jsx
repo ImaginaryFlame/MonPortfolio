@@ -1,34 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { client } from '../../../config/sanityClient';
 import { useLanguage } from '../../../hooks/useLanguage';
 
 const PandemieLara = ({ section }) => {
   const { t } = useLanguage();
+  const navigate = useNavigate();
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const sections = {
     personnages: {
       title: t.universes.sections.personnages,
-      query: '*[_type == "personnage" && universe == "pandemielara"]'
+      query: '*[_type == "personnage" && universe == "pandemie-lara"]'
     },
     "regions-lieux": {
       title: t.universes.sections.regionsLieux,
-      query: '*[_type == "region" && universe == "pandemielara"]'
+      query: '*[_type == "region" && universe == "pandemie-lara"]'
     },
     objets: {
       title: t.universes.sections.objets,
-      query: '*[_type == "objet" && universe == "pandemielara"]'
+      query: '*[_type == "objet" && universe == "pandemie-lara"]'
     },
     factions: {
       title: t.universes.sections.factions,
-      query: '*[_type == "faction" && universe == "pandemielara"]'
+      query: '*[_type == "faction" && universe == "pandemie-lara"]'
     },
     bestiaires: {
       title: t.universes.sections.bestiaires,
-      query: '*[_type == "creature" && universe == "pandemielara"]'
+      query: '*[_type == "creature" && universe == "pandemie-lara"]'
     }
+  };
+
+  const handleGoBack = () => {
+    navigate('/creation/univers-narratifs/pandemie-lara');
   };
 
   useEffect(() => {
@@ -48,18 +53,29 @@ const PandemieLara = ({ section }) => {
 
   if (!section) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white p-8">
+      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white pt-24 p-8">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl md:text-6xl font-bold mb-8">
-            {t.universes.projects.pandemie.title}
-          </h1>
+          <div className="flex items-center mb-8">
+            <button 
+              onClick={() => navigate('/creation/univers-narratifs')}
+              className="text-red-400 hover:text-red-300 mr-4 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-red-900/20 transition-all duration-300 border border-red-500/30 hover:border-red-500 bg-gradient-to-r from-red-900/20 to-orange-900/20 backdrop-blur-sm"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              <span className="font-semibold">Retour aux Univers</span>
+            </button>
+            <h1 className="text-4xl md:text-6xl font-bold">
+              {t.universes.projects.pandemie.title}
+            </h1>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {Object.entries(sections).map(([key, value]) => (
               <Link
                 key={key}
                 to={`/creation/univers-narratifs/pandemie-lara/${key}`}
-                className="p-6 rounded-xl bg-gradient-to-br from-green-900/50 to-teal-900/50 border border-green-500/30 hover:border-green-500 transition-all duration-300"
+                className="p-6 rounded-xl bg-gradient-to-br from-red-900/50 to-orange-900/50 border border-red-500/30 hover:border-red-500 transition-all duration-300"
               >
                 <h2 className="text-xl font-bold mb-2">{value.title}</h2>
               </Link>
@@ -72,47 +88,38 @@ const PandemieLara = ({ section }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white p-8 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-green-500"></div>
+      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white pt-24 p-8 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-red-500"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white p-8">
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white pt-24 p-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center mb-8">
-          <Link 
-            to="/creation/univers-narratifs/pandemie-lara"
-            className="text-green-400 hover:text-green-300 mr-4"
+          <button 
+            onClick={handleGoBack}
+            className="text-red-400 hover:text-red-300 mr-4 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-red-900/20 transition-all duration-300 border border-red-500/30 hover:border-red-500 bg-gradient-to-r from-red-900/20 to-orange-900/20 backdrop-blur-sm"
           >
-            {t.universes.actions.back}
-          </Link>
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            <span className="font-semibold">Retour</span>
+          </button>
           <h1 className="text-3xl md:text-4xl font-bold">
             {sections[section].title}
           </h1>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {content && content.map((item) => (
+          {content && content.map((item, index) => (
             <div 
               key={item._id}
-              className="p-6 rounded-xl bg-gradient-to-br from-green-900/50 to-teal-900/50 border border-green-500/30"
+              className="p-6 rounded-xl bg-gradient-to-br from-red-900/50 to-orange-900/50 border border-red-500/30"
             >
-              {item.image && (
-                <div className="relative h-48 mb-4 rounded-lg overflow-hidden">
-                  <img 
-                    src={item.image}
-                    alt={item.name || item.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              )}
               <h2 className="text-xl font-bold mb-2">{item.name || item.title}</h2>
               <p className="text-gray-300">{item.description}</p>
-              {item.type && (
-                <p className="text-green-400 mt-2 text-sm">{item.type}</p>
-              )}
             </div>
           ))}
         </div>

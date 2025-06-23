@@ -103,26 +103,26 @@ const Projects = () => {
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Titre de la section */}
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            {t('projects.title')}
+          <h2 className="text-4xl md:text-5xl font-bold title-gradient mb-4">
+            {t.projects.title}
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            {t('projects.description')}
+          <p className="text-xl description-gradient max-w-3xl mx-auto">
+            {t.projects.description}
           </p>
         </div>
 
         {loading ? (
           <div className="text-center text-white text-xl">
-            {t('projects.loading')}
+            {t.projects.loading}
           </div>
         ) : error ? (
           <div className="text-center text-red-400 text-xl">
-            {t('projects.error')}: {error}
+            {t.projects.error}: {error}
           </div>
         ) : (
           <div>
             {/* Navigation des catégories */}
-            <div className="flex justify-center mb-12">
+            <div className="flex justify-center mb-12 relative z-[70]">
               <div className="inline-flex bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-full p-1 gap-1">
                 {/* Bouton "Tous les projets" */}
                 <button
@@ -133,7 +133,7 @@ const Projects = () => {
                       : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
                   }`}
                 >
-                  {t('projects.allProjects')}
+                  {t.projects.allProjects}
                 </button>
 
                 {/* Boutons des catégories */}
@@ -149,19 +149,19 @@ const Projects = () => {
                               : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
                           }`}
                         >
-                          {category === 'arts' && t('projects.categories.arts')}
-                          {category === 'dev' && t('projects.categories.dev')}
-                          {category === 'video' && t('projects.categories.video')}
+                          {category === 'arts' && t.projects.categories.arts}
+                          {category === 'dev' && t.projects.categories.dev}
+                          {category === 'video' && t.projects.categories.video}
                         </button>
                         
-                        {/* Menu déroulant avec Tailwind hover */}
-                        <div className="absolute top-full left-0 mt-2 w-64 bg-gray-800/95 backdrop-blur-sm rounded-lg shadow-xl border border-gray-700/50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                        {/* Menu déroulant avec z-index élevé */}
+                        <div className="absolute top-full left-0 mt-2 w-64 bg-gray-800/95 backdrop-blur-sm rounded-lg shadow-xl border border-gray-700/50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[100]">
                           <div className="py-2">
                             <button 
                               onClick={() => handleSubCategorySelect('all')}
                               className={`w-full text-left px-4 py-2 text-white hover:bg-gray-700/70 transition-colors ${activeSubCategory === 'all' ? 'bg-gray-700/50' : ''}`}
                             >
-                              {t('projects.allSubcategories')}
+                              {t.projects.allSubcategories}
                             </button>
                             <div className="border-t border-gray-600/50 my-1"></div>
                             {subCategories.map(subCat => (
@@ -184,10 +184,10 @@ const Projects = () => {
                             ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg transform scale-105'
                             : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
                         }`}
-                                              >
-                        {category === 'arts' && t('projects.categories.arts')}
-                        {category === 'dev' && t('projects.categories.dev')}
-                        {category === 'video' && t('projects.categories.video')}
+                      >
+                        {category === 'arts' && t.projects.categories.arts}
+                        {category === 'dev' && t.projects.categories.dev}
+                        {category === 'video' && t.projects.categories.video}
                       </button>
                     )}
                   </div>
@@ -196,7 +196,7 @@ const Projects = () => {
             </div>
 
             {/* Grille des projets */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-in">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-in relative z-0">
               {filteredProjects.map((project, index) => (
                 <div 
                   key={project._id || index} 
@@ -252,7 +252,7 @@ const Projects = () => {
               {filteredProjects.length === 0 && (
                 <div className="col-span-full text-center py-12">
                   <div className="text-gray-400 text-xl">
-                    {t('projects.noProjects')}
+                    {t.projects.noProjects}
                   </div>
                 </div>
               )}
@@ -260,6 +260,49 @@ const Projects = () => {
           </div>
         )}
       </div>
+      
+      {/* Styles CSS pour les animations */}
+      <style jsx>{`
+        @keyframes title-gradient-shift {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+        
+        @keyframes title-shimmer {
+          0% { 
+            background-position: -200% center; 
+            opacity: 0;
+          }
+          50% { 
+            background-position: 200% center; 
+            opacity: 0.3;
+          }
+          100% { 
+            background-position: 400% center; 
+            opacity: 0;
+          }
+        }
+        
+        .title-gradient {
+          background: linear-gradient(90deg, #ffffff, #f8f8f8, #ffffff, #f0f0f0, #ffffff);
+          background-size: 300% 100%;
+          animation: title-gradient-shift 4s ease-in-out infinite;
+          background-clip: text;
+          -webkit-background-clip: text;
+          color: transparent;
+          text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+        
+        .description-gradient {
+          background: linear-gradient(90deg, #e0e0e0, #f0f0f0, #e0e0e0, #d0d0d0, #e0e0e0);
+          background-size: 300% 100%;
+          animation: title-gradient-shift 5s ease-in-out infinite;
+          background-clip: text;
+          -webkit-background-clip: text;
+          color: transparent;
+          text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+      `}</style>
     </section>
   );
 }

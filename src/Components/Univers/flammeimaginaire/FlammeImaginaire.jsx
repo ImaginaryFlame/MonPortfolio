@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { client } from '../../../config/sanityClient';
 import { useLanguage } from '../../../hooks/useLanguage';
 
 const FlammeImaginaire = ({ section }) => {
   const { t } = useLanguage();
+  const navigate = useNavigate();
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -51,6 +52,10 @@ const FlammeImaginaire = ({ section }) => {
       title: t.universes.sections.celebrations,
       query: '*[_type == "celebrations" && univers._ref in *[_type=="univers" && nom=="Le Héros à la Flamme Imaginaire"]._id]'
     }
+  };
+
+  const handleGoBack = () => {
+    navigate('/creation/univers-narratifs/flamme-imaginaire');
   };
 
   useEffect(() => {
@@ -132,7 +137,7 @@ const FlammeImaginaire = ({ section }) => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <h3 className="text-lg font-semibold text-orange-400 mb-2">{t.universes.characterDetails.generalInfo}</h3>
+            <h3 className="text-lg font-semibold text-blue-400 mb-2">{t.universes.characterDetails.generalInfo}</h3>
             <div className="space-y-2 text-sm">
               {personnage.age && <p><strong>{t.universes.characterDetails.age}:</strong> {personnage.age} {t.universes.characterDetails.years}</p>}
               {personnage.sexe && <p><strong>{t.universes.characterDetails.gender}:</strong> {personnage.sexe}</p>}
@@ -144,7 +149,7 @@ const FlammeImaginaire = ({ section }) => {
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold text-orange-400 mb-2">{t.universes.characterDetails.personality}</h3>
+            <h3 className="text-lg font-semibold text-blue-400 mb-2">{t.universes.characterDetails.personality}</h3>
             <p className="text-sm text-gray-300">
               {personnage.resumePersonnalite || t.universes.actions.noDescription}
             </p>
@@ -153,14 +158,14 @@ const FlammeImaginaire = ({ section }) => {
 
         {personnage.apparence && (
           <div>
-            <h3 className="text-lg font-semibold text-orange-400 mb-2">{t.universes.characterDetails.appearance}</h3>
+            <h3 className="text-lg font-semibold text-blue-400 mb-2">{t.universes.characterDetails.appearance}</h3>
             <p className="text-sm text-gray-300">{personnage.apparence.fr || personnage.apparence}</p>
           </div>
         )}
 
         {personnage.relationsSimplifiees && personnage.relationsSimplifiees.length > 0 && (
           <div>
-            <h3 className="text-lg font-semibold text-orange-400 mb-2">{t.universes.characterDetails.relations}</h3>
+            <h3 className="text-lg font-semibold text-blue-400 mb-2">{t.universes.characterDetails.relations}</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {personnage.relationsSimplifiees.map((relation, index) => (
                 <div key={index} className="bg-gray-800/50 p-2 rounded">
@@ -175,7 +180,7 @@ const FlammeImaginaire = ({ section }) => {
 
         {personnage.objectifs && personnage.objectifs.length > 0 && (
           <div>
-            <h3 className="text-lg font-semibold text-orange-400 mb-2">{t.universes.characterDetails.objectives}</h3>
+            <h3 className="text-lg font-semibold text-blue-400 mb-2">{t.universes.characterDetails.objectives}</h3>
             <div className="space-y-2">
               {personnage.objectifs.map((objectif, index) => (
                 <div key={index} className="bg-gray-800/50 p-3 rounded">
@@ -216,7 +221,7 @@ const FlammeImaginaire = ({ section }) => {
         </div>
         {item.type && (
           <div>
-            <h3 className="text-lg font-semibold text-orange-400 mb-2">{t.universes.characterDetails.type}</h3>
+            <h3 className="text-lg font-semibold text-blue-400 mb-2">{t.universes.characterDetails.type}</h3>
             <p className="text-sm">{item.type}</p>
           </div>
         )}
@@ -226,18 +231,29 @@ const FlammeImaginaire = ({ section }) => {
 
   if (!section) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white p-8">
+      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white pt-24 p-8">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl md:text-6xl font-bold mb-8">
-            {t.universes.projects.flammeImaginaire.title}
-          </h1>
+          <div className="flex items-center mb-8">
+            <button 
+              onClick={() => navigate('/creation/univers-narratifs')}
+              className="text-blue-400 hover:text-blue-300 mr-4 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-blue-900/20 transition-all duration-300 border border-blue-500/30 hover:border-blue-500 bg-gradient-to-r from-blue-900/20 to-indigo-900/20 backdrop-blur-sm"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              <span className="font-semibold">Retour aux Univers</span>
+            </button>
+            <h1 className="text-4xl md:text-6xl font-bold">
+              {t.universes.projects.flammeImaginaire.title}
+            </h1>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {Object.entries(sections).map(([key, value]) => (
               <Link
                 key={key}
                 to={`/creation/univers-narratifs/flamme-imaginaire/${key}`}
-                className="p-6 rounded-xl bg-gradient-to-br from-orange-900/50 to-red-900/50 border border-orange-500/30 hover:border-orange-500 transition-all duration-300"
+                className="p-6 rounded-xl bg-gradient-to-br from-blue-900/50 to-indigo-900/50 border border-blue-500/30 hover:border-blue-500 transition-all duration-300"
               >
                 <h2 className="text-xl font-bold mb-2">{value.title}</h2>
               </Link>
@@ -250,22 +266,25 @@ const FlammeImaginaire = ({ section }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white p-8 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-orange-500"></div>
+      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white pt-24 p-8 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white p-8">
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white pt-24 p-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center mb-8">
-          <Link 
-            to="/creation/univers-narratifs/flamme-imaginaire"
-            className="text-orange-400 hover:text-orange-300 mr-4"
+          <button 
+            onClick={handleGoBack}
+            className="text-blue-400 hover:text-blue-300 mr-4 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-blue-900/20 transition-all duration-300 border border-blue-500/30 hover:border-blue-500 bg-gradient-to-r from-blue-900/20 to-indigo-900/20 backdrop-blur-sm"
           >
-            {t.universes.actions.back}
-          </Link>
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            <span className="font-semibold">Retour</span>
+          </button>
           <h1 className="text-3xl md:text-4xl font-bold">
             {sections[section].title}
           </h1>
@@ -276,7 +295,7 @@ const FlammeImaginaire = ({ section }) => {
             <div 
               key={item._id}
               onClick={() => handleItemClick(item)}
-              className="p-6 rounded-xl bg-gradient-to-br from-orange-900/50 to-red-900/50 border border-orange-500/30 hover:border-orange-500 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-xl"
+              className="p-6 rounded-xl bg-gradient-to-br from-blue-900/50 to-indigo-900/50 border border-blue-500/30 hover:border-blue-500 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-xl"
             >
               {item.image && (
                 <div className="relative h-48 mb-4 rounded-lg overflow-hidden">
@@ -290,11 +309,11 @@ const FlammeImaginaire = ({ section }) => {
               <h2 className="text-xl font-bold mb-2">{item.nom?.fr || item.nom || item.title}</h2>
               <p className="text-gray-300 line-clamp-3">{item.description || item.resume || item.resumePersonnalite}</p>
               {item.type && (
-                <p className="text-orange-400 mt-2 text-sm">{item.type}</p>
+                <p className="text-blue-400 mt-2 text-sm">{item.type}</p>
               )}
               <div className="mt-4 flex justify-between items-center">
                 <span className="text-xs text-gray-400">{t.universes.actions.clickForDetails}</span>
-                <span className="text-orange-400">→</span>
+                <span className="text-blue-400">→</span>
               </div>
             </div>
           ))}
@@ -306,7 +325,7 @@ const FlammeImaginaire = ({ section }) => {
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
           <div className="bg-gray-900 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
             <div className="sticky top-0 bg-gray-900 border-b border-gray-700 p-6 flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-orange-400">
+              <h2 className="text-2xl font-bold text-blue-400">
                 {selectedItem.nom?.fr || selectedItem.nom || selectedItem.title}
               </h2>
               <button

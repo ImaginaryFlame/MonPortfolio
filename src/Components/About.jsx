@@ -2,7 +2,7 @@ import { Card, CardContent } from "@/Components/ui/card";
 import { useLanguage } from '../hooks/useLanguage.jsx';
 
 export default function AboutSection() {
-  const { t } = useLanguage();
+  const { t, tFunction } = useLanguage();
   return (
     <section className="py-12 px-4 md:px-12 bg-gradient-to-b from-[#0e0e0e] to-[#1a1a1a] text-white">
       <style jsx>{`
@@ -85,7 +85,7 @@ export default function AboutSection() {
         <div className="mt-20 animate-fade-in delay-100">
           <h1 className="text-4xl md:text-5xl font-bold text-center flex items-center justify-center">
             <span className="mr-3 text-orange-500 animate-pulse text-3xl">🔥</span>
-            {t('about.title')}
+            {t.about.title}
             <span className="ml-3 text-orange-500 animate-pulse text-3xl">🔥</span>
           </h1>
         </div>
@@ -99,7 +99,7 @@ export default function AboutSection() {
             />
           </div>
           <div className="lg:w-2/3">
-            <p className="text-lg leading-relaxed" dangerouslySetInnerHTML={{ __html: t('about.intro') }}></p>
+            <p className="text-lg leading-relaxed" dangerouslySetInnerHTML={{ __html: tFunction('about.intro') }}></p>
           </div>
         </div>
 
@@ -107,13 +107,13 @@ export default function AboutSection() {
           <Card className="bg-[#121212] border-orange-500/20 border shadow-xl hover:shadow-orange-500/10 transition-all duration-300 animate-slide-left delay-300">
             <CardContent className="space-y-4 p-6">
               <h2 className="text-2xl font-semibold text-orange-400 flex items-center">
-                <span className="mr-2 text-2xl">💻</span> {t('about.sections.techStack')}
+                <span className="mr-2 text-2xl">💻</span> {t.about.sections.techStack}
               </h2>
               <div className="space-y-3">
-                <p dangerouslySetInnerHTML={{ __html: t('about.techStack.development') }}></p>
-                <p dangerouslySetInnerHTML={{ __html: t('about.techStack.creation') }}></p>
-                <p dangerouslySetInnerHTML={{ __html: t('about.techStack.postProduction') }}></p>
-                <p dangerouslySetInnerHTML={{ __html: t('about.techStack.writing') }}></p>
+                <p dangerouslySetInnerHTML={{ __html: tFunction('about.techStack.development') }}></p>
+                <p dangerouslySetInnerHTML={{ __html: tFunction('about.techStack.creation') }}></p>
+                <p dangerouslySetInnerHTML={{ __html: tFunction('about.techStack.postProduction') }}></p>
+                <p dangerouslySetInnerHTML={{ __html: tFunction('about.techStack.writing') }}></p>
               </div>
             </CardContent>
           </Card>
@@ -121,13 +121,13 @@ export default function AboutSection() {
           <Card className="bg-[#121212] border-orange-500/20 border shadow-xl hover:shadow-orange-500/10 transition-all duration-300 animate-slide-right delay-400">
             <CardContent className="space-y-4 p-6">
               <h2 className="text-2xl font-semibold text-orange-400 flex items-center">
-                <span className="mr-2 text-2xl">🎨</span> {t('about.sections.creativeSetup')}
+                <span className="mr-2 text-2xl">🎨</span> {t.about.sections.creativeSetup}
               </h2>
               <div className="space-y-3">
-                <p dangerouslySetInnerHTML={{ __html: t('about.setup.mainPC') }}></p>
-                <p dangerouslySetInnerHTML={{ __html: t('about.setup.specs') }}></p>
-                <p dangerouslySetInnerHTML={{ __html: t('about.setup.peripherals') }}></p>
-                <p dangerouslySetInnerHTML={{ __html: t('about.setup.devices') }}></p>
+                <p dangerouslySetInnerHTML={{ __html: tFunction('about.setup.mainPC') }}></p>
+                <p dangerouslySetInnerHTML={{ __html: tFunction('about.setup.specs') }}></p>
+                <p dangerouslySetInnerHTML={{ __html: tFunction('about.setup.peripherals') }}></p>
+                <p dangerouslySetInnerHTML={{ __html: tFunction('about.setup.devices') }}></p>
               </div>
             </CardContent>
           </Card>
@@ -135,13 +135,13 @@ export default function AboutSection() {
           <Card className="bg-[#121212] border-orange-500/20 border shadow-xl hover:shadow-orange-500/10 transition-all duration-300 md:col-span-2 animate-slide-bottom delay-500">
             <CardContent className="space-y-4 p-6">
               <h2 className="text-2xl font-semibold text-orange-400 flex items-center">
-                <span className="mr-2 text-2xl">🎮</span> {t('about.sections.mainUniverse')}
+                <span className="mr-2 text-2xl">🎮</span> {t.about.sections.mainUniverse}
               </h2>
               <div className="space-y-3">
-                <p dangerouslySetInnerHTML={{ __html: t('about.mainUniverse.description') }}></p>
-                <p dangerouslySetInnerHTML={{ __html: t('about.mainUniverse.themes') }}></p>
-                <p className="text-sm text-gray-300" dangerouslySetInnerHTML={{ __html: t('about.mainUniverse.influences') }}></p>
-                <p className="text-sm text-gray-300" dangerouslySetInnerHTML={{ __html: t('about.mainUniverse.visualStyles') }}></p>
+                <p dangerouslySetInnerHTML={{ __html: tFunction('about.mainUniverse.description') }}></p>
+                <p dangerouslySetInnerHTML={{ __html: tFunction('about.mainUniverse.themes') }}></p>
+                <p className="text-sm text-gray-300" dangerouslySetInnerHTML={{ __html: tFunction('about.mainUniverse.influences') }}></p>
+                <p className="text-sm text-gray-300" dangerouslySetInnerHTML={{ __html: tFunction('about.mainUniverse.visualStyles') }}></p>
               </div>
             </CardContent>
           </Card>
@@ -149,25 +149,25 @@ export default function AboutSection() {
           <Card className="bg-[#121212] border-orange-500/20 border shadow-xl hover:shadow-orange-500/10 transition-all duration-300 md:col-span-2 animate-slide-left delay-600">
             <CardContent className="space-y-4 p-6">
               <h2 className="text-2xl font-semibold text-orange-400 flex items-center">
-                <span className="mr-2 text-2xl">✨</span> {t('about.sections.narrativeProjects')}
+                <span className="mr-2 text-2xl">✨</span> {t.about.sections.narrativeProjects}
               </h2>
               <div className="space-y-4">
                 <div>
-                  <h3 className="font-semibold text-lg text-orange-300">{t('about.narrativeProjects.heroFairy.title')}</h3>
-                  <p className="text-sm text-gray-300 mb-2" dangerouslySetInnerHTML={{ __html: t('about.narrativeProjects.heroFairy.description') }}></p>
-                  <p className="text-sm text-gray-300" dangerouslySetInnerHTML={{ __html: t('about.narrativeProjects.heroFairy.summary') }}></p>
+                  <h3 className="font-semibold text-lg text-orange-300">{t.about.narrativeProjects.heroFairy.title}</h3>
+                  <p className="text-sm text-gray-300 mb-2" dangerouslySetInnerHTML={{ __html: tFunction('about.narrativeProjects.heroFairy.description') }}></p>
+                  <p className="text-sm text-gray-300" dangerouslySetInnerHTML={{ __html: tFunction('about.narrativeProjects.heroFairy.summary') }}></p>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-lg text-orange-300">{t('about.narrativeProjects.vinceBelii.title')}</h3>
-                  <p className="text-sm text-gray-300 mb-2" dangerouslySetInnerHTML={{ __html: t('about.narrativeProjects.vinceBelii.description') }}></p>
-                  <p className="text-sm text-gray-300" dangerouslySetInnerHTML={{ __html: t('about.narrativeProjects.vinceBelii.summary') }}></p>
+                  <h3 className="font-semibold text-lg text-orange-300">{t.about.narrativeProjects.vinceBelii.title}</h3>
+                  <p className="text-sm text-gray-300 mb-2" dangerouslySetInnerHTML={{ __html: tFunction('about.narrativeProjects.vinceBelii.description') }}></p>
+                  <p className="text-sm text-gray-300" dangerouslySetInnerHTML={{ __html: tFunction('about.narrativeProjects.vinceBelii.summary') }}></p>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-lg text-orange-300">{t('about.narrativeProjects.laraPandemic.title')}</h3>
-                  <p className="text-sm text-gray-300 mb-2" dangerouslySetInnerHTML={{ __html: t('about.narrativeProjects.laraPandemic.description') }}></p>
-                  <p className="text-sm text-gray-300" dangerouslySetInnerHTML={{ __html: t('about.narrativeProjects.laraPandemic.summary') }}></p>
+                  <h3 className="font-semibold text-lg text-orange-300">{t.about.narrativeProjects.laraPandemic.title}</h3>
+                  <p className="text-sm text-gray-300 mb-2" dangerouslySetInnerHTML={{ __html: tFunction('about.narrativeProjects.laraPandemic.description') }}></p>
+                  <p className="text-sm text-gray-300" dangerouslySetInnerHTML={{ __html: tFunction('about.narrativeProjects.laraPandemic.summary') }}></p>
                 </div>
-                <p className="text-sm text-gray-400 italic" dangerouslySetInnerHTML={{ __html: t('about.narrativeProjects.otherStories') }}></p>
+                <p className="text-sm text-gray-400 italic" dangerouslySetInnerHTML={{ __html: tFunction('about.narrativeProjects.otherStories') }}></p>
               </div>
             </CardContent>
           </Card>
@@ -175,11 +175,11 @@ export default function AboutSection() {
           <Card className="bg-[#121212] border-orange-500/20 border shadow-xl hover:shadow-orange-500/10 transition-all duration-300 animate-slide-right delay-700">
             <CardContent className="space-y-4 p-6">
               <h2 className="text-2xl font-semibold text-orange-400 flex items-center">
-                <span className="mr-2 text-2xl">📹</span> {t('about.sections.contentCreation')}
+                <span className="mr-2 text-2xl">📹</span> {t.about.sections.contentCreation}
               </h2>
               <div className="space-y-3">
-                <p dangerouslySetInnerHTML={{ __html: t('about.contentCreation.description') }}></p>
-                <p dangerouslySetInnerHTML={{ __html: t('about.socialNetworks.main') }}></p>
+                <p dangerouslySetInnerHTML={{ __html: tFunction('about.contentCreation.description') }}></p>
+                <p dangerouslySetInnerHTML={{ __html: tFunction('about.socialNetworks.main') }}></p>
                 <div className="flex flex-wrap gap-2 mt-3 mb-4">
                   <a 
                     href="https://linktw.in/CxYRUG" 
@@ -230,7 +230,7 @@ export default function AboutSection() {
                     Discord
                   </a>
                 </div>
-                <p dangerouslySetInnerHTML={{ __html: t('about.socialNetworks.art') }}></p>
+                <p dangerouslySetInnerHTML={{ __html: tFunction('about.socialNetworks.art') }}></p>
                 <div className="flex flex-wrap gap-2 mt-3">
                   <a 
                     href="https://linktw.in/JTYaRc" 
@@ -264,11 +264,11 @@ export default function AboutSection() {
           <Card className="bg-[#121212] border-orange-500/20 border shadow-xl hover:shadow-orange-500/10 transition-all duration-300 animate-slide-left delay-800">
             <CardContent className="space-y-4 p-6">
               <h2 className="text-2xl font-semibold text-orange-400 flex items-center">
-                <span className="mr-2 text-2xl">👥</span> {t('about.sections.community')}
+                <span className="mr-2 text-2xl">👥</span> {t.about.sections.community}
               </h2>
               <div className="space-y-3">
-                <p dangerouslySetInnerHTML={{ __html: t('about.community.hasJoel') }}></p>
-                <p dangerouslySetInnerHTML={{ __html: t('about.community.bmsTalents') }}></p>
+                <p dangerouslySetInnerHTML={{ __html: tFunction('about.community.hasJoel') }}></p>
+                <p dangerouslySetInnerHTML={{ __html: tFunction('about.community.bmsTalents') }}></p>
               </div>
             </CardContent>
           </Card>
@@ -276,11 +276,11 @@ export default function AboutSection() {
           <Card className="bg-[#121212] border-orange-500/20 border shadow-xl hover:shadow-orange-500/10 transition-all duration-300 animate-slide-right delay-900">
             <CardContent className="space-y-4 p-6">
               <h2 className="text-2xl font-semibold text-orange-400 flex items-center">
-                <span className="mr-2 text-2xl">🔥</span> {t('about.sections.vision')}
+                <span className="mr-2 text-2xl">🔥</span> {t.about.sections.vision}
               </h2>
               <div className="space-y-3">
-                <p dangerouslySetInnerHTML={{ __html: t('about.vision.objective') }}></p>
-                <p className="text-sm text-gray-300" dangerouslySetInnerHTML={{ __html: t('about.vision.construction') }}></p>
+                <p dangerouslySetInnerHTML={{ __html: tFunction('about.vision.objective') }}></p>
+                <p className="text-sm text-gray-300" dangerouslySetInnerHTML={{ __html: tFunction('about.vision.construction') }}></p>
               </div>
             </CardContent>
           </Card>

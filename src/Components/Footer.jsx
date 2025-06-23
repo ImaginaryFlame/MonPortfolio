@@ -132,7 +132,7 @@ const Footer = () => {
             />
           </a>
 
-          <p className="text-center">{t('footer.copyright')}</p>
+          <p className="text-center">{t.footer.copyright}</p>
         </div>
       </div>
     </footer>

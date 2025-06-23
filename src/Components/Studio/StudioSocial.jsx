@@ -44,9 +44,12 @@ const StudioSocial = ({ section }) => {
         <div className="flex items-center mb-8">
           <Link 
             to="/creation/studio"
-            className="text-blue-400 hover:text-blue-300 mr-4"
+            className="text-blue-400 hover:text-blue-300 mr-4 flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-blue-900/20 transition-all duration-300 border border-blue-500/30 hover:border-blue-500 bg-gradient-to-r from-blue-900/20 to-indigo-900/20 backdrop-blur-sm"
           >
-            {t.studio.social.backToStudio}
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            <span className="font-semibold">{t.studio.social.backToStudio}</span>
           </Link>
           <h1 className="text-3xl md:text-4xl font-bold">
             {sections[section]?.title || t.studio.social.title}
