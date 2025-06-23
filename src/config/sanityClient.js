@@ -8,7 +8,10 @@ export const client = createClient({
   useCdn: true, // Activé pour de meilleures performances
   apiVersion: '2023-01-01',
   token: import.meta.env.VITE_SANITY_TOKEN,
-  ignoreBrowserTokenWarning: true // Pour éviter l'avertissement de token dans le navigateur
+  ignoreBrowserTokenWarning: true, // Pour éviter l'avertissement de token dans le navigateur
+  // Configuration pour les requêtes cross-origin
+  withCredentials: false,
+  requestTagPrefix: 'sanity'
 })
 
 // Configuration pour les URLs d'images
