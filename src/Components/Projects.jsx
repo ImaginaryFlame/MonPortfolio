@@ -123,35 +123,39 @@ const Projects = () => {
           <div>
             {/* Navigation des catégories */}
             <div className="flex justify-center mb-12 relative z-[70]">
-              <div className="inline-flex bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-full p-1 gap-1">
+              <div className="inline-flex bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-full p-1 gap-1 pill-container">
                 {/* Bouton "Tous les projets" */}
                 <button
                   onClick={() => handleSelect('all')}
-                  className={`px-6 py-3 rounded-full font-medium transition-all duration-300 whitespace-nowrap ${
+                  className={`px-6 py-3 rounded-full font-medium transition-all duration-500 whitespace-nowrap pill-button relative overflow-hidden ${
                     activeTab === 'all'
-                      ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg transform scale-105'
-                      : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
+                      ? 'pill-active text-white shadow-lg transform scale-105'
+                      : 'text-gray-300 hover:text-white pill-hover'
                   }`}
+                  style={{ animationDelay: '0s' }}
                 >
-                  {t.projects.allProjects}
+                  <span className="relative z-10">{t.projects.allProjects}</span>
                 </button>
 
                 {/* Boutons des catégories */}
-                {Object.entries(categories).map(([category, subCategories]) => (
+                {Object.entries(categories).map(([category, subCategories], index) => (
                   <div key={category} className="relative group">
                     {subCategories.length > 0 ? (
                       <>
                         <button
                           onClick={() => handleSelect(category)}
-                          className={`px-6 py-3 rounded-full font-medium transition-all duration-300 whitespace-nowrap cursor-pointer ${
+                          className={`px-6 py-3 rounded-full font-medium transition-all duration-500 whitespace-nowrap cursor-pointer pill-button relative overflow-hidden ${
                             activeTab === category
-                              ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg transform scale-105'
-                              : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
+                              ? 'pill-active text-white shadow-lg transform scale-105'
+                              : 'text-gray-300 hover:text-white pill-hover'
                           }`}
+                          style={{ animationDelay: `${(index + 1) * 0.5}s` }}
                         >
-                          {category === 'arts' && t.projects.categories.arts}
-                          {category === 'dev' && t.projects.categories.dev}
-                          {category === 'video' && t.projects.categories.video}
+                          <span className="relative z-10">
+                            {category === 'arts' && t.projects.categories.arts}
+                            {category === 'dev' && t.projects.categories.dev}
+                            {category === 'video' && t.projects.categories.video}
+                          </span>
                         </button>
                         
                         {/* Menu déroulant avec z-index élevé */}
@@ -179,15 +183,18 @@ const Projects = () => {
                     ) : (
                       <button
                         onClick={() => handleSelect(category)}
-                        className={`px-6 py-3 rounded-full font-medium transition-all duration-300 whitespace-nowrap ${
+                        className={`px-6 py-3 rounded-full font-medium transition-all duration-500 whitespace-nowrap pill-button relative overflow-hidden ${
                           activeTab === category
-                            ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg transform scale-105'
-                            : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
+                            ? 'pill-active text-white shadow-lg transform scale-105'
+                            : 'text-gray-300 hover:text-white pill-hover'
                         }`}
+                        style={{ animationDelay: `${(index + 1) * 0.5}s` }}
                       >
-                        {category === 'arts' && t.projects.categories.arts}
-                        {category === 'dev' && t.projects.categories.dev}
-                        {category === 'video' && t.projects.categories.video}
+                        <span className="relative z-10">
+                          {category === 'arts' && t.projects.categories.arts}
+                          {category === 'dev' && t.projects.categories.dev}
+                          {category === 'video' && t.projects.categories.video}
+                        </span>
                       </button>
                     )}
                   </div>
@@ -281,6 +288,126 @@ const Projects = () => {
             background-position: 400% center; 
             opacity: 0;
           }
+        }
+        
+        @keyframes pill-gradient-flow {
+          0% { background-position: 0% 50%; }
+          25% { background-position: 100% 50%; }
+          50% { background-position: 100% 100%; }
+          75% { background-position: 0% 100%; }
+          100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes pill-slide-shimmer {
+          0% {
+            transform: translateX(-100%) rotate(-10deg);
+            opacity: 0;
+          }
+          50% {
+            opacity: 1;
+          }
+          100% {
+            transform: translateX(100%) rotate(10deg);
+            opacity: 0;
+          }
+        }
+        
+        @keyframes pill-continuous-slide {
+          0% {
+            left: -100%;
+            opacity: 0;
+          }
+          20% {
+            opacity: 1;
+          }
+          80% {
+            opacity: 1;
+          }
+          100% {
+            left: 100%;
+            opacity: 0;
+          }
+        }
+        
+        @keyframes pill-pulse {
+          0%, 100% {
+            box-shadow: 0 0 10px rgba(147, 51, 234, 0.3), 0 0 20px rgba(59, 130, 246, 0.2);
+          }
+          50% {
+            box-shadow: 0 0 20px rgba(147, 51, 234, 0.6), 0 0 40px rgba(59, 130, 246, 0.4);
+          }
+        }
+        
+        .pill-container {
+          animation: pill-pulse 3s ease-in-out infinite;
+        }
+        
+        .pill-button {
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .pill-button::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.4),
+            rgba(255, 255, 255, 0.6),
+            rgba(255, 255, 255, 0.4),
+            transparent
+          );
+          animation: pill-continuous-slide 3s ease-in-out infinite;
+          animation-delay: inherit;
+          z-index: 1;
+          border-radius: inherit;
+        }
+        
+        .pill-active {
+          background: linear-gradient(
+            45deg,
+            #7c3aed,
+            #3b82f6,
+            #8b5cf6,
+            #6366f1,
+            #7c3aed
+          );
+          background-size: 300% 300%;
+          animation: pill-gradient-flow 4s ease-in-out infinite;
+          position: relative;
+        }
+        
+        .pill-active::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(
+            120deg,
+            transparent 40%,
+            rgba(255, 255, 255, 0.3) 50%,
+            rgba(255, 255, 255, 0.1) 60%,
+            transparent 70%
+          );
+          animation: pill-slide-shimmer 3s ease-in-out infinite;
+          z-index: 2;
+        }
+        
+        .pill-hover {
+          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .pill-hover:hover {
+          background: linear-gradient(45deg, rgba(107, 114, 128, 0.5), rgba(75, 85, 99, 0.5));
+          transform: translateY(-2px);
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
         .title-gradient {

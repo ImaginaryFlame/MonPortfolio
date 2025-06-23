@@ -72,44 +72,45 @@ const SkillsSection = ({ theme }) => {
       category: t.skills.categories.development,
       icon: "💻",
       items: [
-        { name: "JavaScript", level: 45 },
-        { name: "React", level: 40 },
-        { name: "Java", level: 35 },
-        { name: "C++", level: 30 },
-        { name: "C#", level: 25 }
+        { name: "Java", level: 40 },
+        { name: "JavaScript", level: 30 },
+        { name: "React", level: 30 },
+        { name: "C++", level: 20 },
+        { name: "C#", level: 20 }
       ]
     },
     {
       category: t.skills.categories.design,
       icon: "🎨",
       items: [
-        { name: "Blender", level: 40 },
         { name: "Photoshop", level: 50 },
-        { name: "After Effects", level: 35 },
-        { name: "Clip Studio Paint", level: 45 },
-        { name: "Maya", level: 25 }
+        { name: "Blender", level: 20 },
+        { name: "After Effects", level: 15 },
+        { name: "Clip Studio Paint", level: 15 },
+        { name: "Maya", level: 15 }
       ]
     },
     {
       category: t.skills.categories.content,
       icon: "📹",
       items: [
-        { name: "DaVinci Resolve", level: 40 },
-        { name: "Filmora", level: 55 },
-        { name: "Streaming", level: 35 },
-        { name: "Community Management", level: 50 },
-        { name: "Écriture", level: 60 }
+        { name: "Écriture", level: 65 },
+        { name: "Community Management", level: 65 },
+        { name: "Streaming", level: 55 },
+        { name: "DaVinci Resolve", level: 45 },
+        { name: "Filmora", level: 30 },
+        { name: "Final Draft", level: 45 }
       ]
     },
     {
       category: t.skills.categories.tools,
       icon: "⚙️",
       items: [
+        { name: "Obsidian", level: 80 },
+        { name: "Sanity CMS", level: 40 },
+        { name: "Notion", level: 30 },
         { name: "Git", level: 30 },
-        { name: "Figma", level: 35 },
-        { name: "Obsidian", level: 55 },
-        { name: "Final Draft", level: 45 },
-        { name: "Sanity CMS", level: 40 }
+        { name: "Figma", level: 20 }
       ]
     }
   ];
@@ -453,7 +454,7 @@ const ProjectGallery = ({ theme }) => {
                       <p className="text-gray-300 text-sm mb-3 line-clamp-2">
                         {typeof project.description === 'object' 
                           ? project.description.fr || project.description.en || ''
-                          : project.description.substring(0, 100) + '...'
+                          : project.description.substring(0, 100)
                         }
                       </p>
                     )}
@@ -778,10 +779,7 @@ const Banner = ({ theme }) => {
             style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>
           {t.banner.greeting}
           <br />
-          {t.banner.andIAmAlso}
-          <br />
-          
-          <span className="relative inline-block">
+          {t.banner.andIAmAlso} <span className="relative inline-block">
             {/* Texte principal avec effet de brillance */}
             <span className={`text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-purple-400 to-blue-400 
                             drop-shadow-lg transition-all duration-300 animate-gradient-shift`}
@@ -791,6 +789,8 @@ const Banner = ({ theme }) => {
                   }}>
             {text}
             </span>
+            
+
             
             {/* Curseur clignotant amélioré */}
             <span className="relative inline-block">

@@ -85,7 +85,7 @@ export default function AboutSection() {
         <div className="mt-20 animate-fade-in delay-100">
           <h1 className="text-4xl md:text-5xl font-bold text-center flex items-center justify-center">
             <span className="mr-3 text-orange-500 animate-pulse text-3xl">🔥</span>
-            {t.about.title}
+            {t.about.title}!
             <span className="ml-3 text-orange-500 animate-pulse text-3xl">🔥</span>
           </h1>
         </div>

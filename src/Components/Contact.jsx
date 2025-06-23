@@ -91,7 +91,7 @@ export const Contact = ({ onClose }) => {
                 </button>
 
                 <div className="p-8 relative z-30">
-                    <h2 className="text-4xl font-bold text-gray-900 mb-6">{t('contact.title')}</h2>
+                    <h2 className="text-4xl font-bold text-gray-900 mb-6">{t('contact.title')}!</h2>
                     <form onSubmit={handleSubmit}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <input type="text" value={formDetails.nom} placeholder={t('contact.form.nom')} onChange={(e) => onFormUpdate('nom', e.target.value)} 
