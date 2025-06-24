@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Footer from './Footer';
 import Projects from './Projects';
-import { fetchProjects, urlFor } from '../config/sanityClient';
+import { fetchProjects, urlFor, client } from '../config/sanityClient';
 import { useLanguage } from '../hooks/useLanguage.jsx';
 
 // Configuration des thèmes avec leurs couleurs adaptées
@@ -148,7 +148,7 @@ const SkillsSection = ({ theme }) => {
                 <div className="text-4xl mb-3">{skillCategory.icon}</div>
                 <h3 className="text-xl font-bold text-white">{skillCategory.category}</h3>
               </div>
-
+              
               {/* Liste des compétences */}
               <div className="space-y-4">
                 {skillCategory.items.map((skill, skillIndex) => (
@@ -197,15 +197,13 @@ const SkillsSection = ({ theme }) => {
 };
 
 // Nouvelle section de galerie avec vrais projets Sanity
-const ProjectGallery = ({ theme }) => {
+const ProjectGallery = ({ theme, projects, loading, error }) => {
   const { t } = useLanguage();
   const scrollRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
-  const [randomProjects, setRandomProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [filteredProjects, setFilteredProjects] = useState([]);
 
   // Fonction pour mélanger un tableau
   const shuffleArray = (array) => {
@@ -217,38 +215,16 @@ const ProjectGallery = ({ theme }) => {
     return newArray;
   };
 
-  // Récupérer les projets depuis Sanity
+  // Traiter les projets reçus en props
   useEffect(() => {
-    const loadProjects = async () => {
-      try {
-        setLoading(true);
-        console.log('🔄 Début du chargement des projets...');
-        
-        const projects = await fetchProjects();
-        console.log('📊 Projets récupérés:', projects?.length || 0, projects);
-        
-        if (projects && projects.length > 0) {
-          // Mélanger et prendre 7 projets aléatoires
-          const shuffledProjects = shuffleArray(projects);
-          const selectedProjects = shuffledProjects.slice(0, 7);
-          console.log('✅ Projets sélectionnés:', selectedProjects.length);
-          setRandomProjects(selectedProjects);
-        } else {
-          console.warn('⚠️ Aucun projet trouvé');
-          setRandomProjects([]);
-        }
-      } catch (error) {
-        console.error('❌ Erreur lors du chargement des projets:', error);
-        setError(error.message || 'Erreur de connexion');
-        setRandomProjects([]);
-      } finally {
-        setLoading(false);
-        console.log('🏁 Fin du chargement des projets');
-      }
-    };
-
-    loadProjects();
-  }, []);
+    if (projects && projects.length > 0) {
+      // Mélanger et prendre 7 projets aléatoires pour l'aperçu
+      const shuffledProjects = shuffleArray(projects);
+      setFilteredProjects(shuffledProjects.slice(0, 7));
+    } else {
+      setFilteredProjects([]);
+    }
+  }, [projects]);
 
   const handleMouseDown = (e) => {
     setIsDragging(true);
@@ -273,18 +249,22 @@ const ProjectGallery = ({ theme }) => {
   };
 
   const handleProjectClick = (project) => {
-        console.log('Projet sélectionné:', project.title);
+    console.log('Projet sélectionné:', project.title);
     // Ici vous pouvez ajouter la navigation vers le projet
   };
 
   const getCategoryColor = (category) => {
     switch (category) {
-      case 'arts':
+      case 'arts-visuels-narratifs':
         return 'from-purple-600/80 to-pink-600/80';
-      case 'dev':
+      case 'developpement-tech':
         return 'from-blue-600/80 to-cyan-600/80';
-      case 'video':
+      case 'videaste':
         return 'from-red-600/80 to-orange-600/80';
+      case 'game-development':
+        return 'from-green-600/80 to-emerald-600/80';
+      case 'web-digital':
+        return 'from-indigo-600/80 to-purple-600/80';
       default:
         return 'from-gray-600/80 to-gray-700/80';
     }
@@ -292,12 +272,16 @@ const ProjectGallery = ({ theme }) => {
 
   const getCategoryLabel = (category) => {
     switch (category) {
-      case 'arts':
-        return t.gallery.categories.arts;
-      case 'dev':
-        return t.gallery.categories.dev;
-      case 'video':
-        return t.gallery.categories.video;
+      case 'arts-visuels-narratifs':
+        return 'Arts Visuels';
+      case 'developpement-tech':
+        return 'Développement';
+      case 'videaste':
+        return 'Vidéo';
+      case 'game-development':
+        return 'Game Dev';
+      case 'web-digital':
+        return 'Web & Digital';
       default:
         return category;
     }
@@ -309,21 +293,21 @@ const ProjectGallery = ({ theme }) => {
       _id: 'fallback-1',
       title: 'Le Héros à la Flamme Imaginaire',
       description: 'Une épopée fantastique sur le pouvoir de l\'imagination',
-      category: 'arts',
+      category: 'arts-visuels-narratifs',
       image: null
     },
     {
       _id: 'fallback-2', 
       title: 'Portfolio React',
       description: 'Site portfolio développé avec React et Tailwind',
-      category: 'dev',
+      category: 'developpement-tech',
       image: null
     },
     {
       _id: 'fallback-3',
       title: 'Contenu YouTube',
       description: 'Création de contenu vidéo et streaming',
-      category: 'video', 
+      category: 'videaste', 
       image: null
     }
   ];
@@ -344,8 +328,8 @@ const ProjectGallery = ({ theme }) => {
     );
   }
 
-  // Si erreur ou pas de projets, utiliser les projets de fallback
-  const projectsToShow = (error || randomProjects.length === 0) ? fallbackProjects : randomProjects;
+  // Si erreur ou pas de projets, utiliser les projets de fallback pour le filtrage
+  const projectsToShow = (error || filteredProjects.length === 0) ? fallbackProjects : filteredProjects;
 
   return (
     <section id="gallery" className="py-20 relative overflow-hidden">
@@ -357,21 +341,22 @@ const ProjectGallery = ({ theme }) => {
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
       
       <div className="relative z-10">
-        {/* Titre de section */}
+        {/* Header avec titre */}
         <div className="max-w-7xl mx-auto px-8 mb-12">
-          <div className="text-center">
+          <div className="text-center mb-8">
             <h2 className="text-5xl font-bold title-gradient mb-6 drop-shadow-2xl">
               {t.gallery.title}
             </h2>
             <p className="text-xl description-gradient max-w-3xl mx-auto drop-shadow-lg">
               {t.gallery.description}
             </p>
-            {error && (
-              <div className="mt-4 p-3 bg-red-500/20 border border-red-500/30 rounded-lg text-red-300 text-sm">
-                ⚠️ Problème de connexion aux données. Affichage des projets de démonstration.
-              </div>
-            )}
           </div>
+
+          {error && (
+            <div className="mt-4 p-3 bg-red-500/20 border border-red-500/30 rounded-lg text-red-300 text-sm">
+              ⚠️ Problème de connexion aux données. Affichage des projets de démonstration.
+            </div>
+          )}
         </div>
 
         {/* Galerie défilante */}
@@ -809,7 +794,7 @@ const Banner = ({ theme }) => {
            style={{ textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>
           {t.banner.description}
         </p>
-        
+
         <button 
           onClick={() => document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' })}
           onMouseMove={handleMouseMove}
@@ -1301,6 +1286,45 @@ const Banner = ({ theme }) => {
 
 const Home = () => {
   const [currentTheme, setCurrentTheme] = useState(themes[0]);
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Chargement centralisé des projets
+  useEffect(() => {
+    const loadProjects = async () => {
+      console.log('🔄 Début du chargement des projets centralisé...');
+      setLoading(true);
+      try {
+        const query = `*[_type == "project"] | order(_createdAt desc) {
+          _id,
+          title,
+          description,
+          category,
+          "image": image.asset->url,
+          technologies,
+          liveUrl,
+          githubUrl,
+          featured,
+          _createdAt
+        }`;
+        
+        const data = await client.fetch(query);
+        console.log('📊 Projets récupérés:', data.length, data);
+        setProjects(data);
+        setError(null);
+      } catch (err) {
+        console.error('❌ Erreur lors du chargement des projets:', err);
+        setError(err.message);
+        setProjects([]);
+      } finally {
+        setLoading(false);
+        console.log('🏁 Fin du chargement des projets centralisé');
+      }
+    };
+
+    loadProjects();
+  }, []);
 
   useEffect(() => {
     setCurrentTheme(themes[0]);
@@ -1310,11 +1334,11 @@ const Home = () => {
     <ThemeContext.Provider value={currentTheme}>
       <div className="w-full">
         <Banner theme={currentTheme} />
-        <ProjectGallery theme={currentTheme} />
+        <ProjectGallery theme={currentTheme} projects={projects} loading={loading} error={error} />
         <SkillsSection theme={currentTheme} />
         
         {/* Section Projects avec les trois onglets */}
-        <Projects />
+        <Projects projects={projects} loading={loading} error={error} />
         
         <Footer />
       </div>

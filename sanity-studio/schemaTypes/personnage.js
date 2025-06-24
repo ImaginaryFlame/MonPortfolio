@@ -1,4 +1,4 @@
-import { localizedField, localizedRequiredField, localizedArrayField } from './utils/localization';
+// Imports de localisation supprimés pour simplifier
 
 export default {
     name: 'personnage',
@@ -20,31 +20,42 @@ export default {
       },
   
       // Identité (connue/apparente dans le récit actuel)
-      localizedRequiredField({
+      {
         name: 'nom',
         type: 'string',
         title: 'Nom complet (connu)',
-        description: 'Nom et prénom connus dans le récit actuel'
-      }),
-      localizedField({
+        description: 'Nom et prénom connus dans le récit actuel',
+        validation: Rule => Rule.required()
+      },
+      {
+        name: 'lienExterne',
+        type: 'url',
+        title: '🔗 Lien externe',
+        description: 'Lien vers un profil, portfolio, réseaux sociaux ou toute ressource externe liée à ce personnage',
+        validation: Rule => Rule.uri({
+          allowRelative: false,
+          scheme: ['http', 'https']
+        })
+      },
+      {
         name: 'prenom',
         type: 'string',
         title: 'Prénom (connu)',
         description: 'Prénom utilisé dans le récit actuel'
-      }),
-      localizedField({
+      },
+      {
         name: 'nomFamille',
         type: 'string',
         title: 'Nom de famille (connu)',
         description: 'Nom de famille connu dans le récit actuel'
-      }),
-      localizedArrayField({
+      },
+      {
         name: 'surnoms',
         type: 'array',
         title: 'Surnoms',
         description: 'Liste des surnoms du personnage',
         of: [{ type: 'string' }]
-      }),
+      },
       {
         name: 'univers',
         title: 'Univers d\'appartenance',
@@ -52,6 +63,17 @@ export default {
         to: [{ type: 'univers' }],
         validation: Rule => Rule.required(),
         description: 'L\'univers dans lequel ce personnage évolue.'
+      },
+
+      {
+        name: 'tags',
+        title: 'Tags de qualification',
+        type: 'array',
+        of: [{ 
+          type: 'reference', 
+          to: [{ type: 'tag' }]
+        }],
+        description: 'Tags libres pour qualifier ce personnage (ex: Protagoniste, Antagoniste, Héros, Méchant, etc.)'
       },
       {
         name: 'age',
@@ -143,7 +165,7 @@ export default {
           ]
         }]
       },
-      localizedField({
+      {
         name: 'positionPolitique',
         type: 'string',
         title: 'Position politique',
@@ -161,8 +183,8 @@ export default {
             { title: 'Apolitique', value: 'apolitique' }
           ]
         }
-      }),
-      localizedField({
+      },
+      {
         name: 'positionReligieuse',
         type: 'string',
         title: 'Position religieuse',
@@ -177,7 +199,7 @@ export default {
             { title: 'En questionnement', value: 'questionnement' }
           ]
         }
-      }),
+      },
   
       // Véritable identité (révélations/spoilers) - OPTIONNEL
       {
@@ -913,12 +935,12 @@ export default {
       },
   
       // Apparence
-      localizedField({
+      {
         name: 'apparence',
         type: 'text',
         title: 'Apparence physique',
         description: 'Description physique détaillée'
-      }),
+      },
       {
         name: 'image',
         type: 'image',
@@ -1036,21 +1058,22 @@ export default {
       }
     ],
     
-    preview: {
-      select: {
-        title: 'nom.fr',
-        subtitle: 'prenom.fr',
-        media: 'image'
-      },
-      prepare(selection) {
-        const { title, subtitle, media } = selection;
-        return {
-          title: title || 'Sans nom',
-          subtitle: subtitle,
-          media: media
-        };
-      }
+      preview: {
+    select: {
+      nom: 'nom',
+      prenom: 'prenom',
+      media: 'image'
     },
+    prepare(selection) {
+      const { nom, prenom, media } = selection;
+      const title = nom || prenom || 'Sans nom';
+      return {
+        title: title,
+        subtitle: prenom && nom !== prenom ? prenom : '',
+        media: media
+      };
+    }
+  },
   
     orderings: [
       {

@@ -12,6 +12,16 @@ const bestiaires = {
         validation: Rule => Rule.required().min(1).max(100)
       },
       {
+        name: 'lienExterne',
+        type: 'url',
+        title: '🔗 Lien externe',
+        description: 'Lien vers des références, inspirations ou ressources externes liées à cette créature',
+        validation: Rule => Rule.uri({
+          allowRelative: false,
+          scheme: ['http', 'https']
+        })
+      },
+      {
         name: 'univers',
         title: 'Univers d\'appartenance',
         type: 'reference',
@@ -39,6 +49,17 @@ const bestiaires = {
           ]
         },
         validation: Rule => Rule.required()
+      },
+
+      {
+        name: 'tags',
+        title: 'Tags',
+        type: 'array',
+        of: [{ 
+          type: 'reference', 
+          to: [{ type: 'tag' }]
+        }],
+        description: 'Tags libres pour qualifier cette créature (ex: Dragon, Magique, Dangereux, etc.)'
       },
       {
         name: 'origine',

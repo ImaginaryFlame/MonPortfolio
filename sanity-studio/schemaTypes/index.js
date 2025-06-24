@@ -1,20 +1,20 @@
-import univers from './univers'
-import region from './region'
-import race from './race'
-import personnage from './personnage'
-import faction from './faction'
-import famille from './famille'
-import project from './project'
-import aboutPage from './aboutPage'
-import bestiaires from './bestiaires'
-import systemeEsoterique from './systemeEsoterique'
-import subcategory from './subcategory'
-import objet from './objet'
-import celebrations from './celebrations'
-import conceptmetaphysique from './conceptmetaphysique'
-import dogmeReligieux from './dogmeReligieux'
-import evenement from './evenement'
-import traditionAncestrale from './traditionAncestrale'
+import univers from './univers.js'
+import region from './region.js'
+import race from './race.js'
+import personnage from './personnage.js'
+import faction from './faction.js'
+import famille from './famille.js'
+import project from './project.js'
+import aboutPage from './aboutPage.js'
+import bestiaires from './bestiaires.js'
+import systemeEsoterique from './systemeEsoterique.js'
+import tag from './tag.js'
+import objet from './objet.js'
+import celebrations from './celebrations.js'
+import conceptmetaphysique from './conceptmetaphysique.js'
+import dogmeReligieux from './dogmeReligieux.js'
+import evenement from './evenement.js'
+import traditionAncestrale from './traditionAncestrale.js'
 
 export const schemaTypes = [
   univers,
@@ -27,7 +27,7 @@ export const schemaTypes = [
   aboutPage,
   bestiaires,
   systemeEsoterique,
-  subcategory,
+  tag,
   objet,
   celebrations,
   conceptmetaphysique,

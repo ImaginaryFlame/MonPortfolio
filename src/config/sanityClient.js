@@ -2,11 +2,11 @@ import { createClient } from '@sanity/client'
 import imageUrlBuilder from '@sanity/image-url'
 
 // Configuration du client Sanity
-export const client = createClient({
-  projectId: import.meta.env.VITE_SANITY_PROJECT_ID,
-  dataset: import.meta.env.VITE_SANITY_DATASET || 'production',
+const client = createClient({
+  projectId: '64yujm4t',
+  dataset: 'production',
   useCdn: true, // Activé pour de meilleures performances
-  apiVersion: '2023-01-01',
+  apiVersion: '2024-01-01',
   token: import.meta.env.VITE_SANITY_TOKEN,
   ignoreBrowserTokenWarning: true, // Pour éviter l'avertissement de token dans le navigateur
   // Configuration pour les requêtes cross-origin
@@ -19,109 +19,126 @@ const builder = imageUrlBuilder(client)
 
 export const urlFor = (source) => builder.image(source)
 
-// Fonction pour récupérer tous les projets
+// Fonction utilitaire pour extraire la couleur finale d'un tag
+export const getTagColor = (tag) => {
+  if (!tag) return '#9CA3AF'; // Couleur par défaut (gris)
+  
+  if (tag.colorType === 'preset' && tag.presetColor) {
+    return tag.presetColor;
+  } else if (tag.colorType === 'custom' && tag.customColor?.hex) {
+    return tag.customColor.hex;
+  }
+  
+  // Fallback : utiliser l'ancienne propriété 'color' si elle existe (rétrocompatibilité)
+  if (tag.color) {
+    return tag.color;
+  }
+  
+  return '#9CA3AF'; // Couleur par défaut (gris)
+};
+
+// Fonction pour récupérer les données de la page About
+export const fetchAboutPage = async () => {
+  try {
+    const aboutPage = await client.fetch(`
+      *[_type == "aboutPage"][0] {
+        pageTitle,
+        profileImage,
+        introduction,
+        techStack {
+          title,
+          devSkills,
+          designSkills,
+          postProdSkills,
+          writingSkills
+        },
+        creativeSetup {
+          title,
+          mainPC,
+          peripherals
+        },
+        mainLicense {
+          title,
+          description,
+          influences
+        },
+        narrativeProjects {
+          title,
+          description,
+          details
+        },
+        vision {
+          title,
+          bmsProject,
+          longTermGoal
+        }
+      }
+    `);
+    return aboutPage;
+  } catch (error) {
+    console.error('Erreur lors de la récupération de la page About:', error);
+    throw error;
+  }
+};
+
+// Fonction pour récupérer les projets avec leurs tags et couleurs
 export const fetchProjects = async () => {
   try {
-    const query = `*[_type == "project"] | order(_createdAt desc) {
-      _id,
-      title,
-      description,
-      category,
-      subcategory->{
+    const projects = await client.fetch(`
+      *[_type == "project"] | order(_createdAt desc) {
+        _id,
+        title,
+        slug,
+        description,
+        image,
+        images,
+        category,
+        technologies,
+        projectUrl,
+        githubUrl,
+        tags[]-> {
+          _id,
+          name,
+          colorType,
+          presetColor,
+          customColor,
+          // Ancienne propriété pour rétrocompatibilité
+          color,
+          description
+        },
+        _createdAt
+      }
+    `);
+    return projects;
+  } catch (error) {
+    console.error('Erreur lors de la récupération des projets:', error);
+    throw error;
+  }
+};
+
+// Fonction pour récupérer les tags avec leurs couleurs
+export const fetchTags = async () => {
+  try {
+    const tags = await client.fetch(`
+      *[_type == "tag"] | order(name asc) {
         _id,
         name,
-        mainCategory
-      },
-      image,
-      images[],
-      projectUrl,
-      githubUrl,
-      technologies[],
-      featured,
-      _createdAt
-    }`
-    
-    const projects = await client.fetch(query)
-    return projects
+        colorType,
+        presetColor,
+        customColor,
+        // Ancienne propriété pour rétrocompatibilité
+        color,
+        category,
+        description
+      }
+    `);
+    return tags;
   } catch (error) {
-    console.error('Erreur lors de la récupération des projets:', error)
-    throw error
+    console.error('Erreur lors de la récupération des tags:', error);
+    throw error;
   }
-}
+};
 
-// Fonction pour récupérer les sous-catégories
-export const fetchSubcategories = async () => {
-  try {
-    const query = `*[_type == "subcategory"] | order(name asc) {
-      _id,
-      name,
-      mainCategory
-    }`
-    
-    const subcategories = await client.fetch(query)
-    return subcategories
-  } catch (error) {
-    console.error('Erreur lors de la récupération des sous-catégories:', error)
-    throw error
-  }
-}
+export { client }
 
-// Fonction pour récupérer les projets par catégorie
-export const fetchProjectsByCategory = async (category) => {
-  try {
-    const query = `*[_type == "project" && category == $category] | order(_createdAt desc) {
-      _id,
-      title,
-      description,
-      category,
-      subcategory->{
-        _id,
-        name,
-        mainCategory
-      },
-      image,
-      images[],
-      projectUrl,
-      githubUrl,
-      technologies[],
-      featured,
-      _createdAt
-    }`
-    
-    const projects = await client.fetch(query, { category })
-    return projects
-  } catch (error) {
-    console.error('Erreur lors de la récupération des projets par catégorie:', error)
-    throw error
-  }
-}
-
-// Fonction pour récupérer les projets par sous-catégorie
-export const fetchProjectsBySubcategory = async (subcategoryId) => {
-  try {
-    const query = `*[_type == "project" && subcategory._ref == $subcategoryId] | order(_createdAt desc) {
-      _id,
-      title,
-      description,
-      category,
-      subcategory->{
-        _id,
-        name,
-        mainCategory
-      },
-      image,
-      images[],
-      projectUrl,
-      githubUrl,
-      technologies[],
-      featured,
-      _createdAt
-    }`
-    
-    const projects = await client.fetch(query, { subcategoryId })
-    return projects
-  } catch (error) {
-    console.error('Erreur lors de la récupération des projets par sous-catégorie:', error)
-    throw error
-  }
-} 
+ 

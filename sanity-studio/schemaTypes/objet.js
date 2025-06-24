@@ -10,6 +10,16 @@ export default {
       validation: Rule => Rule.required()
     },
     {
+      name: 'lienExterne',
+      type: 'url',
+      title: '🔗 Lien externe',
+      description: 'Lien vers des références, inspirations ou ressources externes liées à cet objet',
+      validation: Rule => Rule.uri({
+        allowRelative: false,
+        scheme: ['http', 'https']
+      })
+    },
+    {
       name: 'description',
       title: 'Description',
       type: 'text'
@@ -28,7 +38,19 @@ export default {
           { title: 'Artéfact', value: 'artefact' },
           { title: 'Autre', value: 'autre' }
         ]
-      }
+      },
+      validation: Rule => Rule.required()
+    },
+
+    {
+      name: 'tags',
+      title: 'Tags',
+      type: 'array',
+      of: [{ 
+        type: 'reference', 
+        to: [{ type: 'tag' }]
+      }],
+      description: 'Tags libres pour qualifier cet objet (ex: Arme, Légendaire, Magique, etc.)'
     },
     {
       name: 'rarete',

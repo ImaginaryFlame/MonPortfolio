@@ -10,6 +10,16 @@ const region = {
       validation: Rule => Rule.required()
     },
     {
+      name: 'lienExterne',
+      type: 'url',
+      title: '🔗 Lien externe',
+      description: 'Lien vers des références, cartes, inspirations ou ressources externes liées à cette région',
+      validation: Rule => Rule.uri({
+        allowRelative: false,
+        scheme: ['http', 'https']
+      })
+    },
+    {
       name: 'univers',
       title: 'Univers d\'appartenance',
       type: 'reference',
@@ -32,9 +42,25 @@ const region = {
           {title: 'Empire', value: 'empire'},
           {title: 'Continent', value: 'continent'},
           {title: 'Île', value: 'ile'},
+          {title: 'Ville', value: 'ville'},
+          {title: 'Village', value: 'village'},
+          {title: 'Lieu mystique', value: 'lieu_mystique'},
+          {title: 'Donjon', value: 'donjon'},
           {title: 'Autre', value: 'autre'}
         ]
-      }
+      },
+      validation: Rule => Rule.required()
+    },
+
+    {
+      name: 'tags',
+      title: 'Tags',
+      type: 'array',
+      of: [{ 
+        type: 'reference', 
+        to: [{ type: 'tag' }]
+      }],
+      description: 'Tags libres pour qualifier cette région (ex: Royaume, Ville, Montagne, etc.)'
     },
     {
       name: 'statut',

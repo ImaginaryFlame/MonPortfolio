@@ -31,9 +31,27 @@ const conceptMetaphysique = {
             {title: 'Concept temporel', value: 'concept_temporel'},
             {title: 'Essence spirituelle', value: 'essence_spirituelle'},
             {title: 'Paradoxe ontologique', value: 'paradoxe_ontologique'},
+            {title: 'Pouvoir', value: 'pouvoir'},
+            {title: 'Magie', value: 'magie'},
+            {title: 'Philosophie', value: 'philosophie'},
             {title: 'Autre', value: 'autre'}
           ]
-        }
+        },
+        validation: Rule => Rule.required()
+      },
+
+      {
+        name: 'tags',
+        title: 'Tags',
+        type: 'array',
+        of: [{ 
+          type: 'reference', 
+          to: [{ type: 'tag' }],
+          options: {
+            filter: 'category == "concepts"'
+          }
+        }],
+        description: 'Tags pour classifier ce concept (pouvoir, magie, etc.)'
       },
       {
         name: 'origineCreation',
@@ -167,7 +185,7 @@ const conceptMetaphysique = {
                 type: 'reference',
                 title: 'Élément lié',
                 to: [
-                  {type: 'object'},
+                  {type: 'objet'},
                   {type: 'region'}
                 ]
               },

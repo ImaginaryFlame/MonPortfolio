@@ -69,11 +69,11 @@
 @keyframes fadeIn {
   0% {
     opacity: 0;
-    transform: translateX(20px) scale(0.95);
+    transform: translateY(10px);
   }
-  100% {
+  to {
     opacity: 1;
-    transform: translateX(0) scale(1);
+    transform: translateY(0);
   }
 }
 
@@ -124,22 +124,28 @@
 
 @keyframes pulseGlow {
   0%, 100% {
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3), 0 0 40px rgba(249, 115, 22, 0.2);
   }
   50% {
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 20px rgba(251, 146, 60, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 30px rgba(239, 68, 68, 0.5), 0 0 60px rgba(249, 115, 22, 0.4);
   }
 }
 
 @keyframes shimmer {
   0% {
-    transform: translateX(-100%);
+    left: -100%;
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
   }
   100% {
-    transform: translateX(100%);
+    left: 100%;
+    opacity: 0;
   }
 }
 
+/* Navbar gradient avec les anciennes couleurs */
 .navbar-gradient {
   background: linear-gradient(-45deg, #f97316, #ef4444, #f59e0b, #dc2626);
   background-size: 400% 400%;
@@ -158,4 +164,223 @@
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
   animation: shimmer 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   border-radius: inherit;
+}
+
+/* Optimisation pour éviter le FOUC */
+html {
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+html.loaded {
+  opacity: 1;
+}
+
+/* Variables CSS pour les couleurs */
+:root {
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --accent-color: #8B5CF6;
+  --text-primary: #ffffff;
+  --text-secondary: #e0e0e0;
+}
+
+/* Styles de base */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #1a1a1a;
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Optimisation des performances */
+* {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Animations optimisées */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes titleGradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Classes d'animation */
+.animate-slide-up {
+  animation: slideUp 0.8s ease-out;
+}
+
+.animate-bounce-in {
+  animation: bounceIn 0.8s ease-out;
+}
+
+/* Gradients pour les titres */
+.title-gradient {
+  background: linear-gradient(90deg, #ffffff, #f8f8f8, #ffffff, #f0f0f0, #ffffff);
+  background-size: 300% 100%;
+  animation: titleGradientShift 4s ease-in-out infinite;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.description-gradient {
+  background: linear-gradient(90deg, #e0e0e0, #f0f0f0, #e0e0e0, #d0d0d0, #e0e0e0);
+  background-size: 300% 100%;
+  animation: titleGradientShift 5s ease-in-out infinite;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+/* Étoiles animées pour l'arrière-plan */
+.stars-1, .stars-2, .stars-3 {
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+    radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+    radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(2px 2px at 160px 30px, #ddd, transparent);
+  background-repeat: repeat;
+  background-size: 200px 100px;
+}
+
+.stars-1 {
+  animation: move-twink-back 200s linear infinite;
+  opacity: 0.3;
+}
+
+.stars-2 {
+  animation: move-twink-back 150s linear infinite;
+  opacity: 0.5;
+}
+
+.stars-3 {
+  animation: move-twink-back 100s linear infinite;
+  opacity: 0.7;
+}
+
+@keyframes move-twink-back {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -10000px 5000px;
+  }
+}
+
+/* Barres de défilement personnalisées */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Optimisation des transitions */
+.pill-button {
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.pill-hover:hover {
+  background: linear-gradient(135deg, rgba(128, 90, 213, 0.2), rgba(139, 92, 246, 0.3));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Effets de performance pour les cartes de projet */
+.project-card {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Media queries pour les performances sur mobile */
+@media (max-width: 768px) {
+  .animate-slide-up {
+    animation-duration: 0.4s;
+  }
+  
+  .animate-bounce-in {
+    animation-duration: 0.5s;
+  }
+}
+
+/* Préchargement des images */
+.preload-image {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.preload-image.loaded {
+  opacity: 1;
+}
+
+/* Utilitaires pour les animations */
+.animation-delay-100 {
+  animation-delay: 0.1s;
+}
+
+.animation-delay-200 {
+  animation-delay: 0.2s;
+}
+
+.animation-delay-300 {
+  animation-delay: 0.3s;
+}
+
+/* Optimisation GPU */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Animation fade-in pour les menus */
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.4s ease-out;
 }

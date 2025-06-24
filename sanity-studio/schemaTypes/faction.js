@@ -10,12 +10,33 @@ const faction = {
       validation: Rule => Rule.required()
     },
     {
+      name: 'lienExterne',
+      type: 'url',
+      title: '🔗 Lien externe',
+      description: 'Lien vers des références, arbres généalogiques ou ressources externes liées à cette faction',
+      validation: Rule => Rule.uri({
+        allowRelative: false,
+        scheme: ['http', 'https']
+      })
+    },
+    {
       name: 'univers',
       title: 'Univers d\'appartenance',
       type: 'reference',
       to: [{ type: 'univers' }],
       validation: Rule => Rule.required(),
       description: 'L\'univers auquel cette faction appartient.'
+    },
+
+    {
+      name: 'tags',
+      title: 'Tags',
+      type: 'array',
+      of: [{ 
+        type: 'reference', 
+        to: [{ type: 'tag' }]
+      }],
+      description: 'Tags libres pour qualifier cette faction (ex: Famille Royale, Guilde, Neutre, etc.)'
     },
     {
       name: 'titres',

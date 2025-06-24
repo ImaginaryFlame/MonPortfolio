@@ -1,114 +1,212 @@
 import { useRef, useEffect, useState } from 'react';
 import { 
-  fetchProjects, 
-  fetchSubcategories, 
-  fetchProjectsByCategory, 
-  fetchProjectsBySubcategory,
+  fetchTags,
   urlFor 
 } from '../config/sanityClient';
 import { useLanguage } from '../hooks/useLanguage.jsx';
 
-const Projects = () => {
+const Projects = ({ projects = [], loading = false, error = null }) => {
   const { t } = useLanguage();
   const [allProjects, setAllProjects] = useState([]);
   const [filteredProjects, setFilteredProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState('all');
-  const [activeSubCategory, setActiveSubCategory] = useState('all');
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [activeTag, setActiveTag] = useState('all');
+  const [tags, setTags] = useState([]);
+  const [isBurgerOpen, setIsBurgerOpen] = useState(false);
+  const [selectedTagIndex, setSelectedTagIndex] = useState(null);
+  const [isTagHovering, setIsTagHovering] = useState(false);
+  const burgerMenuRef = useRef(null);
+  const tagTimeoutRef = useRef(null);
 
-  const [categories, setCategories] = useState({
-    arts: [],
-    dev: [],
-    video: []
-  });
+  // CATÉGORIES PRINCIPALES
+  const mainCategories = [
+    { id: 'arts', name: 'Arts Visuels & Narratifs', color: '#EC4899', categoryValue: 'arts-visuels-narratifs' },
+    { id: 'dev', name: 'Développement & Tech', color: '#3B82F6', categoryValue: 'developpement-tech' },
+    { id: 'video', name: 'Vidéaste', color: '#EF4444', categoryValue: 'videaste' },
+    { id: 'game', name: 'Game Development', color: '#10B981', categoryValue: 'game-development' },
+    { id: 'web', name: 'Web & Digital', color: '#14B8A6', categoryValue: 'web-digital' }
+  ];
 
-  // Fonction pour récupérer les sous-catégories
-  const loadCategories = async () => {
+  // Mapping des catégories vers les types de tags
+  const categoryToTagTypeMapping = {
+    'arts-visuels-narratifs': 'projets-arts',
+    'developpement-tech': 'projets-dev',
+    'videaste': 'projets-video', 
+    'game-development': 'projets-game',
+    'web-digital': 'projets-web'
+  };
+
+  // Fonction pour récupérer les tags des projets
+  const loadTags = async () => {
     try {
-      const subcategories = await fetchSubcategories();
-
-      // Organiser les sous-catégories par catégorie principale
-      const categorizedData = {
-        arts: subcategories.filter(cat => cat.mainCategory === 'arts'),
-        dev: subcategories.filter(cat => cat.mainCategory === 'dev'),
-        video: subcategories.filter(cat => cat.mainCategory === 'video')
-      };
-
-      setCategories(categorizedData);
+      const allTags = await fetchTags();
+      const projectTagTypes = ['projets-arts', 'projets-dev', 'projets-video', 'projets-game', 'projets-web'];
+      const projectTags = allTags.filter(tag => projectTagTypes.includes(tag.category));
+      setTags(projectTags);
     } catch (error) {
-      console.error('Erreur lors de la récupération des sous-catégories:', error);
+      console.error('Erreur lors de la récupération des tags:', error);
     }
   };
 
-  const loadProjects = async () => {
-    try {
-      setLoading(true);
-      
-      const projects = await fetchProjects();
+  // Mettre à jour les projets quand les props changent
+  useEffect(() => {
+    if (projects && projects.length > 0) {
       setAllProjects(projects);
       setFilteredProjects(projects);
-    } catch (error) {
-      setError(error.message);
-      console.error('Error fetching projects:', error);
-    } finally {
-      setLoading(false);
     }
-  };
+  }, [projects]);
 
+  // Charger seulement les tags au montage
   useEffect(() => {
-    loadCategories();
-    loadProjects();
+    loadTags();
   }, []);
 
-  const handleSelect = (key) => {
-    setActiveTab(key);
-    setActiveSubCategory('all'); // Réinitialiser la sous-catégorie lors du changement de catégorie principale
+  // Fermer le burger menu au clic extérieur
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (burgerMenuRef.current && !burgerMenuRef.current.contains(event.target)) {
+        setIsBurgerOpen(false);
+      }
+    };
 
-    if (key === 'all') {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const handleCategorySelect = (categoryId) => {
+    const wasActiveCategory = activeCategory === categoryId;
+    
+    setActiveCategory(categoryId);
+    setActiveTag('all');
+
+    if (categoryId === 'all') {
       setFilteredProjects(allProjects);
+      setIsBurgerOpen(false);
+    } else {
+      const category = mainCategories.find(cat => cat.id === categoryId);
+      if (category) {
+        const filtered = allProjects.filter(project => 
+          project.category === category.categoryValue
+        );
+        setFilteredProjects(filtered);
+        
+        if (wasActiveCategory) {
+          setIsBurgerOpen(!isBurgerOpen);
+        } else {
+          setIsBurgerOpen(true);
+        }
+      }
+    }
+  };
+
+  const handleTagSelect = (tagId) => {
+    setActiveTag(tagId);
+
+    if (tagId === 'all') {
+      if (activeCategory !== 'all') {
+        handleCategorySelect(activeCategory);
+      } else {
+        setFilteredProjects(allProjects);
+      }
     } else {
       const filtered = allProjects.filter(project => 
-        project.category === key
+        project.tags && project.tags.some(tag => tag && tag._id === tagId)
       );
       setFilteredProjects(filtered);
     }
   };
 
-  const handleSubCategorySelect = (subCategoryId) => {
-    setActiveSubCategory(subCategoryId);
+  const getTagsForActiveCategory = () => {
+    if (activeCategory === 'all') return tags;
+    
+    const category = mainCategories.find(cat => cat.id === activeCategory);
+    if (!category) return [];
+    
+    const tagType = categoryToTagTypeMapping[category.categoryValue];
+    return tags.filter(tag => tag.category === tagType);
+  };
 
-    if (subCategoryId === 'all') {
-      // Si "Toutes" est sélectionné, filtrer uniquement par catégorie principale
-      const filtered = allProjects.filter(project => 
-        activeTab === 'all' || project.category === activeTab
-      );
-      setFilteredProjects(filtered);
+  const handleBurgerTagSelect = (tagId) => {
+    handleTagSelect(tagId);
+    setIsBurgerOpen(false);
+    setSelectedTagIndex(null);
+  };
+
+  const handleTagMouseEnter = (index) => {
+    if (tagTimeoutRef.current) {
+      clearTimeout(tagTimeoutRef.current);
+    }
+    setSelectedTagIndex(index);
+    setIsTagHovering(true);
+  };
+
+  const handleTagMouseLeave = () => {
+    setIsTagHovering(false);
+    tagTimeoutRef.current = setTimeout(() => {
+      if (!isTagHovering) {
+        setSelectedTagIndex(null);
+      }
+    }, 200);
+  };
+
+  const handleTagClick = (tagId, index) => {
+    if (selectedTagIndex === index) {
+      setSelectedTagIndex(null);
     } else {
-      // Filtrer par sous-catégorie
-      const filtered = allProjects.filter(project => 
-        project.subcategory && project.subcategory._id === subCategoryId
-      );
-      setFilteredProjects(filtered);
+      handleBurgerTagSelect(tagId);
     }
   };
 
   return (
     <section className="relative min-h-screen bg-gray-900 py-20 px-4 overflow-hidden" id="projects">
-      {/* Animation des étoiles - peut être gardée avec le CSS existant */}
+      {/* Animation des étoiles */}
       <div className="stars-1 absolute inset-0"></div>
       <div className="stars-2 absolute inset-0"></div>
       <div className="stars-3 absolute inset-0"></div>
       
       <div className="relative z-10 max-w-7xl mx-auto">
-        {/* Titre de la section */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold title-gradient mb-4">
-            {t.projects.title}
-          </h2>
-          <p className="text-xl description-gradient max-w-3xl mx-auto">
-            {t.projects.description}
-          </p>
+        {/* Header avec titre et burger menu */}
+        <div className="flex items-start justify-between mb-12 gap-4">
+          {/* Titre de la section */}
+          <div className="flex-1 text-center md:text-center">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold title-gradient mb-4">
+              {t.projects.title}
+            </h2>
+            <p className="text-lg md:text-xl description-gradient max-w-3xl mx-auto">
+              {t.projects.description}
+            </p>
+          </div>
+
+          {/* Burger Menu - Visible seulement si une catégorie est active */}
+          {activeCategory !== 'all' && (
+            <div className="relative flex-shrink-0" ref={burgerMenuRef}>
+              <button
+                onClick={() => setIsBurgerOpen(!isBurgerOpen)}
+                className="flex flex-col items-center justify-center w-10 h-10 md:w-12 md:h-12 
+                         bg-black/40 backdrop-blur-sm rounded-full border border-white/10 
+                         hover:border-purple-500/30 transition-all duration-300 hover:scale-105 group
+                         mt-2 md:mt-0"
+              >
+                {/* Icône burger animée */}
+                <div className="space-y-1">
+                  <div className={`w-4 md:w-5 h-0.5 bg-white transition-all duration-300 
+                                ${isBurgerOpen ? 'rotate-45 translate-y-1.5' : ''}`} />
+                  <div className={`w-4 md:w-5 h-0.5 bg-white transition-all duration-300 
+                                ${isBurgerOpen ? 'opacity-0' : ''}`} />
+                  <div className={`w-4 md:w-5 h-0.5 bg-white transition-all duration-300 
+                                ${isBurgerOpen ? '-rotate-45 -translate-y-1.5' : ''}`} />
+                </div>
+                
+                {/* Indicateur de sous-filtres disponibles */}
+                {getTagsForActiveCategory().length > 0 && (
+                  <div className="absolute -top-1 -right-1 w-2 h-2 bg-purple-500 rounded-full 
+                                border-2 border-white animate-pulse" />
+                )}
+              </button>
+            </div>
+          )}
         </div>
 
         {loading ? (
@@ -121,122 +219,195 @@ const Projects = () => {
           </div>
         ) : (
           <div>
-            {/* Navigation des catégories */}
-            <div className="flex justify-center mb-12 relative z-[70]">
-              <div className="inline-flex bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-full p-1 gap-1 pill-container">
-                {/* Bouton "Tous les projets" */}
+            {/* NAVIGATION PRINCIPALE - CATÉGORIES */}
+            <div className="flex justify-center mb-8 relative z-[70]">
+              <div className="inline-flex bg-gray-800/60 backdrop-blur-md border border-gray-700/50 rounded-full p-2 gap-2 pill-container flex-wrap shadow-2xl">
+                
+                {/* BOUTON "TOUS LES PROJETS" */}
                 <button
-                  onClick={() => handleSelect('all')}
-                  className={`px-6 py-3 rounded-full font-medium transition-all duration-500 whitespace-nowrap pill-button relative overflow-hidden ${
-                    activeTab === 'all'
-                      ? 'pill-active text-white shadow-lg transform scale-105'
-                      : 'text-gray-300 hover:text-white pill-hover'
+                  onClick={() => handleCategorySelect('all')}
+                  className={`px-6 py-3 rounded-full font-bold transition-all duration-300 whitespace-nowrap pill-button relative overflow-hidden text-sm md:text-base ${
+                    activeCategory === 'all'
+                      ? 'bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 text-white shadow-2xl transform scale-105 border-2 border-purple-400/50'
+                      : 'text-gray-300 hover:text-white pill-hover bg-gray-700/30 hover:bg-gray-600/40'
                   }`}
-                  style={{ animationDelay: '0s' }}
                 >
-                  <span className="relative z-10">{t.projects.allProjects}</span>
+                  <span className="relative z-10">Tous les projets</span>
+                  {activeCategory === 'all' && (
+                    <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-purple-500/20"></div>
+                  )}
                 </button>
 
-                {/* Boutons des catégories */}
-                {Object.entries(categories).map(([category, subCategories], index) => (
-                  <div key={category} className="relative group">
-                    {subCategories.length > 0 ? (
-                      <>
-                        <button
-                          onClick={() => handleSelect(category)}
-                          className={`px-6 py-3 rounded-full font-medium transition-all duration-500 whitespace-nowrap cursor-pointer pill-button relative overflow-hidden ${
-                            activeTab === category
-                              ? 'pill-active text-white shadow-lg transform scale-105'
-                              : 'text-gray-300 hover:text-white pill-hover'
-                          }`}
-                          style={{ animationDelay: `${(index + 1) * 0.5}s` }}
-                        >
-                          <span className="relative z-10">
-                            {category === 'arts' && t.projects.categories.arts}
-                            {category === 'dev' && t.projects.categories.dev}
-                            {category === 'video' && t.projects.categories.video}
-                          </span>
-                        </button>
-                        
-                        {/* Menu déroulant avec z-index élevé */}
-                        <div className="absolute top-full left-0 mt-2 w-64 bg-gray-800/95 backdrop-blur-sm rounded-lg shadow-xl border border-gray-700/50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[100]">
-                          <div className="py-2">
-                            <button 
-                              onClick={() => handleSubCategorySelect('all')}
-                              className={`w-full text-left px-4 py-2 text-white hover:bg-gray-700/70 transition-colors ${activeSubCategory === 'all' ? 'bg-gray-700/50' : ''}`}
-                            >
-                              {t.projects.allSubcategories}
-                            </button>
-                            <div className="border-t border-gray-600/50 my-1"></div>
-                            {subCategories.map(subCat => (
-                              <button
-                                key={subCat._id}
-                                onClick={() => handleSubCategorySelect(subCat._id)}
-                                className={`w-full text-left px-4 py-2 text-white hover:bg-gray-700/70 transition-colors ${activeSubCategory === subCat._id ? 'bg-gray-700/50' : ''}`}
-                              >
-                                {subCat.name}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      <button
-                        onClick={() => handleSelect(category)}
-                        className={`px-6 py-3 rounded-full font-medium transition-all duration-500 whitespace-nowrap pill-button relative overflow-hidden ${
-                          activeTab === category
-                            ? 'pill-active text-white shadow-lg transform scale-105'
-                            : 'text-gray-300 hover:text-white pill-hover'
-                        }`}
-                        style={{ animationDelay: `${(index + 1) * 0.5}s` }}
-                      >
-                        <span className="relative z-10">
-                          {category === 'arts' && t.projects.categories.arts}
-                          {category === 'dev' && t.projects.categories.dev}
-                          {category === 'video' && t.projects.categories.video}
-                        </span>
-                      </button>
+                {/* BOUTONS DES CATÉGORIES PRINCIPALES */}
+                {mainCategories.map((category, index) => (
+                  <button
+                    key={category.id}
+                    onClick={() => handleCategorySelect(category.id)}
+                    className={`px-4 py-3 rounded-full font-semibold transition-all duration-300 whitespace-nowrap pill-button relative overflow-hidden text-sm ${
+                      activeCategory === category.id
+                        ? 'text-white shadow-2xl transform scale-105 border border-white/20'
+                        : 'text-gray-300 hover:text-white pill-hover bg-gray-700/30 hover:bg-gray-600/40'
+                    }`}
+                    style={{ 
+                      backgroundColor: activeCategory === category.id ? category.color : 'transparent',
+                      boxShadow: activeCategory === category.id ? `0 0 30px ${category.color}40` : 'none'
+                    }}
+                  >
+                    <span className="relative z-10">{category.name}</span>
+                    {activeCategory === category.id && (
+                      <div className="absolute inset-0" style={{ backgroundColor: `${category.color}20` }}></div>
                     )}
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>
 
-            {/* Grille des projets */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-in relative z-0">
+            {/* MENU DES FILTRES */}
+            {isBurgerOpen && (
+              <div className="w-full flex justify-center mb-8 animate-fade-in">
+                <div className="flex space-x-4">
+                  {/* Colonne des tags */}
+                  <div className="flex flex-col gap-2 min-w-[160px]">
+                    {/* Bouton "Tous" */}
+                    <button
+                      onClick={() => handleBurgerTagSelect('all')}
+                      className={`text-left px-4 py-2 rounded-lg font-medium transition-all duration-300 shadow-lg border text-sm ${
+                        activeTag === 'all'
+                          ? 'bg-gradient-to-r from-purple-500/95 to-purple-600/95 text-white border-purple-400'
+                          : 'bg-gradient-to-r from-slate-800/90 to-blue-900/90 text-white hover:from-purple-600/90 hover:to-purple-600/90 border-slate-600'
+                      } hover:transform hover:-translate-y-1 hover:shadow-lg`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs">🎯</span>
+                        <span className="font-semibold">Tous</span>
+                        {activeTag === 'all' && (
+                          <span className="ml-auto text-purple-200">✓</span>
+                        )}
+                      </div>
+                    </button>
+
+                    {/* Tags de la catégorie */}
+                    {getTagsForActiveCategory().map((tag, index) => (
+                      <button
+                        key={tag._id}
+                        onClick={() => handleTagClick(tag._id, index)}
+                        onMouseEnter={() => handleTagMouseEnter(index)}
+                        onMouseLeave={handleTagMouseLeave}
+                        className={`text-left px-4 py-2 rounded-lg font-medium transition-all duration-300 shadow-lg border text-sm flex items-center justify-between ${
+                          activeTag === tag._id
+                            ? 'bg-gradient-to-r from-purple-500/95 to-purple-600/95 text-white border-purple-400'
+                            : 'bg-gradient-to-r from-slate-800/90 to-blue-900/90 text-white hover:from-purple-600/90 hover:to-purple-600/90 border-slate-600'
+                        } hover:transform hover:-translate-y-1 hover:shadow-lg`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <div 
+                            className="w-2 h-2 rounded-full"
+                            style={{ backgroundColor: tag.color }}
+                          />
+                          <span className="font-semibold">{tag.name}</span>
+                        </div>
+                        <span className={`transition-transform duration-300 ${
+                          selectedTagIndex === index ? 'rotate-90' : ''
+                        }`}>▶</span>
+                      </button>
+                    ))}
+
+                    {/* Message si aucun tag */}
+                    {getTagsForActiveCategory().length === 0 && (
+                      <div className="text-center py-4 px-4 bg-gradient-to-r from-slate-800/90 to-blue-900/90 rounded-lg border border-slate-600">
+                        <div className="text-xl mb-2 opacity-50">🚫</div>
+                        <p className="text-gray-400 text-xs italic">
+                          Aucun filtre disponible
+                        </p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Colonne des options avancées */}
+                  {selectedTagIndex !== null && (
+                    <div 
+                      className="flex flex-col gap-2 min-w-[160px] animate-fade-in"
+                      onMouseEnter={() => setIsTagHovering(true)}
+                      onMouseLeave={handleTagMouseLeave}
+                    >
+                      {[
+                        { icon: "🔍", label: "Recherche" },
+                        { icon: "📅", label: "Trier par date" },
+                        { icon: "⭐", label: "Favoris" },
+                        { icon: "🔄", label: "Récents" }
+                      ].map((option, optionIndex) => (
+                        <button
+                          key={optionIndex}
+                          className="bg-gradient-to-r from-yellow-400/95 to-orange-500/95 text-gray-900 text-left px-3 py-2 rounded-lg font-semibold hover:from-blue-400/95 hover:to-blue-600/95 hover:text-white shadow-md text-sm border border-yellow-300 hover:transform hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
+                          onClick={() => {
+                            console.log(`Option sélectionnée: ${option.label}`);
+                            setSelectedTagIndex(null);
+                          }}
+                        >
+                          <div className="flex items-center gap-2">
+                            <span>{option.icon}</span>
+                            <span>{option.label}</span>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* GRILLE DES PROJETS */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in relative z-0">
               {filteredProjects.map((project, index) => (
                 <div 
                   key={project._id || index} 
-                  className="group relative bg-gray-800/30 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/50 hover:border-purple-500/50 transition-all duration-500 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/25"
-                  style={{ animationDelay: `${index * 0.1}s` }}
+                  className="group relative bg-gray-800/40 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/50 hover:border-purple-500/50 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/25"
                 >
                   <div className="relative aspect-video overflow-hidden">
                     <img 
                       src={project.image ? urlFor(project.image).width(400).height(300).url() : '/assets/placeholder.jpg'} 
                       alt={project.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                     
                     {/* Overlay qui apparaît au hover */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="absolute bottom-0 left-0 right-0 p-6">
-                        <h4 className="text-2xl font-bold text-white mb-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                      <div className="absolute bottom-0 left-0 right-0 p-4">
+                        <h4 className="text-xl font-bold text-white mb-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                           {project.title}
                         </h4>
                         <p className="text-gray-200 text-sm mb-3 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
                           {project.description}
                         </p>
                         
-                        {/* Badge de sous-catégorie */}
-                        {project.subcategory && (
-                          <div className="inline-block px-3 py-1 bg-purple-600/80 backdrop-blur-sm text-white text-xs font-medium rounded-full mb-3 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-100">
-                            {project.subcategory.name}
+                        {/* Tags de qualification du projet */}
+                        {project.tags && project.tags.length > 0 && (
+                          <div className="flex flex-wrap gap-1 mb-3 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-100">
+                            {project.tags
+                              .filter(tag => tag && tag.name)
+                              .slice(0, 3)
+                              .map((tag, tagIndex) => (
+                                <span 
+                                  key={tagIndex} 
+                                  className="px-2 py-1 text-white text-xs font-medium rounded-full backdrop-blur-sm border border-white/20 shadow-lg"
+                                  style={{ 
+                                    backgroundColor: tag.color || '#6B7280'
+                                  }}
+                                >
+                                  {tag.name}
+                                </span>
+                              ))}
+                            {project.tags.filter(tag => tag && tag.name).length > 3 && (
+                              <span className="px-2 py-1 bg-gray-600/80 text-white text-xs font-medium rounded-full backdrop-blur-sm border border-white/20">
+                                +{project.tags.filter(tag => tag && tag.name).length - 3}
+                              </span>
+                            )}
                           </div>
                         )}
                         
                         {/* Technologies */}
                         {project.technologies && project.technologies.length > 0 && (
-                          <div className="flex flex-wrap gap-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-150">
+                          <div className="flex flex-wrap gap-1 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-150">
                             {project.technologies.slice(0, 3).map((tech, techIndex) => (
                               <span 
                                 key={techIndex} 
@@ -267,171 +438,8 @@ const Projects = () => {
           </div>
         )}
       </div>
-      
-      {/* Styles CSS pour les animations */}
-      <style jsx>{`
-        @keyframes title-gradient-shift {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-        }
-        
-        @keyframes title-shimmer {
-          0% { 
-            background-position: -200% center; 
-            opacity: 0;
-          }
-          50% { 
-            background-position: 200% center; 
-            opacity: 0.3;
-          }
-          100% { 
-            background-position: 400% center; 
-            opacity: 0;
-          }
-        }
-        
-        @keyframes pill-gradient-flow {
-          0% { background-position: 0% 50%; }
-          25% { background-position: 100% 50%; }
-          50% { background-position: 100% 100%; }
-          75% { background-position: 0% 100%; }
-          100% { background-position: 0% 50%; }
-        }
-        
-        @keyframes pill-slide-shimmer {
-          0% {
-            transform: translateX(-100%) rotate(-10deg);
-            opacity: 0;
-          }
-          50% {
-            opacity: 1;
-          }
-          100% {
-            transform: translateX(100%) rotate(10deg);
-            opacity: 0;
-          }
-        }
-        
-        @keyframes pill-continuous-slide {
-          0% {
-            left: -100%;
-            opacity: 0;
-          }
-          20% {
-            opacity: 1;
-          }
-          80% {
-            opacity: 1;
-          }
-          100% {
-            left: 100%;
-            opacity: 0;
-          }
-        }
-        
-        @keyframes pill-pulse {
-          0%, 100% {
-            box-shadow: 0 0 10px rgba(147, 51, 234, 0.3), 0 0 20px rgba(59, 130, 246, 0.2);
-          }
-          50% {
-            box-shadow: 0 0 20px rgba(147, 51, 234, 0.6), 0 0 40px rgba(59, 130, 246, 0.4);
-          }
-        }
-        
-        .pill-container {
-          animation: pill-pulse 3s ease-in-out infinite;
-        }
-        
-        .pill-button {
-          position: relative;
-          overflow: hidden;
-        }
-        
-        .pill-button::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(
-            90deg,
-            transparent,
-            rgba(255, 255, 255, 0.4),
-            rgba(255, 255, 255, 0.6),
-            rgba(255, 255, 255, 0.4),
-            transparent
-          );
-          animation: pill-continuous-slide 3s ease-in-out infinite;
-          animation-delay: inherit;
-          z-index: 1;
-          border-radius: inherit;
-        }
-        
-        .pill-active {
-          background: linear-gradient(
-            45deg,
-            #7c3aed,
-            #3b82f6,
-            #8b5cf6,
-            #6366f1,
-            #7c3aed
-          );
-          background-size: 300% 300%;
-          animation: pill-gradient-flow 4s ease-in-out infinite;
-          position: relative;
-        }
-        
-        .pill-active::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(
-            120deg,
-            transparent 40%,
-            rgba(255, 255, 255, 0.3) 50%,
-            rgba(255, 255, 255, 0.1) 60%,
-            transparent 70%
-          );
-          animation: pill-slide-shimmer 3s ease-in-out infinite;
-          z-index: 2;
-        }
-        
-        .pill-hover {
-          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .pill-hover:hover {
-          background: linear-gradient(45deg, rgba(107, 114, 128, 0.5), rgba(75, 85, 99, 0.5));
-          transform: translateY(-2px);
-          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        .title-gradient {
-          background: linear-gradient(90deg, #ffffff, #f8f8f8, #ffffff, #f0f0f0, #ffffff);
-          background-size: 300% 100%;
-          animation: title-gradient-shift 4s ease-in-out infinite;
-          background-clip: text;
-          -webkit-background-clip: text;
-          color: transparent;
-          text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-        }
-        
-        .description-gradient {
-          background: linear-gradient(90deg, #e0e0e0, #f0f0f0, #e0e0e0, #d0d0d0, #e0e0e0);
-          background-size: 300% 100%;
-          animation: title-gradient-shift 5s ease-in-out infinite;
-          background-clip: text;
-          -webkit-background-clip: text;
-          color: transparent;
-          text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-        }
-      `}</style>
     </section>
   );
-}
+};
 
 export default Projects;

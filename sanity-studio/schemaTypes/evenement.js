@@ -10,6 +10,16 @@ const evenement = {
       validation: Rule => Rule.required()
     },
     {
+      name: 'lienExterne',
+      type: 'url',
+      title: '🔗 Lien externe',
+      description: 'Lien vers des références historiques, inspirations ou ressources externes liées à cet événement',
+      validation: Rule => Rule.uri({
+        allowRelative: false,
+        scheme: ['http', 'https']
+      })
+    },
+    {
       name: 'univers',
       title: 'Univers d\'appartenance',
       type: 'reference',
@@ -33,7 +43,19 @@ const evenement = {
           {title: 'Mystique', value: 'mystique'},
           {title: 'Autre', value: 'autre'}
         ]
-      }
+      },
+      validation: Rule => Rule.required()
+    },
+
+    {
+      name: 'tags',
+      title: 'Tags',
+      type: 'array',
+      of: [{ 
+        type: 'reference', 
+        to: [{ type: 'tag' }]
+      }],
+      description: 'Tags libres pour qualifier cet événement (ex: Bataille, Tragédie, Victoire, etc.)'
     },
     {
       name: 'datePeriode',
@@ -91,7 +113,7 @@ const evenement = {
         {
           type: 'reference',
           to: [
-            {type: 'object'},
+            {type: 'objet'},
             {type: 'conceptMetaphysique'}
           ]
         }

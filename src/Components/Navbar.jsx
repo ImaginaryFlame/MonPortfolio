@@ -311,7 +311,7 @@ const Navbar = ({ theme }) => {
 
       
       <div className="flex justify-center pt-4 px-4">
-        <nav className="navbar-gradient flex items-center space-x-2 p-2 rounded-full shadow-2xl transition-all duration-700 cubic-bezier(0.4, 0, 0.2, 1) hover:scale-[1.02]">
+        <nav className="flex items-center space-x-2 bg-gradient-to-r from-orange-500 via-red-500 to-yellow-500 p-2 rounded-full shadow-2xl">
           {/* Logo avec animation améliorée */}
           <div className="w-12 h-12 bg-gradient-to-r from-red-600 to-red-700 rounded-full flex items-center justify-center transform transition-all duration-500 ease-out hover:scale-110 hover:rotate-12 hover:shadow-lg overflow-hidden">
             <img 
@@ -325,14 +325,14 @@ const Navbar = ({ theme }) => {
           <div className="flex items-center space-x-1">
             <Link 
               to="/" 
-              className="px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-500 cubic-bezier(0.4, 0, 0.2, 1) hover:transform hover:scale-105 hover:shadow-lg text-sm uppercase tracking-wide shadow-lg"
+              className="px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-300 ease-out hover:transform hover:scale-105 hover:shadow-lg text-sm uppercase tracking-wide shadow-lg"
             >
               {t.navbar.home}
             </Link>
             
             <Link 
               to="/about" 
-              className="px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-500 cubic-bezier(0.4, 0, 0.2, 1) hover:transform hover:scale-105 hover:shadow-lg text-sm uppercase tracking-wide shadow-lg"
+              className="px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-300 ease-out hover:transform hover:scale-105 hover:shadow-lg text-sm uppercase tracking-wide shadow-lg"
             >
               {t.navbar.about}
             </Link>
@@ -340,10 +340,8 @@ const Navbar = ({ theme }) => {
             <div className="relative">
               <button
                 onClick={togglePortails}
-                className={`px-6 py-3 text-white font-bold rounded-full transition-all duration-500 cubic-bezier(0.4, 0, 0.2, 1) hover:transform hover:scale-105 hover:shadow-lg text-sm uppercase tracking-wide shadow-lg ${
-                  isPortailsOpen 
-                    ? 'bg-gradient-to-r from-orange-500 to-red-600 scale-105 shadow-xl' 
-                    : 'bg-gradient-to-r from-orange-400 to-red-500 hover:from-orange-500 hover:to-red-600'
+                className={`px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full transition-all duration-300 ease-out hover:from-orange-500 hover:to-red-600 hover:transform hover:scale-105 hover:shadow-lg text-sm uppercase tracking-wide shadow-lg ${
+                  isPortailsOpen ? 'scale-105 shadow-xl from-orange-500 to-red-600' : ''
                 }`}
               >
                 {t.navbar.portals}
@@ -355,7 +353,7 @@ const Navbar = ({ theme }) => {
                   isPortailsOpen 
                     ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto' 
                     : 'opacity-0 -translate-y-4 scale-95 pointer-events-none'
-                } transition-all duration-500 cubic-bezier(0.4, 0, 0.2, 1)`}
+                } transition-all duration-300 ease-out`}
               >
                 {/* Boutons principaux */}
                 <div className="flex flex-col space-y-3 items-start">
@@ -363,7 +361,7 @@ const Navbar = ({ theme }) => {
                     <button
                       key={key}
                       onClick={() => handlePortailChange(key)}
-                      className={`px-5 py-3 rounded-lg text-sm font-medium uppercase whitespace-nowrap border transition-all duration-500 cubic-bezier(0.4, 0, 0.2, 1) ${
+                      className={`px-5 py-3 rounded-lg text-sm font-medium uppercase whitespace-nowrap border transition-all duration-300 ease-out ${
                         portailType === key 
                           ? 'bg-gradient-to-r from-orange-500 via-red-500 to-yellow-500 text-white scale-105 shadow-xl border-orange-300' 
                           : 'bg-gradient-to-r from-slate-800/90 to-blue-900/90 text-white hover:from-orange-600/90 hover:to-red-600/90 border-slate-600'
@@ -378,7 +376,7 @@ const Navbar = ({ theme }) => {
                 {portailType && !isAnimating && (
                   <div className="flex space-x-6"
                        style={{
-                         animation: 'fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+                         animation: 'fadeIn 0.3s ease-out forwards',
                          opacity: 0
                        }}>
                     <div className="flex flex-col gap-3 min-w-[200px]">
@@ -409,7 +407,7 @@ const Navbar = ({ theme }) => {
                     {/* Sous-sous-menus */}
                     {selectedItem !== null && menuItems[portailType].items[selectedItem]?.subItems && (
                       <div 
-                        className="flex flex-col gap-2 min-w-[200px] opacity-100 translate-y-0 scale-100 transition-all duration-400 cubic-bezier(0.4, 0, 0.2, 1)"
+                        className="flex flex-col gap-2 min-w-[200px] opacity-100 translate-y-0 scale-100 transition-all duration-200 ease-out"
                         onMouseEnter={() => setIsHovering(true)}
                         onMouseLeave={handleMouseLeave}
                       >
@@ -419,7 +417,7 @@ const Navbar = ({ theme }) => {
                             to={subItem.path}
                             className="bg-gradient-to-r from-yellow-400/95 to-orange-500/95 text-gray-900 text-left px-4 py-3 rounded-lg font-semibold hover:from-blue-400/95 hover:to-blue-600/95 hover:text-white shadow-md text-sm border border-yellow-300 hover:transform hover:-translate-y-1 hover:shadow-lg opacity-0"
                             style={{ 
-                              animation: `smoothSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) ${subIndex * 50}ms forwards`
+                              animation: `fadeInUp 0.2s ease-out ${subIndex * 30}ms forwards`
                             }}
                           >
                             {subItem.name}
@@ -434,7 +432,7 @@ const Navbar = ({ theme }) => {
 
             <Link 
               to="/contact" 
-              className="px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-500 cubic-bezier(0.4, 0, 0.2, 1) hover:transform hover:scale-105 hover:shadow-lg text-sm uppercase tracking-wide shadow-lg"
+              className="px-6 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white font-bold rounded-full hover:from-orange-500 hover:to-red-600 transition-all duration-300 ease-out hover:transform hover:scale-105 hover:shadow-lg text-sm uppercase tracking-wide shadow-lg"
             >
               {t.navbar.contact}
             </Link>

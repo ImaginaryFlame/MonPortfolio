@@ -143,13 +143,17 @@ export const translations = {
     // Projects Section
     projects: {
       title: "Mes Projets",
+      description: "Découvrez mes créations organisées par domaines d'expertise - De l'art à la technologie",
       allProjects: "Tous les projets",
       loading: "Chargement des projets...",
       error: "Erreur",
+      noProjects: "Aucun projet trouvé dans cette catégorie",
       categories: {
         arts: "Arts Visuels & Narratifs",
         dev: "Développement & Tech",
-        video: "Vidéaste"
+        video: "Vidéaste",
+        game: "Game Development",
+        web: "Web & Digital"
       }
     },
 
@@ -327,7 +331,9 @@ export const translations = {
       categories: {
         arts: "Arts Visuels & Narratifs",
         dev: "Développement & Tech",
-        video: "Vidéaste"
+        video: "Vidéaste",
+        game: "Game Development",
+        web: "Web & Digital"
       }
     },
 
@@ -351,6 +357,23 @@ export const translations = {
       }
     },
 
+    // Portails des Univers Narratifs
+    portals: {
+      title: "Portails des Univers",
+      subtitle: "Explorez les mondes narratifs de Flame - Personnages, lieux, histoire et mystères de chaque univers organisés comme un wiki professionnel",
+      selectUniverse: "Sélectionnez un univers pour explorer",
+      selectDescription: "Chaque univers contient des personnages, lieux, objets et mystères uniques. Cliquez sur un titre ci-dessus pour découvrir ses secrets.",
+      mainSeries: "SÉRIE PRINCIPALE",
+      connectedTo: "Connecté à l'univers principal",
+      elements: "éléments",
+      stats: {
+        universes: "Univers Créés",
+        characters: "Personnages",
+        locations: "Lieux & Régions",
+        objects: "Objets & Artefacts"
+      }
+    },
+    
     // Univers Narratifs
     universes: {
       title: "Univers Narratifs",
@@ -358,19 +381,23 @@ export const translations = {
       projects: {
         flammeImaginaire: {
           title: "LE HÉROS À LA FLAMME IMAGINAIRE",
-          description: "Une épopée fantastique sur le pouvoir de l'imagination"
+          description: "Licence transmédia principale - Shōnen, slice of life, aventure psychologique",
+          status: "En développement actif"
         },
         herosFee: {
           title: "LA FABLE DU HÉROS ET LA FÉE",
-          description: "Un conte moderne mêlant magie et aventure"
+          description: "Trilogie fantasy épique - Amitié, rédemption et héroïsme",
+          status: "Romans en cours"
         },
         vinceBelii: {
           title: "VINCE DE BELII",
-          description: "Une saga familiale aux multiples rebondissements"
+          description: "Light novel intimiste - Reconstruction personnelle et mystères",
+          status: "Visual Novel en développement"
         },
         pandemie: {
           title: "LA PANDÉMIE DE LARA",
-          description: "Un thriller post-apocalyptique haletant"
+          description: "Post-apocalyptique - Survie, identité et résilience humaine",
+          status: "En développement"
         }
       },
       // Sections communes
@@ -762,7 +789,7 @@ export const translations = {
     // Projects Section
     projects: {
       title: "My Projects",
-      description: "Discover my various creations through these three areas of expertise",
+      description: "Discover my various creations through these five areas of expertise",
       loading: "Loading projects...",
       error: "Error",
       allProjects: "All projects",
@@ -771,7 +798,9 @@ export const translations = {
       categories: {
         arts: "Visual & Narrative Arts",
         dev: "Development & Tech",
-        video: "Video Creator"
+        video: "Video Creator",
+        game: "Game Development",
+        web: "Web & Digital"
       }
     },
 
@@ -1033,13 +1062,17 @@ export const translations = {
     // Projects Section
     projects: {
       title: "Meus Projetos",
+      description: "Descubra minhas várias criações através dessas cinco áreas de expertise",
       allProjects: "Todos os projetos", 
       loading: "Carregando projetos...",
       error: "Erro",
+      noProjects: "Nenhum projeto encontrado nesta categoria",
       categories: {
         arts: "Artes Visuais & Narrativas",
         dev: "Desenvolvimento & Tech",
-        video: "Criador de Vídeo"
+        video: "Criador de Vídeo",
+        game: "Game Development",
+        web: "Web & Digital"
       }
     },
 

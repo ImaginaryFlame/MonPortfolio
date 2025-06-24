@@ -17,6 +17,20 @@ const race = {
       validation: Rule => Rule.required(),
       description: 'L\'univers dans lequel cette race existe.'
     },
+
+    {
+      name: 'tags',
+      title: 'Tags',
+      type: 'array',
+      of: [{ 
+        type: 'reference', 
+        to: [{ type: 'tag' }],
+        options: {
+          filter: 'category == "races"'
+        }
+      }],
+      description: 'Tags pour classifier cette race (humanoïde, fantastique, etc.)'
+    },
     {
       name: 'autresNoms',
       type: 'array',

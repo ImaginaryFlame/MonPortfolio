@@ -1,7 +1,7 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
 import './index.css'
+import App from './App.jsx'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { 
   faGithub, 
@@ -29,10 +29,33 @@ library.add(
   faPencil
 )
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+// Système anti-FOUC amélioré
+const removeFlashOfUnstyledContent = () => {
+  // Marquer immédiatement comme chargé si déjà prêt
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    document.documentElement.classList.add('loaded');
+  } else {
+    // Sinon attendre le chargement
+    document.addEventListener('DOMContentLoaded', () => {
+      document.documentElement.classList.add('loaded');
+    });
+  }
+  
+  // Fallback pour s'assurer que la page s'affiche même en cas de problème
+  setTimeout(() => {
+    if (!document.documentElement.classList.contains('loaded')) {
+      document.documentElement.classList.add('loaded');
+    }
+  }, 100);
+};
+
+// Exécuter immédiatement
+removeFlashOfUnstyledContent();
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
     <LanguageProvider>
       <App />
     </LanguageProvider>
-  </React.StrictMode>,
+  </StrictMode>,
 )
