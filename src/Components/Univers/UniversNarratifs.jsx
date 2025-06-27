@@ -30,75 +30,53 @@ const UniversNarratifs = () => {
   
   const univers = [
     {
-      title: t.universes.projects.flammeImaginaire.title,
-      path: "/creation/univers-narratifs/flamme-imaginaire",
-      description: "Une licence transmédia ambitieuse mêlant shōnen, slice of life, aventure psychologique et comédie satirique. L'histoire suit Travis Wetu Cardoso dans un monde fracturé inspiré de Vesontio (Besançon alternatif), explorant les luttes identitaires avec un humour oscillant entre cartoon et satire.",
-      image: "/assets/img/flammeimaginaire-banner.webp",
-      isMainSeries: true,
-      colors: {
-        primary: '#FF6B35',
-        secondary: '#F7931E',
-        accent: '#FFD700',
-        glow: 'rgba(255, 107, 53, 0.5)'
-      },
-      icon: '🔥',
-      tags: ['Shōnen', 'Slice of Life', 'Comédie', 'Psychologique'],
-      genre: 'Transmédia',
-      status: 'En développement'
+      id: 'flamme-imaginaire',
+      title: 'LE HÉROS À LA FLAMME IMAGINAIRE',
+      description: 'La licence principale d\'Imaginary Flame.\n\nUne histoire de fantasy urbaine, mêlant rêve et fiction, suivant le voyage initiatique d\'un jeune garçon cherchant à trouver une raison de vivre, d\'être aimé, d\'aider autrui et de fuir ses peurs et la réalité à travers l\'héroïsme et des aventures extra-dimensionnelles.',
+      color: '#9333EA',
+      image: null,
+      featured: true,
+      status: ['Série Animée', 'Mangas', 'Films d\'Animation'],
+      tags: ['Fantasy Urbaine', 'Voyage Initiatique', 'Rêve & Fiction', 'Extra-Dimensionnel'],
+      icon: '🔥'
     },
     {
-      title: t.universes.projects.herosFee.title,
-      path: "/creation/univers-narratifs/fable-heros-fee",
-      description: "Un conte féérique moderne où la magie rencontre la réalité contemporaine. Une aventure épique à travers des royaumes enchantés peuplés de créatures mystiques et de héros au destin entrelacé.",
-      image: "/assets/img/herosfee-banner.webp",
-      connectedTo: "flamme-imaginaire",
-      colors: {
-        primary: '#9C27B0',
-        secondary: '#E91E63',
-        accent: '#FF9800',
-        glow: 'rgba(156, 39, 176, 0.5)'
-      },
+      id: 'heros-fee',
+      title: 'LA FABLE DU HÉROS ET LA FÉE',
+      description: 'Spin-off connecté au Héros à la Flamme Imaginaire.\n\nÉpopée post-apocalyptique mêlant fantasy et science-fiction - Deux âmes perdues, un humain et une fée, unis par le destin pour sauver un monde qui les a rejetés.',
+      color: '#EC4899',
+      image: "/assets/img/F7xrYybWcAEztt2.webp",
+      status: 'Trilogie en cours',
+      tags: ['Fantasy Épique', 'Fées & Légendes', 'Trilogie'],
       icon: '🧚‍♀️',
-      tags: ['Fantasy', 'Magie', 'Aventure', 'Féérique'],
-      genre: 'Conte Moderne',
-      status: 'Concept'
+      connectedTo: 'flamme-imaginaire'
     },
     {
-      title: t.universes.projects.vinceBelii.title,
-      path: "/creation/univers-narratifs/vince-belii",
-      description: "Une saga de guerre et de stratégie politique dans un monde médiéval-fantasy où les familles nobles s'affrontent pour le pouvoir. Intrigues, batailles épiques et développement de personnages complexes.",
-      image: "/assets/img/vincebelii-banner.webp",
-      colors: {
-        primary: '#2196F3',
-        secondary: '#03DAC6',
-        accent: '#BB86FC',
-        glow: 'rgba(33, 150, 243, 0.5)'
-      },
-      icon: '⚔️',
-      tags: ['Guerre', 'Stratégie', 'Politique', 'Medieval'],
-      genre: 'Epic Fantasy',
-      status: 'Planification'
+      id: 'vince-belii',
+      title: 'VINCE DE BELII',
+      description: 'Light novel introspectif - L\'histoire personnelle d\'un jeune homme en quête d\'identité',
+      color: '#8B5CF6',
+      image: "/assets/img/262133663-288-k338692.webp",
+      status: ['Visual Novel', 'Roman'],
+      tags: ['Light Novel', 'Introspectif', 'Coming-of-age'],
+      icon: '🚴‍♂️',
+      isOriginalWork: true
     },
     {
-      title: t.universes.projects.pandemie.title,
-      path: "/creation/univers-narratifs/pandemie-lara",
-      description: "Un thriller post-apocalyptique explorant la survie humaine dans un monde ravagé. Une histoire d'espoir, de résilience et de reconstruction sociale face à l'adversité.",
-      image: "/assets/img/pandemielara-banner.webp",
-      colors: {
-        primary: '#4CAF50',
-        secondary: '#8BC34A',
-        accent: '#CDDC39',
-        glow: 'rgba(76, 175, 80, 0.5)'
-      },
-      icon: '🌿',
-      tags: ['Post-Apo', 'Survie', 'Thriller', 'Espoir'],
-      genre: 'Science-Fiction',
-      status: 'Développement'
+      id: 'pandemie-lara',
+      title: 'LA PANDÉMIE DE LARA',
+      description: 'Post-apocalyptique et survie - Un monde dévasté où l\'humanité lutte pour survivre',
+      color: '#DC2626',
+      image: null,
+      status: 'Concept exploratoire',
+      tags: ['Post-Apocalyptique', 'Survie', 'Thriller'],
+      icon: '🧟‍♀️',
+      isOriginalWork: true
     }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white overflow-hidden relative">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white overflow-hidden relative pt-20 md:pt-24">
       {/* Particules de fond animées */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {[...Array(50)].map((_, i) => (
@@ -120,7 +98,7 @@ const UniversNarratifs = () => {
         className="absolute inset-0 opacity-10 transition-all duration-1000"
         style={{
           background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, 
-                      ${hoveredCard ? univers.find((_, i) => i === hoveredCard)?.colors.primary : '#4F46E5'} 0%, 
+                      ${hoveredCard ? univers.find((_, i) => i === hoveredCard)?.color : '#4F46E5'} 0%, 
                       transparent 50%)`
         }}
       />
@@ -135,7 +113,7 @@ const UniversNarratifs = () => {
         <div className="text-center mb-16">
           <div className="inline-block">
             <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 animate-gradient-x">
-              {t.universes.title}
+              LES UNIVERS DE FLAME
             </h1>
             <div className="h-1 bg-gradient-to-r from-transparent via-purple-500 to-transparent animate-pulse"></div>
           </div>
@@ -148,12 +126,12 @@ const UniversNarratifs = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {univers.map((univers, index) => (
             <Link 
-              to={univers.path}
+              to={`/creation/univers-narratifs/${univers.id}`}
               key={index}
               onMouseEnter={() => setHoveredCard(index)}
               onMouseLeave={() => setHoveredCard(null)}
               className={`group relative overflow-hidden rounded-3xl transition-all duration-700 transform hover:scale-[1.02] ${
-                univers.isMainSeries ? 'lg:col-span-2 lg:h-[500px]' : 'h-[400px]'
+                univers.featured ? 'lg:col-span-2 lg:h-[500px]' : 'h-[400px]'
               }`}
               style={{
                 animationDelay: `${index * 200}ms`
@@ -167,7 +145,7 @@ const UniversNarratifs = () => {
                   className="absolute inset-0 rounded-3xl p-[2px] transition-all duration-500"
                   style={{
                     background: hoveredCard === index 
-                      ? `linear-gradient(45deg, ${univers.colors.primary}, ${univers.colors.secondary}, ${univers.colors.accent}, ${univers.colors.primary})`
+                      ? `linear-gradient(45deg, ${univers.color}, ${univers.color}20, ${univers.color}40, ${univers.color}60)`
                       : 'linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent)',
                     backgroundSize: '300% 300%',
                     animation: hoveredCard === index ? 'gradientMove 3s ease infinite' : 'none'
@@ -183,7 +161,13 @@ const UniversNarratifs = () => {
                     alt={univers.title}
                     className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
                     style={{
-                      transform: hoveredCard === index ? 'scale(1.15)' : 'scale(1.05)'
+                      transform: hoveredCard === index ? 'scale(1.15)' : 'scale(1.05)',
+                      // Amélioration spécifique pour Vince de Belii
+                      ...(univers.id === 'vince-belii' && {
+                        objectPosition: 'center 30%',
+                        filter: 'brightness(1.1) contrast(1.05)',
+                        transform: hoveredCard === index ? 'scale(1.18)' : 'scale(1.08)'
+                      })
                     }}
                   />
                   
@@ -192,7 +176,7 @@ const UniversNarratifs = () => {
                     className="absolute inset-0 transition-all duration-500"
                     style={{
                       background: hoveredCard === index 
-                        ? `linear-gradient(135deg, ${univers.colors.primary}20, ${univers.colors.secondary}40, black)`
+                        ? `linear-gradient(135deg, ${univers.color}20, ${univers.color}40, black)`
                         : 'linear-gradient(135deg, rgba(0,0,0,0.3), rgba(0,0,0,0.8))'
                     }}
                   />
@@ -204,7 +188,7 @@ const UniversNarratifs = () => {
                     hoveredCard === index ? 'opacity-100' : 'opacity-0'
                   }`}
                   style={{
-                    boxShadow: `0 0 50px ${univers.colors.glow}, inset 0 0 50px ${univers.colors.glow}20`
+                    boxShadow: `0 0 50px ${univers.color}20, inset 0 0 50px ${univers.color}40`
                   }}
                 />
 
@@ -212,31 +196,41 @@ const UniversNarratifs = () => {
                 <div className="absolute top-0 left-0 right-0 p-6 z-20">
                   <div className="flex justify-between items-start">
                     {/* Tags à gauche */}
-                    <div className="flex flex-col gap-2 max-w-[60%]">
+                    <div className="flex flex-col gap-2 max-w-[70%]">
                       {/* Status badge */}
                       <div className="flex items-center gap-2 mb-2">
+                        {Array.isArray(univers.status) ? (
+                          univers.status.map((status, statusIndex) => (
+                            <span 
+                              key={statusIndex}
+                              className={`px-3 py-1.5 rounded-full text-xs font-bold backdrop-blur-sm border transition-all duration-300 ${
+                                hoveredCard === index 
+                                  ? 'bg-white/25 text-white border-white/40' 
+                                  : 'bg-black/40 text-gray-200 border-gray-500'
+                              }`}
+                              style={{
+                                backgroundColor: hoveredCard === index ? `${univers.color}40` : undefined,
+                                borderColor: hoveredCard === index ? `${univers.color}60` : undefined
+                              }}
+                            >
+                              ● {status}
+                            </span>
+                          ))
+                        ) : (
                         <span 
-                          className={`px-3 py-1 rounded-full text-xs font-bold backdrop-blur-sm border transition-all duration-300 ${
+                          className={`px-3 py-1.5 rounded-full text-xs font-bold backdrop-blur-sm border transition-all duration-300 ${
                             hoveredCard === index 
                               ? 'bg-white/25 text-white border-white/40' 
                               : 'bg-black/40 text-gray-200 border-gray-500'
                           }`}
                           style={{
-                            backgroundColor: hoveredCard === index ? `${univers.colors.primary}40` : undefined,
-                            borderColor: hoveredCard === index ? `${univers.colors.primary}60` : undefined
+                            backgroundColor: hoveredCard === index ? `${univers.color}40` : undefined,
+                            borderColor: hoveredCard === index ? `${univers.color}60` : undefined
                           }}
                         >
                           ● {univers.status}
                         </span>
-                        <span 
-                          className={`px-2 py-1 rounded-md text-xs font-medium backdrop-blur-sm transition-all duration-300 ${
-                            hoveredCard === index 
-                              ? 'bg-white/20 text-white' 
-                              : 'bg-black/30 text-gray-300'
-                          }`}
-                        >
-                          {univers.genre}
-                        </span>
+                        )}
                       </div>
                       
                       {/* Tags principaux */}
@@ -250,8 +244,8 @@ const UniversNarratifs = () => {
                                 : 'bg-black/30 text-gray-300 border-gray-600'
                             }`}
                             style={{
-                              boxShadow: hoveredCard === index ? `0 0 10px ${univers.colors.glow}` : 'none',
-                              animationDelay: `${tagIndex * 100}ms`
+                              boxShadow: hoveredCard === index ? `0 0 10px ${univers.color}20` : 'none',
+                              animationDelay: `${tagIndex * 50}ms`
                             }}
                           >
                             {tag}
@@ -266,7 +260,7 @@ const UniversNarratifs = () => {
                         hoveredCard === index ? 'scale-125 rotate-12' : 'scale-100'
                       }`}
                       style={{
-                        filter: hoveredCard === index ? `drop-shadow(0 0 20px ${univers.colors.glow})` : 'none'
+                        filter: hoveredCard === index ? `drop-shadow(0 0 20px ${univers.color}20)` : 'none'
                       }}
                     >
                       {univers.icon}
@@ -274,12 +268,36 @@ const UniversNarratifs = () => {
                   </div>
 
                   {/* Badge de connexion centré en dessous */}
-                  {univers.connectedTo && (
+                  {univers.featured && (
                     <div className="flex justify-center mt-4">
                       <div className="flex items-center gap-2 px-3 py-1.5 bg-purple-500/20 backdrop-blur-sm rounded-full border border-purple-400/30">
                         <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
                         <span className="text-xs text-purple-300 font-medium">
-                          {t.universes.connectedToMain}
+                          Licence Principale
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Badge de connexion pour les univers connectés */}
+                  {univers.connectedTo && (
+                    <div className="flex justify-center mt-4">
+                      <div className="flex items-center gap-2 px-3 py-1.5 bg-pink-500/20 backdrop-blur-sm rounded-full border border-pink-400/30">
+                        <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse"></div>
+                        <span className="text-xs text-pink-300 font-medium">
+                          Connecté à la Flamme Imaginaire
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Badge pour les œuvres originales */}
+                  {univers.isOriginalWork && (
+                    <div className="flex justify-center mt-4">
+                      <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-500/20 backdrop-blur-sm rounded-full border border-blue-400/30">
+                        <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                        <span className="text-xs text-blue-300 font-medium">
+                          Œuvre Originale
                         </span>
                       </div>
                     </div>
@@ -292,11 +310,11 @@ const UniversNarratifs = () => {
                     {/* Titre avec animation */}
                     <h3 
                       className={`font-bold transition-all duration-300 ${
-                        univers.isMainSeries ? 'text-4xl lg:text-5xl' : 'text-2xl lg:text-3xl'
+                        univers.featured ? 'text-4xl lg:text-5xl' : 'text-2xl lg:text-3xl'
                       }`}
                       style={{
-                        color: hoveredCard === index ? univers.colors.accent : 'white',
-                        textShadow: hoveredCard === index ? `0 0 20px ${univers.colors.glow}` : 'none'
+                        color: hoveredCard === index ? univers.color : 'white',
+                        textShadow: hoveredCard === index ? `0 0 20px ${univers.color}20` : 'none'
                       }}
                     >
                       {univers.title}
@@ -304,7 +322,7 @@ const UniversNarratifs = () => {
                     
                     {/* Description */}
                     <p className={`text-gray-300 leading-relaxed transition-all duration-300 ${
-                      univers.isMainSeries ? 'text-lg max-w-3xl' : 'text-base'
+                      univers.featured ? 'text-lg max-w-3xl' : 'text-base'
                     } ${hoveredCard === index ? 'text-white' : ''}`}>
                       {univers.description}
                     </p>
@@ -318,7 +336,7 @@ const UniversNarratifs = () => {
                             : 'bg-black/30 border-gray-600'
                         }`}
                         style={{
-                          boxShadow: hoveredCard === index ? `0 0 20px ${univers.colors.glow}` : 'none'
+                          boxShadow: hoveredCard === index ? `0 0 20px ${univers.color}20` : 'none'
                         }}
                       >
                         <span className="font-medium">Explorer l'univers</span>
@@ -358,7 +376,7 @@ const UniversNarratifs = () => {
                         key={i}
                         className="absolute w-1 h-1 rounded-full opacity-60 animate-float"
                         style={{
-                          backgroundColor: univers.colors.accent,
+                          backgroundColor: univers.color,
                           left: `${Math.random() * 100}%`,
                           top: `${Math.random() * 100}%`,
                           animationDelay: `${Math.random() * 2}s`,

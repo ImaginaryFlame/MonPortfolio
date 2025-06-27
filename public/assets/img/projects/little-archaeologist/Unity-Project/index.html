@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Little Archeologist - Projet Unity Source</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 100%);
+            color: #451a03;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .section {
+            background: rgba(255,255,255,0.8);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .section h2 {
+            color: #92400e;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #f59e0b;
+        }
+        
+        .folder-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .folder-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid #f59e0b;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .folder-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3);
+            border-color: #d97706;
+        }
+        
+        .folder-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .folder-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #92400e;
+            margin-bottom: 0.5rem;
+        }
+        
+        .folder-desc {
+            color: #a16207;
+            font-size: 0.9rem;
+        }
+        
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .tech-tag {
+            background: #f59e0b;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .download-btn {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(5, 150, 105, 0.4);
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .stat-box {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Little Archeologist</h1>
+            <p>Projet Unity Source Complet - Prix de l'Innovation RA 2023</p>
+        </div>
+
+        <div class="section">
+            <h2>📋 À propos du projet</h2>
+            <p>Little Archeologist est une application éducative Unity développée pour le <strong>Défi Chal'enge 2023</strong>. Le projet a remporté le <strong>Prix de l'Innovation RA</strong> grâce à son utilisation innovante de la réalité augmentée pour l'enseignement de l'archéologie.</p>
+            
+            <div class="stats">
+                <div class="stat-box">
+                    <span class="stat-number">9</span>
+                    <span class="stat-label">Développeurs</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">Unity</span>
+                    <span class="stat-label">Engine</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">AR</span>
+                    <span class="stat-label">Réalité Augmentée</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">C#</span>
+                    <span class="stat-label">Langage</span>
+                </div>
+            </div>
+
+            <div class="tech-tags">
+                <span class="tech-tag">Unity 3D</span>
+                <span class="tech-tag">C# Scripts</span>
+                <span class="tech-tag">Réalité Augmentée</span>
+                <span class="tech-tag">Interface Tactile</span>
+                <span class="tech-tag">Éducation</span>
+                <span class="tech-tag">Android</span>
+                <span class="tech-tag">Windows</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📁 Structure du projet Unity</h2>
+            <div class="folder-grid">
+                <div class="folder-card" onclick="window.open('./Assets/Archeo/', '_blank')">
+                    <span class="folder-icon">📂</span>
+                    <div class="folder-name">Assets/Archeo/</div>
+                    <div class="folder-desc">Code source principal, scripts C#, prefabs et ressources du jeu</div>
+                </div>
+
+                <div class="folder-card" onclick="window.open('./Assets/Scenes/', '_blank')">
+                    <span class="folder-icon">🎬</span>
+                    <div class="folder-name">Assets/Scenes/</div>
+                    <div class="folder-desc">Scènes Unity de l'application éducative</div>
+                </div>
+
+                <div class="folder-card" onclick="window.open('./Assets/XR/', '_blank')">
+                    <span class="folder-icon">🥽</span>
+                    <div class="folder-name">Assets/XR/</div>
+                    <div class="folder-desc">Code de réalité augmentée - Innovation RA 2023</div>
+                </div>
+
+                <div class="folder-card" onclick="window.open('./ProjectSettings/', '_blank')">
+                    <span class="folder-icon">⚙️</span>
+                    <div class="folder-name">ProjectSettings/</div>
+                    <div class="folder-desc">Configuration Unity, paramètres de build</div>
+                </div>
+
+                <div class="folder-card" onclick="window.open('./Packages/', '_blank')">
+                    <span class="folder-icon">📦</span>
+                    <div class="folder-name">Packages/</div>
+                    <div class="folder-desc">Dépendances Unity, modules et packages</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔥 Fichiers principaux</h2>
+            <div class="folder-grid">
+                <div class="folder-card">
+                    <span class="folder-icon">🎯</span>
+                    <div class="folder-name">Scripts C#</div>
+                    <div class="folder-desc">Code source principal dans Assets/Archeo/Scripts/</div>
+                </div>
+
+                <div class="folder-card">
+                    <span class="folder-icon">📱</span>
+                    <div class="folder-name">Interface UI</div>
+                    <div class="folder-desc">Interface utilisateur tactile optimisée</div>
+                </div>
+
+                <div class="folder-card">
+                    <span class="folder-icon">🏺</span>
+                    <div class="folder-name">Modèles 3D</div>
+                    <div class="folder-desc">Objets archéologiques (Urne, Bol, Assiette)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📥 Téléchargements</h2>
+            <p>Téléchargez les éléments du projet :</p>
+            <a href="../PRESENTATION%20PROJET%20CHAL'ENGE-1.pptx" class="download-btn" download>
+                📊 Présentation Complète
+            </a>
+            <a href="./" class="download-btn" onclick="downloadProject()">
+                💾 Projet Complet (ZIP)
+            </a>
+            
+            <div class="warning">
+                ⚠️ <strong>Note :</strong> Ce projet Unity nécessite Unity 2021.3 LTS ou plus récent pour fonctionner correctement.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>👥 Équipe de développement</h2>
+            <p><strong>Projet développé par une équipe de 9 personnes :</strong></p>
+            <ul style="margin-top: 1rem; margin-left: 2rem;">
+                <li><strong>Sivis Barros Dianpamba</strong> - Designer UI / Monteur vidéo</li>
+                <li><strong>Manon Lemonnier</strong> - Chef de projet / 3D et Texturing</li>
+                <li><strong>Oussama</strong> - Chef de projet / Développeur</li>
+                <li><strong>Ylies Nejara</strong> - Développeur</li>
+                <li><strong>Audric Boullier</strong> - Développeur / Intégrateur</li>
+                <li><strong>Arnaud Carbonnel</strong> - 3D et Texturing / Réalisateur / Monteur vidéo</li>
+                <li><strong>Hanaé Jeanneton-Blateau</strong> - Chargée de communication</li>
+                <li><strong>Mylan Picornot</strong> - Communicant / Pitch</li>
+                <li><strong>Matthias Jambon</strong> - Designer application / Directeur artistique</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function downloadProject() {
+            alert('Fonctionnalité de téléchargement en cours de développement.\nVous pouvez explorer les dossiers individuellement en attendant.');
+        }
+    </script>
+</body>
+</html> 

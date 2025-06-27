@@ -160,7 +160,7 @@ const Projects = ({ projects = [], loading = false, error = null }) => {
   };
 
   return (
-    <section className="relative min-h-screen bg-gray-900 py-20 px-4 overflow-hidden" id="projects">
+    <section className="relative min-h-screen bg-gray-900 py-20 px-4 overflow-hidden pt-20 md:pt-24" id="projects">
       {/* Animation des étoiles */}
       <div className="stars-1 absolute inset-0"></div>
       <div className="stars-2 absolute inset-0"></div>
@@ -226,15 +226,18 @@ const Projects = ({ projects = [], loading = false, error = null }) => {
                 {/* BOUTON "TOUS LES PROJETS" */}
                 <button
                   onClick={() => handleCategorySelect('all')}
-                  className={`px-6 py-3 rounded-full font-bold transition-all duration-300 whitespace-nowrap pill-button relative overflow-hidden text-sm md:text-base ${
+                  className={`px-6 py-3 rounded-full font-bold transition-all duration-500 whitespace-nowrap relative overflow-hidden text-sm md:text-base ${
                     activeCategory === 'all'
-                      ? 'bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 text-white shadow-2xl transform scale-105 border-2 border-purple-400/50'
-                      : 'text-gray-300 hover:text-white pill-hover bg-gray-700/30 hover:bg-gray-600/40'
+                      ? 'category-button-active category-gradient-all text-white shadow-2xl transform scale-105 border-2 border-purple-400/50'
+                      : 'text-gray-300 hover:text-white category-button-inactive bg-gray-700/30 hover:bg-gray-600/40'
                   }`}
                 >
                   <span className="relative z-10">Tous les projets</span>
                   {activeCategory === 'all' && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-purple-500/20"></div>
+                    <>
+                      <div className="absolute inset-0 category-shimmer"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-purple-500/20"></div>
+                    </>
                   )}
                 </button>
 
@@ -243,19 +246,21 @@ const Projects = ({ projects = [], loading = false, error = null }) => {
                   <button
                     key={category.id}
                     onClick={() => handleCategorySelect(category.id)}
-                    className={`px-4 py-3 rounded-full font-semibold transition-all duration-300 whitespace-nowrap pill-button relative overflow-hidden text-sm ${
+                    className={`px-4 py-3 rounded-full font-semibold transition-all duration-500 whitespace-nowrap relative overflow-hidden text-sm ${
                       activeCategory === category.id
-                        ? 'text-white shadow-2xl transform scale-105 border border-white/20'
-                        : 'text-gray-300 hover:text-white pill-hover bg-gray-700/30 hover:bg-gray-600/40'
+                        ? `category-button-active category-gradient-${category.id} text-white shadow-2xl transform scale-105 border border-white/20`
+                        : 'text-gray-300 hover:text-white category-button-inactive bg-gray-700/30 hover:bg-gray-600/40'
                     }`}
                     style={{ 
-                      backgroundColor: activeCategory === category.id ? category.color : 'transparent',
                       boxShadow: activeCategory === category.id ? `0 0 30px ${category.color}40` : 'none'
                     }}
                   >
                     <span className="relative z-10">{category.name}</span>
                     {activeCategory === category.id && (
-                      <div className="absolute inset-0" style={{ backgroundColor: `${category.color}20` }}></div>
+                      <>
+                        <div className="absolute inset-0 category-shimmer"></div>
+                        <div className="absolute inset-0" style={{ backgroundColor: `${category.color}20` }}></div>
+                      </>
                     )}
                   </button>
                 ))}
@@ -365,10 +370,19 @@ const Projects = ({ projects = [], loading = false, error = null }) => {
                 >
                   <div className="relative aspect-video overflow-hidden">
                     <img 
-                      src={project.image ? urlFor(project.image).width(400).height(300).url() : '/assets/placeholder.jpg'} 
+                      src={project.image ? urlFor(project.image).width(400).height(300).url() : null} 
                       alt={project.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'flex';
+                      }}
                     />
+                    
+                    {/* Placeholder si pas d'image */}
+                    <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center" style={{ display: project.image ? 'none' : 'flex' }}>
+                      <div className="text-gray-400 text-4xl">📁</div>
+                    </div>
                     
                     {/* Overlay qui apparaît au hover */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -438,6 +452,102 @@ const Projects = ({ projects = [], loading = false, error = null }) => {
           </div>
         )}
       </div>
+
+      {/* Styles CSS personnalisés pour les animations de catégories */}
+      <style>{`
+        /* Animations de base */
+        @keyframes category-gradient-shift {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+        
+        @keyframes category-shimmer {
+          0% { 
+            background-position: -200% center; 
+            opacity: 0;
+          }
+          50% { 
+            background-position: 200% center; 
+            opacity: 0.3;
+          }
+          100% { 
+            background-position: 400% center; 
+            opacity: 0;
+          }
+        }
+        
+        @keyframes category-glow-pulse {
+          0%, 100% { 
+            box-shadow: 0 0 20px rgba(147, 51, 234, 0.3), 0 0 40px rgba(147, 51, 234, 0.2);
+          }
+          50% { 
+            box-shadow: 0 0 30px rgba(147, 51, 234, 0.5), 0 0 60px rgba(147, 51, 234, 0.4);
+          }
+        }
+
+        /* Classes pour les boutons de catégories */
+        .category-button-active {
+          position: relative;
+          background-size: 200% 200%;
+          animation: category-gradient-shift 4s ease-in-out infinite, category-glow-pulse 3s ease-in-out infinite;
+        }
+        
+        .category-button-inactive {
+          transition: all 0.3s ease;
+        }
+        
+        .category-button-inactive:hover {
+          background: linear-gradient(135deg, rgba(128, 90, 213, 0.2), rgba(139, 92, 246, 0.3));
+          transform: translateY(-2px) scale(1.02);
+        }
+        
+        .category-shimmer {
+          background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.2),
+            transparent
+          );
+          background-size: 200% 100%;
+          animation: category-shimmer 3s ease-in-out infinite;
+          border-radius: inherit;
+        }
+
+        /* Gradients spécifiques pour chaque catégorie */
+        .category-gradient-all {
+          background: linear-gradient(135deg, #7c3aed, #9333ea, #3b82f6, #8b5cf6, #7c3aed);
+        }
+        
+        .category-gradient-arts {
+          background: linear-gradient(135deg, #ec4899, #f472b6, #be185d, #ec4899);
+        }
+        
+        .category-gradient-dev {
+          background: linear-gradient(135deg, #3b82f6, #60a5fa, #1d4ed8, #3b82f6);
+        }
+        
+        .category-gradient-video {
+          background: linear-gradient(135deg, #ef4444, #f87171, #dc2626, #ef4444);
+        }
+        
+        .category-gradient-game {
+          background: linear-gradient(135deg, #10b981, #34d399, #059669, #10b981);
+        }
+        
+        .category-gradient-web {
+          background: linear-gradient(135deg, #14b8a6, #5eead4, #0d9488, #14b8a6);
+        }
+
+        /* Effet de hover amélioré */
+        .category-button-active:hover {
+          animation-duration: 2s;
+          transform: scale(1.08) translateY(-3px) !important;
+        }
+        
+        .category-button-active:hover .category-shimmer {
+          animation-duration: 1.5s;
+        }
+      `}</style>
     </section>
   );
 };

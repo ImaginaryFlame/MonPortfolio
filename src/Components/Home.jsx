@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Footer from './Footer';
 import Projects from './Projects';
 import { fetchProjects, urlFor, client } from '../config/sanityClient';
@@ -199,6 +200,7 @@ const SkillsSection = ({ theme }) => {
 // Nouvelle section de galerie avec vrais projets Sanity
 const ProjectGallery = ({ theme, projects, loading, error }) => {
   const { t } = useLanguage();
+  const navigate = useNavigate();
   const scrollRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -213,6 +215,41 @@ const ProjectGallery = ({ theme, projects, loading, error }) => {
       [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
     }
     return newArray;
+  };
+
+  // Mapping des projets vers leurs destinations
+  const getProjectDestination = (project) => {
+    const title = project.title?.fr || project.title || '';
+    const category = project.category;
+    
+    // Mapping spécifique par titre pour les univers narratifs
+    if (title.toLowerCase().includes('flamme imaginaire') || title.toLowerCase().includes('héros à la flamme')) {
+      return '/creation/univers-narratifs/flamme-imaginaire';
+    }
+    if (title.toLowerCase().includes('fable') || title.toLowerCase().includes('héros et la fée')) {
+      return '/creation/univers-narratifs/heros-fee';
+    }
+    if (title.toLowerCase().includes('pandémie') || title.toLowerCase().includes('lara')) {
+      return '/creation/univers-narratifs/pandemie-lara';
+    }
+    if (title.toLowerCase().includes('vince') || title.toLowerCase().includes('belii')) {
+      return '/creation/univers-narratifs/vince-belii';
+    }
+    
+    // Mapping par catégorie
+    switch (category) {
+      case 'arts-visuels-narratifs':
+        return '/creation/univers-narratifs';
+      case 'developpement-tech':
+      case 'web-digital':
+        return '/projets';
+      case 'videaste':
+        return '/creation/studio-video';
+      case 'game-development':
+        return '/projets';
+      default:
+        return '/projets';
+    }
   };
 
   // Traiter les projets reçus en props
@@ -249,8 +286,10 @@ const ProjectGallery = ({ theme, projects, loading, error }) => {
   };
 
   const handleProjectClick = (project) => {
-    console.log('Projet sélectionné:', project.title);
-    // Ici vous pouvez ajouter la navigation vers le projet
+    console.log('🎯 Projet sélectionné:', project.title);
+    const destination = getProjectDestination(project);
+    console.log('🚀 Navigation vers:', destination);
+    navigate(destination);
   };
 
   const getCategoryColor = (category) => {
@@ -308,6 +347,34 @@ const ProjectGallery = ({ theme, projects, loading, error }) => {
       title: 'Contenu YouTube',
       description: 'Création de contenu vidéo et streaming',
       category: 'videaste', 
+      image: null
+    },
+    {
+      _id: 'fallback-4',
+      title: 'La Fable du Héros et la Fée',
+      description: 'Trilogie fantasy épique en cours d\'écriture',
+      category: 'arts-visuels-narratifs',
+      image: null
+    },
+    {
+      _id: 'fallback-5',
+      title: 'La Pandémie de Lara',
+      description: 'Univers post-apocalyptique et survie',
+      category: 'arts-visuels-narratifs',
+      image: null
+    },
+    {
+      _id: 'fallback-6',
+      title: 'Vince de Belii',
+      description: 'Light novel introspectif et mystérieux',
+      category: 'arts-visuels-narratifs',
+      image: null
+    },
+    {
+      _id: 'fallback-7',
+      title: 'BibliApp',
+      description: 'Application Java de gestion de bibliothèque',
+      category: 'developpement-tech',
       image: null
     }
   ];
@@ -389,7 +456,8 @@ const ProjectGallery = ({ theme, projects, loading, error }) => {
               >
                 {/* Card du projet */}
                 <div className="relative h-96 rounded-2xl overflow-hidden bg-gray-900 shadow-2xl 
-                               transform transition-all duration-500 hover:scale-105 hover:shadow-purple-500/25">
+                               transform transition-all duration-500 hover:scale-105 hover:shadow-purple-500/25
+                               hover:shadow-2xl hover:rotate-1 active:scale-95">
                   
                   {/* Image */}
                   {project.image ? (
@@ -401,31 +469,39 @@ const ProjectGallery = ({ theme, projects, loading, error }) => {
                   />
                   ) : (
                     <div className="w-full h-full bg-gradient-to-br from-purple-600 to-blue-600 
-                                    flex items-center justify-center">
-                      <div className="text-white text-6xl opacity-50">🎨</div>
+                                    flex items-center justify-center transition-all duration-500
+                                    group-hover:from-purple-500 group-hover:to-blue-500">
+                      <div className="text-white text-6xl opacity-50 transition-all duration-500 
+                                      group-hover:opacity-80 group-hover:scale-110">🎨</div>
                     </div>
                   )}
                   
                   {/* Overlay avec gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent 
+                                  transition-all duration-500 group-hover:from-black/70" />
+                  
+                  {/* Indicateur cliquable en haut */}
+                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 
+                                  transition-all duration-300 transform group-hover:scale-110">
+                    <div className="bg-purple-500/90 backdrop-blur-sm rounded-full p-2 
+                                    animate-pulse group-hover:animate-none">
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+                              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                    </div>
+                  </div>
                   
                   {/* Badge de catégorie */}
                   <div className="absolute top-4 left-4">
                     <span className={`px-3 py-1 bg-gradient-to-r ${getCategoryColor(project.category)} 
                                    backdrop-blur-sm rounded-full text-white text-sm font-medium 
-                                   border border-white/20`}>
+                                   border border-white/20 transition-all duration-300
+                                   group-hover:scale-105 group-hover:border-white/40`}>
                       {getCategoryLabel(project.category)}
                     </span>
-                  </div>
-
-                  {/* Icône selon le type */}
-                  <div className="absolute top-4 right-4 opacity-70">
-                      <div className="bg-white/20 backdrop-blur-sm rounded-full p-2">
-                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                      </div>
                   </div>
                   
                   {/* Contenu en bas */}
@@ -436,7 +512,8 @@ const ProjectGallery = ({ theme, projects, loading, error }) => {
                     </h3>
                     
                     {project.description && (
-                      <p className="text-gray-300 text-sm mb-3 line-clamp-2">
+                      <p className="text-gray-300 text-sm mb-3 line-clamp-2 transition-colors duration-300
+                                     group-hover:text-gray-200">
                         {typeof project.description === 'object' 
                           ? project.description.fr || project.description.en || ''
                           : project.description.substring(0, 100)
@@ -451,7 +528,9 @@ const ProjectGallery = ({ theme, projects, loading, error }) => {
                           <span 
                             key={techIndex}
                             className="px-2 py-1 bg-white/10 backdrop-blur-sm rounded-full 
-                                       text-xs text-gray-300 border border-white/20"
+                                       text-xs text-gray-300 border border-white/20
+                                       transition-all duration-300 group-hover:bg-white/20
+                                       group-hover:text-white group-hover:border-white/30"
                           >
                             {tech}
                           </span>
@@ -459,16 +538,25 @@ const ProjectGallery = ({ theme, projects, loading, error }) => {
                       </div>
                     )}
                     
-                    {/* Flèche d'action */}
+                    {/* Call to action amélioré */}
                     <div className="flex items-center justify-between">
-                      <div className="text-gray-300 text-sm">
-                        {t.gallery.clickToExplore}
+                      <div className="text-gray-300 text-sm transition-colors duration-300
+                                      group-hover:text-purple-300 font-medium">
+                        {t.gallery.clickToExplore || 'Cliquer pour explorer'}
                       </div>
-                      <div className="transform transition-transform duration-300 group-hover:translate-x-1">
-                        <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
+                      <div className="flex items-center gap-2">
+                        <div className="transform transition-all duration-300 group-hover:translate-x-1
+                                        group-hover:scale-110">
+                          <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+                                  d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                          </svg>
+                        </div>
+                        {/* Indicateur de destination */}
+                        <div className="opacity-0 group-hover:opacity-100 transition-all duration-300
+                                        transform group-hover:scale-100 scale-75">
+                          <div className="w-2 h-2 bg-purple-400 rounded-full animate-ping"></div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -476,24 +564,63 @@ const ProjectGallery = ({ theme, projects, loading, error }) => {
                   {/* Effet de hover */}
                   <div className="absolute inset-0 bg-purple-500/10 opacity-0 group-hover:opacity-100 
                                  transition-opacity duration-300" />
+                  
+                  {/* Bordure magique au hover */}
+                  <div className="absolute inset-0 rounded-2xl border-2 border-transparent 
+                                  group-hover:border-purple-400/50 transition-all duration-500
+                                  group-hover:shadow-lg group-hover:shadow-purple-500/25"></div>
                 </div>
               </div>
             ))}
           </div>
 
           {/* Instructions de défilement */}
-          <div className="text-center mt-8">
+          <div className="text-center mt-8 space-y-4">
             <p className="text-gray-300 text-sm flex items-center justify-center gap-2">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
                       d="M7 16l-4-4m0 0l4-4m-4 4h18" />
               </svg>
-              {t.gallery.scrollInstructions}
+              {t.gallery.scrollInstructions || 'Faites défiler pour voir plus de projets'}
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
                       d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </p>
+            <p className="text-purple-400 text-sm font-medium flex items-center justify-center gap-2 animate-pulse">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+              Cliquez sur un projet pour l'explorer
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+                      d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+              </svg>
+            </p>
+            
+            {/* Bouton pour voir tous les projets */}
+            <div className="pt-4">
+              <button 
+                onClick={() => navigate('/projets')}
+                className="group px-8 py-3 bg-gradient-to-r from-purple-600/20 to-blue-600/20 
+                         hover:from-purple-600/40 hover:to-blue-600/40 border border-purple-500/30 
+                         hover:border-purple-400/50 rounded-full text-white font-medium 
+                         transition-all duration-300 hover:scale-105 hover:shadow-lg 
+                         hover:shadow-purple-500/25 backdrop-blur-sm"
+              >
+                <span className="flex items-center gap-2">
+                  Voir tous mes projets
+                  <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" 
+                       fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+                          d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -576,7 +703,7 @@ const Banner = ({ theme }) => {
   };
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20 md:pt-24">
       <div 
         className="absolute inset-0 bg-cover transition-all duration-1000"
         style={{ 

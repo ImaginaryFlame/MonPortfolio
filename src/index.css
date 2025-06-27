@@ -183,6 +183,18 @@ html.loaded {
   --accent-color: #8B5CF6;
   --text-primary: #ffffff;
   --text-secondary: #e0e0e0;
+  --navbar-height: 80px; /* Hauteur approximative de la navbar */
+}
+
+/* Classe utilitaire pour éviter le chevauchement avec la navbar */
+.navbar-offset {
+  padding-top: var(--navbar-height);
+}
+
+@media (min-width: 768px) {
+  .navbar-offset {
+    padding-top: calc(var(--navbar-height) + 1rem);
+  }
 }
 
 /* Styles de base */

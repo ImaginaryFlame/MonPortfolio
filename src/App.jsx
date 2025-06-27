@@ -15,14 +15,36 @@ import PandemieLara from './Components/Univers/pandémielara/PandemieLara';
 import FlammeImaginaire from './Components/Univers/flammeimaginaire/FlammeImaginaire';
 
 // Import des composants du Labo
+import Labo from './Components/Labo/Labo';
 import LabDesign from './Components/Labo/LabDesign';
 import LabDev from './Components/Labo/LabDev';
 import LabAcademique from './Components/Labo/LabAcademique';
 
 // Import des composants du Studio
+import Studio from './Components/Studio/Studio';
 import StudioVideo from './Components/Studio/StudioVideo';
+import YouTubeStudioVideo from './Components/Studio/YouTubeStudioVideo';
+import YouTubeStudioDashboard from './Components/Studio/YouTubeStudioDashboard';
+import YouTubeStudioDashboardSimple from './Components/Studio/YouTubeStudioDashboardSimple';
+import ChannelIdFinder from './Components/ChannelIdFinder';
 import StudioSocial from './Components/Studio/StudioSocial';
 import StudioBranding from './Components/Studio/StudioBranding';
+import TwitchStudioDashboard from './Components/Studio/TwitchStudioDashboard';
+import TwitchStreams from './Components/Studio/TwitchStreams';
+import TwitchClips from './Components/Studio/TwitchClips';
+
+// Import des composants de l'Atelier
+import Atelier from './Components/Atelier/Atelier';
+import ArtTraditionnel from './Components/Atelier/ArtTraditionnel';
+import IllustrationsFinalisees from './Components/Atelier/IllustrationsFinalisees';
+import EtudesProgression from './Components/Atelier/EtudesProgression';
+import CroquisRoughs from './Components/Atelier/CroquisRoughs';
+
+// Import des projets spéciaux
+import LittleArchaeologist from './Components/Projects/LittleArchaeologist';
+import BibliApp from './Components/Projects/BibliApp';
+
+
 
 const App = () => {
   return (
@@ -81,20 +103,67 @@ const App = () => {
         <Route path="/creation/univers-narratifs/pandemie-lara/bestiaires" element={<PandemieLara section="bestiaires" />} />
         <Route path="/creation/univers-narratifs/pandemie-lara/moodboard" element={<PandemieLara section="moodboard" />} />
 
+        {/* Routes principales pour les sections */}
+        <Route path="/creation/labo" element={<Labo />} />
+        <Route path="/creation/studio" element={<Studio />} />
+        <Route path="/creation/atelier" element={<Atelier />} />
+
         {/* Routes pour le Labo */}
+        <Route path="/creation/labo/design" element={<LabDesign />} />
         <Route path="/creation/labo/design/ui-ux" element={<LabDesign section="ui-ux" />} />
         <Route path="/creation/labo/design/prototypes" element={<LabDesign section="prototypes" />} />
+        <Route path="/creation/labo/dev" element={<LabDev />} />
         <Route path="/creation/labo/dev/demo-web" element={<LabDev section="demo-web" />} />
         <Route path="/creation/labo/dev/prototypes-jeu" element={<LabDev section="prototypes-jeu" />} />
+        <Route path="/creation/labo/academique" element={<LabAcademique />} />
         <Route path="/creation/labo/academique/presentations-cnam" element={<LabAcademique section="presentations-cnam" />} />
+        <Route path="/creation/labo/academique/little-archaeologist" element={<LittleArchaeologist />} />
+        <Route path="/creation/labo/academique/bibliapp" element={<BibliApp />} />
 
         {/* Routes pour le Studio */}
-        <Route path="/creation/studio/video/videos-youtube" element={<StudioVideo section="youtube" />} />
-        <Route path="/creation/studio/video/reels-shorts" element={<StudioVideo section="reels" />} />
+        <Route path="/creation/studio/video" element={<YouTubeStudioDashboard />} />
+        <Route path="/creation/studio/video/videos" element={
+          import.meta.env.VITE_YOUTUBE_API_KEY ? 
+          <YouTubeStudioVideo section="videos" /> : 
+          <StudioVideo section="youtube" />
+        } />
+        <Route path="/creation/studio/video/shorts" element={
+          import.meta.env.VITE_YOUTUBE_API_KEY ? 
+          <YouTubeStudioVideo section="shorts" /> : 
+          <StudioVideo section="reels" />
+        } />
         <Route path="/creation/studio/video/miniatures" element={<StudioVideo section="miniatures" />} />
+        
+        {/* Routes pour Twitch */}
+        <Route path="/creation/studio/twitch" element={<TwitchStudioDashboard />} />
+        <Route path="/creation/studio/twitch/streams" element={<TwitchStreams />} />
+        <Route path="/creation/studio/twitch/clips" element={<TwitchClips />} />
+        
+        <Route path="/creation/studio/social" element={<StudioSocial />} />
         <Route path="/creation/studio/social/threads-twitter" element={<StudioSocial section="twitter" />} />
+        <Route path="/creation/studio/branding" element={<StudioBranding />} />
         <Route path="/creation/studio/branding/identite-visuelle" element={<StudioBranding section="identite" />} />
         <Route path="/creation/studio/branding/templates" element={<StudioBranding section="templates" />} />
+        <Route path="/creation/studio/branding/miniatures" element={<StudioBranding section="miniatures" />} />
+
+        {/* Routes pour l'Atelier */}
+        <Route path="/creation/atelier/traditionnel" element={<ArtTraditionnel />} />
+        <Route path="/creation/atelier/traditionnel/illustrations-finalisees" element={<IllustrationsFinalisees />} />
+        <Route path="/creation/atelier/traditionnel/etudes-progression" element={<EtudesProgression />} />
+        <Route path="/creation/atelier/traditionnel/croquis-roughs" element={<CroquisRoughs />} />
+        <Route path="/creation/atelier/numerique" element={<Atelier />} />
+        <Route path="/creation/atelier/3d" element={<Atelier />} />
+        <Route path="/creation/atelier/wip" element={<Atelier />} />
+        
+        {/* Route temporaire pour trouver l'ID de chaîne YouTube */}
+        <Route path="/find-channel-id" element={<ChannelIdFinder />} />
+        
+
+
+        
+        {/* Routes alternatives pour debug */}
+        <Route path="/full-dashboard" element={<YouTubeStudioDashboard />} />
+        <Route path="/simple-dashboard" element={<YouTubeStudioDashboardSimple />} />
       </Routes>
     </BrowserRouter>
   );

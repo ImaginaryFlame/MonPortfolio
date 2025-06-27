@@ -3,6 +3,15 @@ import { Link } from 'react-router-dom';
 import LanguageSelector from './ui/LanguageSelector';
 import { useLanguage } from '../hooks/useLanguage.jsx';
 
+/**
+ * IMPORTANT: Cette navbar a une position fixe avec z-index élevé.
+ * 
+ * Pour éviter que le contenu soit masqué par la navbar:
+ * - Ajoutez `pt-20 md:pt-24` aux conteneurs principaux des pages
+ * - Ou utilisez la classe `.navbar-offset` définie dans index.css
+ * - Le scroll-padding-top global est défini à 100px dans App.css
+ */
+
 const Navbar = ({ theme }) => {
   const { t } = useLanguage();
   const [isPortailsOpen, setIsPortailsOpen] = useState(false);
@@ -145,6 +154,7 @@ const Navbar = ({ theme }) => {
   const menuItems = {
     narratif: {
       title: t.navbar.narrativeUniverses,
+      mainPath: "/creation/univers-narratifs",
       items: [
         { 
           name: t.navbar.menus.narratif.flammeImaginaire.title, 
@@ -204,6 +214,7 @@ const Navbar = ({ theme }) => {
     },
     labo: {
       title: t.navbar.flameLab,
+      mainPath: "/creation/labo",
       items: [
         { 
           name: t.navbar.menus.labo.design.title, 
@@ -232,6 +243,7 @@ const Navbar = ({ theme }) => {
     },
     studio: {
       title: t.navbar.flameStudio,
+      mainPath: "/creation/studio",
       items: [
         { 
           name: t.navbar.menus.studio.video.title, 
@@ -261,6 +273,7 @@ const Navbar = ({ theme }) => {
     },
     atelier: {
       title: t.navbar.flameAtelier,
+      mainPath: "/creation/atelier",
       items: [
         { 
           name: t.navbar.menus.atelier.traditionnel.title, 
@@ -355,20 +368,40 @@ const Navbar = ({ theme }) => {
                     : 'opacity-0 -translate-y-4 scale-95 pointer-events-none'
                 } transition-all duration-300 ease-out`}
               >
-                {/* Boutons principaux */}
+                {/* Boutons principaux avec liens et flèches fusionnés */}
                 <div className="flex flex-col space-y-3 items-start">
                   {Object.entries(menuItems).map(([key, value], index) => (
-                    <button
-                      key={key}
-                      onClick={() => handlePortailChange(key)}
-                      className={`px-5 py-3 rounded-lg text-sm font-medium uppercase whitespace-nowrap border transition-all duration-300 ease-out ${
+                    <div key={key} className="flex items-center">
+                      {/* Tuile fusionnée avec lien principal et flèche */}
+                      <div className={`flex items-center rounded-lg border transition-all duration-300 ease-out ${
                         portailType === key 
                           ? 'bg-gradient-to-r from-orange-500 via-red-500 to-yellow-500 text-white scale-105 shadow-xl border-orange-300' 
                           : 'bg-gradient-to-r from-slate-800/90 to-blue-900/90 text-white hover:from-orange-600/90 hover:to-red-600/90 border-slate-600'
-                      } hover:transform hover:-translate-y-1 hover:shadow-lg`}
+                      } hover:transform hover:-translate-y-1 hover:shadow-lg`}>
+                        {/* Lien principal cliquable */}
+                        <Link
+                          to={value.mainPath}
+                          className="px-5 py-3 text-sm font-medium uppercase whitespace-nowrap transition-all duration-300 ease-out"
                     >
                       {value.title}
+                        </Link>
+                        
+                        {/* Séparateur visuel */}
+                        <div className="w-px h-6 bg-white/20"></div>
+                        
+                        {/* Flèche pour ouvrir/fermer les sous-menus */}
+                        <button
+                          onClick={() => handlePortailChange(key)}
+                          className="px-3 py-3 text-sm font-medium transition-all duration-300 ease-out"
+                        >
+                          <span className={`transition-transform duration-300 ${
+                            portailType === key ? 'rotate-90' : ''
+                          }`}>
+                            ▶
+                          </span>
                     </button>
+                      </div>
+                    </div>
                   ))}
                 </div>
 

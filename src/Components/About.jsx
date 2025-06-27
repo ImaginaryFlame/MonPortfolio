@@ -42,7 +42,7 @@ export default function AboutSection() {
 
   if (loading) {
     return (
-      <section className="py-12 px-4 md:px-12 bg-gradient-to-b from-[#0e0e0e] to-[#1a1a1a] text-white">
+      <section className="py-12 px-4 md:px-12 bg-gradient-to-b from-[#0e0e0e] to-[#1a1a1a] text-white pt-20 md:pt-24">
         <div className="max-w-5xl mx-auto flex items-center justify-center min-h-[400px]">
           <div className="text-center">
             <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-orange-500 mx-auto mb-4"></div>
@@ -54,7 +54,7 @@ export default function AboutSection() {
   }
 
   return (
-    <section className="py-12 px-4 md:px-12 bg-gradient-to-b from-[#0e0e0e] to-[#1a1a1a] text-white">
+    <section className="py-12 px-4 md:px-12 bg-gradient-to-b from-[#0e0e0e] to-[#1a1a1a] text-white pt-20 md:pt-24">
       <style jsx>{`
         @keyframes slideInFromLeft {
           from {
@@ -168,7 +168,7 @@ export default function AboutSection() {
               />
             ) : (
               <img 
-                src="/assets/20220726_002242.webp"
+                src="/assets/img/20220726_002242.webp"
                 alt="Flame - Créateur transmédia" 
                 className="w-full max-w-sm mx-auto rounded-lg shadow-2xl border-2 border-orange-500/30 hover:border-orange-500/50 transition-all duration-300"
               />

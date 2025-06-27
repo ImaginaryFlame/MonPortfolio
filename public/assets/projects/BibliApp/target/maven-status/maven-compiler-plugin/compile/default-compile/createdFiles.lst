@@ -1,0 +1,13 @@
+app\BibliApp\BibliAppGUI$2.class
+app\BibliApp\BibliAppGUI$3.class
+app\gestion\bibliotheque\models\Membre.class
+app\gestion\bibliotheque\models\Emprunt.class
+app\BibliApp\BibliAppGUI$4.class
+app\BibliApp\BibliApp.class
+app\BibliApp\BibliAppGUI.class
+app\gestion\bibliotheque\dao\MembreDAO.class
+app\gestion\bibliotheque\dao\LivreDAO.class
+app\BibliApp\BibliAppGUI$1.class
+app\gestion\bibliotheque\dao\DBConnection.class
+app\gestion\bibliotheque\models\Livre.class
+app\gestion\bibliotheque\dao\EmpruntDAO.class

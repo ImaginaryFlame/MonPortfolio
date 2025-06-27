@@ -28,7 +28,7 @@ export default function ProjectDetail() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-900 text-white flex justify-center items-center">
+      <div className="min-h-screen bg-gray-900 text-white flex justify-center items-center pt-20 md:pt-24">
         <p>Chargement du projet...</p>
       </div>
     );
@@ -36,14 +36,14 @@ export default function ProjectDetail() {
 
   if (!projectData) {
     return (
-      <div className="min-h-screen bg-gray-900 text-white flex justify-center items-center">
+      <div className="min-h-screen bg-gray-900 text-white flex justify-center items-center pt-20 md:pt-24">
         <p>Projet non trouvé.</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white p-4 md:p-8 pt-20 md:pt-24">
       <div className="max-w-6xl mx-auto">
         <Link to="/projects" className="inline-flex items-center text-purple-400 hover:text-purple-300 mb-8 transition-colors">
           <svg className="mr-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

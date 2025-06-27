@@ -15,7 +15,7 @@ const Portails = () => {
       description: 'Licence transmédia principale - Shōnen, slice of life, aventure psychologique',
       color: '#4F46E5',
       gradient: 'from-indigo-600 to-blue-600',
-      image: '/assets/img/F7xrYybWcAEztt2.webp',
+      image: null,
       isMainSeries: true,
       status: 'En développement actif',
       sections: [
@@ -123,9 +123,9 @@ const Portails = () => {
       description: 'Trilogie fantasy épique - Amitié, rédemption et héroïsme',
       color: '#EC4899',
       gradient: 'from-pink-600 to-rose-600',
-      image: '/assets/img/herosfee-banner.webp',
+      image: null,
       connectedTo: 'flamme-imaginaire',
-      status: 'Romans en cours',
+      status: 'Trilogie en cours',
       sections: [
         {
           id: 'characters',
@@ -207,7 +207,7 @@ const Portails = () => {
       description: 'Light novel intimiste - Reconstruction personnelle et mystères',
       color: '#8B5CF6',
       gradient: 'from-purple-600 to-violet-600',
-      image: '/assets/img/vincebelii-banner.webp',
+      image: '/assets/img/262133663-288-k338692.webp',
       status: 'Visual Novel en développement',
       sections: [
         {
@@ -266,7 +266,7 @@ const Portails = () => {
       description: 'Post-apocalyptique - Survie, identité et résilience humaine',
       color: '#DC2626',
       gradient: 'from-red-600 to-orange-600',
-      image: '/assets/img/pandemielara-banner.webp',
+      image: null,
       status: 'En développement',
       sections: [
         {
@@ -334,7 +334,7 @@ const Portails = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-gray-900 text-white pt-20 md:pt-24">
       {/* Header */}
       <div className="relative bg-gradient-to-r from-purple-900 via-blue-900 to-indigo-900 py-20 overflow-hidden">
         <div className="absolute inset-0 bg-black/40"></div>
@@ -398,7 +398,7 @@ const Portails = () => {
                         </span>
                         {universe.connectedTo && (
                           <span className="px-4 py-2 bg-yellow-500/20 rounded-full text-sm font-medium">
-                            Connecté à l'univers principal
+                            🔗 Connecté au Héros à la Flamme Imaginaire
                           </span>
                         )}
                       </div>
