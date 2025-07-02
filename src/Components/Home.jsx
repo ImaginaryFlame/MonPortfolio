@@ -1447,7 +1447,7 @@ const Home = () => {
 
   return (
     <ThemeContext.Provider value={currentTheme}>
-      <div className="w-full pt-20">
+      <div className="w-full">
         <Banner theme={currentTheme} />
         <ProjectGallery theme={currentTheme} projects={projects} loading={loading} error={error} />
         <SkillsSection theme={currentTheme} />
