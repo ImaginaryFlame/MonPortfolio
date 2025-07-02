@@ -173,6 +173,35 @@ const App = () => {
           {/* Routes alternatives pour debug */}
           <Route path="/full-dashboard" element={<YouTubeStudioDashboard />} />
           <Route path="/simple-dashboard" element={<YouTubeStudioDashboardSimple />} />
+          <Route path="/test-apis" element={
+            <div className="min-h-screen bg-gray-900 text-white p-8 pt-24">
+              <div className="max-w-4xl mx-auto">
+                <h1 className="text-4xl font-bold mb-8 text-center">🔧 Diagnostic APIs</h1>
+                <div className="space-y-6">
+                  <div className="bg-gray-800 p-6 rounded-lg">
+                    <h2 className="text-2xl font-bold mb-4">📺 Configuration YouTube</h2>
+                    <div className="space-y-2 font-mono text-sm">
+                      <p>VITE_YOUTUBE_API_KEY: {import.meta.env.VITE_YOUTUBE_API_KEY ? '✅ Configuré' : '❌ Manquant'}</p>
+                      <p>VITE_YOUTUBE_CHANNEL_ID: {import.meta.env.VITE_YOUTUBE_CHANNEL_ID || '❌ Manquant'}</p>
+                    </div>
+                  </div>
+                  <div className="bg-gray-800 p-6 rounded-lg">
+                    <h2 className="text-2xl font-bold mb-4">🟣 Configuration Twitch</h2>
+                    <div className="space-y-2 font-mono text-sm">
+                      <p>VITE_TWITCH_CLIENT_ID: {import.meta.env.VITE_TWITCH_CLIENT_ID ? '✅ Configuré' : '❌ Manquant'}</p>
+                      <p>VITE_TWITCH_CLIENT_SECRET: {import.meta.env.VITE_TWITCH_CLIENT_SECRET ? '✅ Configuré' : '❌ Manquant'}</p>
+                      <p>VITE_TWITCH_USERNAME: {import.meta.env.VITE_TWITCH_USERNAME || '❌ Manquant'}</p>
+                    </div>
+                  </div>
+                  <div className="text-center">
+                    <p className="mb-4">Ouvrez la console développeur (F12) pour voir les logs détaillés</p>
+                    <a href="/creation/studio/video" className="bg-red-600 hover:bg-red-700 px-6 py-3 rounded mr-4">Tester YouTube Dashboard</a>
+                    <a href="/creation/studio/twitch" className="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded">Tester Twitch Dashboard</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          } />
         </Routes>
       </Suspense>
     </BrowserRouter>

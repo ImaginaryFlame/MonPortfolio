@@ -11,24 +11,37 @@ class TwitchAPI {
     this.accessToken = null;
     this.baseURL = 'https://api.twitch.tv/helix';
     this.authURL = 'https://id.twitch.tv/oauth2/token';
+    
+    // Debug de la configuration
+    console.log('🔧 Configuration Twitch API:');
+    console.log('Client ID:', this.clientId ? `${this.clientId.substring(0, 10)}...` : 'MANQUANT');
+    console.log('Client Secret:', this.clientSecret ? `${this.clientSecret.substring(0, 10)}...` : 'MANQUANT');
+    console.log('Username:', this.username);
+    console.log('Configuré:', this.isConfigured());
   }
 
   /**
    * Vérifie si l'API Twitch est configurée
    */
   isConfigured() {
-    return !!(this.clientId && this.clientSecret && this.username);
+    const configured = !!(this.clientId && this.clientSecret && this.username);
+    console.log('🟣 Twitch API configuré:', configured);
+    return configured;
   }
 
   /**
    * Obtient un token d'accès OAuth
    */
   async getAccessToken() {
+    console.log('🔑 Demande de token d\'accès Twitch...');
+    
     if (!this.isConfigured()) {
+      console.error('❌ Configuration Twitch manquante');
       throw new Error('Configuration Twitch manquante');
     }
 
     try {
+      console.log('📡 Requête auth vers Twitch...');
       const response = await fetch(this.authURL, {
         method: 'POST',
         headers: {
@@ -41,21 +54,28 @@ class TwitchAPI {
         })
       });
 
+      console.log('📡 Statut auth:', response.status);
+
       if (!response.ok) {
+        console.error('❌ Erreur d\'authentification:', response.status, response.statusText);
         throw new Error(`Erreur d'authentification Twitch: ${response.status}`);
       }
 
       const data = await response.json();
+      console.log('🔑 Token reçu:', data.access_token ? 'OUI' : 'NON');
+      console.log('⏰ Expire dans:', data.expires_in, 'secondes');
+      
       this.accessToken = data.access_token;
       
       // Token expire après un certain temps, on le rafraîchit automatiquement
       setTimeout(() => {
+        console.log('⏰ Token Twitch expiré, sera renouvelé à la prochaine requête');
         this.accessToken = null;
       }, (data.expires_in - 60) * 1000); // Refresh 1 minute avant expiration
 
       return this.accessToken;
     } catch (error) {
-      console.error('Erreur lors de l\'authentification Twitch:', error);
+      console.error('❌ Erreur lors de l\'authentification Twitch:', error);
       throw error;
     }
   }
@@ -64,7 +84,10 @@ class TwitchAPI {
    * Effectue une requête authentifiée vers l'API Twitch
    */
   async makeRequest(endpoint, params = {}) {
+    console.log('📡 Requête Twitch:', endpoint, params);
+    
     if (!this.accessToken) {
+      console.log('🔑 Pas de token, demande d\'authentification...');
       await this.getAccessToken();
     }
 
@@ -75,6 +98,8 @@ class TwitchAPI {
       }
     });
 
+    console.log('📡 URL requête:', url.toString().replace(this.accessToken, 'TOKEN_HIDDEN'));
+
     const response = await fetch(url, {
       headers: {
         'Client-ID': this.clientId,
@@ -83,34 +108,47 @@ class TwitchAPI {
       }
     });
 
+    console.log('📡 Statut réponse:', response.status);
+
     if (!response.ok) {
       if (response.status === 401) {
+        console.log('🔄 Token expiré, renouvellement...');
         // Token expiré, on le renouvelle
         this.accessToken = null;
         await this.getAccessToken();
         return this.makeRequest(endpoint, params);
       }
+      console.error('❌ Erreur API Twitch:', response.status, response.statusText);
       throw new Error(`Erreur API Twitch: ${response.status} ${response.statusText}`);
     }
 
-    return response.json();
+    const data = await response.json();
+    console.log('📊 Données reçues:', data);
+    return data;
   }
 
   /**
    * Obtient les informations de l'utilisateur
    */
   async getUserInfo(username = null) {
+    const targetUsername = username || this.username;
+    console.log('👤 Récupération infos utilisateur:', targetUsername);
+    
     try {
-      const targetUsername = username || this.username;
       const data = await this.makeRequest('/users', {
         login: targetUsername
       });
 
       if (!data.data || data.data.length === 0) {
+        console.error('❌ Utilisateur non trouvé:', targetUsername);
         throw new Error('Utilisateur non trouvé');
       }
 
       const user = data.data[0];
+      console.log('✅ Utilisateur trouvé:', user.display_name);
+      console.log('📊 Vues totales:', user.view_count);
+      console.log('🎬 Type broadcaster:', user.broadcaster_type);
+      
       return {
         id: user.id,
         username: user.login,
@@ -124,7 +162,7 @@ class TwitchAPI {
         type: user.type
       };
     } catch (error) {
-      console.error('Erreur lors de la récupération des infos utilisateur:', error);
+      console.error('❌ Erreur lors de la récupération des infos utilisateur:', error);
       throw error;
     }
   }

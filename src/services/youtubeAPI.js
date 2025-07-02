@@ -4,6 +4,21 @@ class YouTubeAPI {
     // Vous devrez obtenir une clé API depuis Google Cloud Console
     this.apiKey = import.meta.env.VITE_YOUTUBE_API_KEY;
     this.baseURL = 'https://www.googleapis.com/youtube/v3';
+    
+    // Debug de la configuration
+    console.log('🔧 Configuration YouTube API:');
+    console.log('API Key:', this.apiKey ? `${this.apiKey.substring(0, 10)}...` : 'MANQUANTE');
+    console.log('Configuré:', this.isConfigured());
+  }
+
+  /**
+   * Vérifie si l'API est correctement configurée
+   * @returns {boolean} - True si la clé API est présente
+   */
+  isConfigured() {
+    const configured = !!this.apiKey;
+    console.log('📺 YouTube API configuré:', configured);
+    return configured;
   }
 
   /**
@@ -12,19 +27,37 @@ class YouTubeAPI {
    * @returns {Promise<Object>} - Informations de la chaîne
    */
   async getChannelInfo(channelId) {
+    console.log('🔍 getChannelInfo appelé avec:', channelId);
+    
+    if (!this.isConfigured()) {
+      console.error('❌ API YouTube non configurée');
+      throw new Error('API YouTube non configurée');
+    }
+    
     try {
-      const response = await fetch(
-        `${this.baseURL}/channels?part=snippet,statistics,brandingSettings&id=${channelId}&key=${this.apiKey}`
-      );
+      const url = `${this.baseURL}/channels?part=snippet,statistics,brandingSettings&id=${channelId}&key=${this.apiKey}`;
+      console.log('📡 Requête URL:', url.replace(this.apiKey, 'API_KEY_HIDDEN'));
+      
+      const response = await fetch(url);
+      console.log('📡 Réponse statut:', response.status);
+      
       const data = await response.json();
+      console.log('📊 Données reçues:', data);
       
       if (data.error) {
+        console.error('❌ Erreur YouTube API:', data.error);
         throw new Error(`YouTube API Error: ${data.error.message}`);
       }
       
+      if (!data.items || data.items.length === 0) {
+        console.error('❌ Aucune chaîne trouvée pour ID:', channelId);
+        throw new Error('Chaîne non trouvée');
+      }
+      
+      console.log('✅ Chaîne trouvée:', data.items[0].snippet.title);
       return data.items[0];
     } catch (error) {
-      console.error('Erreur lors de la récupération des infos chaîne:', error);
+      console.error('❌ Erreur lors de la récupération des infos chaîne:', error);
       throw error;
     }
   }
@@ -37,37 +70,82 @@ class YouTubeAPI {
    * @returns {Promise<Object>} - Liste des vidéos avec métadonnées
    */
   async getChannelVideos(channelId, maxResults = 50, pageToken = '') {
+    console.log('🎬 getChannelVideos appelé:', { channelId, maxResults, pageToken });
+    
+    if (!this.isConfigured()) {
+      console.error('❌ API YouTube non configurée');
+      throw new Error('API YouTube non configurée');
+    }
+    
     try {
       // Étape 1: Récupérer l'ID de la playlist "uploads"
+      console.log('🔍 Étape 1: Récupération playlist uploads...');
       const channelResponse = await fetch(
         `${this.baseURL}/channels?part=contentDetails&id=${channelId}&key=${this.apiKey}`
       );
+      console.log('📡 Statut playlist:', channelResponse.status);
+      
       const channelData = await channelResponse.json();
+      console.log('📊 Données playlist:', channelData);
       
       if (channelData.error) {
+        console.error('❌ Erreur playlist:', channelData.error);
         throw new Error(`YouTube API Error: ${channelData.error.message}`);
       }
 
+      if (!channelData.items || channelData.items.length === 0) {
+        console.error('❌ Chaîne non trouvée pour récupérer les vidéos');
+        throw new Error('Chaîne non trouvée');
+      }
+
       const uploadsPlaylistId = channelData.items[0].contentDetails.relatedPlaylists.uploads;
+      console.log('📋 Playlist uploads ID:', uploadsPlaylistId);
 
       // Étape 2: Récupérer les vidéos de la playlist
+      console.log('🔍 Étape 2: Récupération vidéos playlist...');
       const playlistResponse = await fetch(
         `${this.baseURL}/playlistItems?part=snippet&playlistId=${uploadsPlaylistId}&maxResults=${maxResults}&pageToken=${pageToken}&key=${this.apiKey}`
       );
+      console.log('📡 Statut vidéos:', playlistResponse.status);
+      
       const playlistData = await playlistResponse.json();
+      console.log('📊 Données vidéos:', playlistData);
 
       if (playlistData.error) {
+        console.error('❌ Erreur vidéos:', playlistData.error);
         throw new Error(`YouTube API Error: ${playlistData.error.message}`);
       }
 
+      if (!playlistData.items || playlistData.items.length === 0) {
+        console.warn('⚠️ Aucune vidéo trouvée dans la playlist');
+        return {
+          videos: [],
+          totalResults: 0,
+          nextPageToken: null,
+          prevPageToken: null
+        };
+      }
+
       // Étape 3: Récupérer les détails des vidéos (durée, statistiques)
+      console.log('🔍 Étape 3: Récupération détails vidéos...');
       const videoIds = playlistData.items.map(item => item.snippet.resourceId.videoId).join(',');
+      console.log('🎥 IDs vidéos:', videoIds);
+      
       const videosResponse = await fetch(
         `${this.baseURL}/videos?part=snippet,contentDetails,statistics,status&id=${videoIds}&key=${this.apiKey}`
       );
+      console.log('📡 Statut détails:', videosResponse.status);
+      
       const videosData = await videosResponse.json();
+      console.log('📊 Détails vidéos:', videosData);
+
+      if (videosData.error) {
+        console.error('❌ Erreur détails:', videosData.error);
+        throw new Error(`YouTube API Error: ${videosData.error.message}`);
+      }
 
       // Étape 4: Combiner les données et formater
+      console.log('🔍 Étape 4: Formatage données...');
       const formattedVideos = videosData.items.map(video => {
         const snippet = video.snippet;
         const statistics = video.statistics;
@@ -99,6 +177,9 @@ class YouTubeAPI {
         };
       });
 
+      console.log(`✅ ${formattedVideos.length} vidéos formatées avec succès`);
+      console.log('🎬 Premier vidéo exemple:', formattedVideos[0]);
+
       return {
         videos: formattedVideos,
         totalResults: playlistData.pageInfo.totalResults,
@@ -107,7 +188,7 @@ class YouTubeAPI {
       };
 
     } catch (error) {
-      console.error('Erreur lors de la récupération des vidéos:', error);
+      console.error('❌ Erreur lors de la récupération des vidéos:', error);
       throw error;
     }
   }
@@ -306,14 +387,6 @@ class YouTubeAPI {
       default:
         return videos;
     }
-  }
-
-  /**
-   * Vérifie si l'API est correctement configurée
-   * @returns {boolean} - True si la clé API est présente
-   */
-  isConfigured() {
-    return !!this.apiKey;
   }
 
   /**
