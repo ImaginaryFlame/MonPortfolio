@@ -22,17 +22,9 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,svg}', '**/assets/img/*.webp'],
-        // Augmenter la limite pour les gros assets
-        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5 MB
-        // Exclure les gros fichiers du cache
-        globIgnores: [
-          '**/assets/img/projects/little-archaeologist/**',
-          '**/assets/img/**/Unity-Project/**',
-          '**/assets/img/**/*.png',
-          '**/assets/img/**/*.jpg',
-          '**/anime-moon-landscape-horizon-46-4K.jpg'
-        ],
+        globPatterns: ['**/*.{js,css,html,ico,svg}'],
+        // Réduire la limite pour éviter les problèmes
+        maximumFileSizeToCacheInBytes: 2 * 1024 * 1024, // 2 MB
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/cdn\.sanity\.io\/.*/i,
@@ -40,31 +32,8 @@ export default defineConfig({
             options: {
               cacheName: 'sanity-images',
               expiration: {
-                maxEntries: 60,
-                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 jours
-              },
-            },
-          },
-          {
-            urlPattern: /\.(?:webp)$/,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'optimized-images',
-              expiration: {
-                maxEntries: 50,
-                maxAgeSeconds: 7 * 24 * 60 * 60, // 7 jours pour les images
-              },
-            },
-          },
-          // Cache séparé pour les gros projets (sans précache)
-          {
-            urlPattern: /\/assets\/img\/projects\/.*/i,
-            handler: 'NetworkFirst',
-            options: {
-              cacheName: 'project-images',
-              expiration: {
-                maxEntries: 20,
-                maxAgeSeconds: 24 * 60 * 60, // 1 jour seulement
+                maxEntries: 30,
+                maxAgeSeconds: 7 * 24 * 60 * 60, // 7 jours
               },
             },
           },
@@ -103,7 +72,7 @@ export default defineConfig({
       overlay: true
     },
   },
-  // Optimisations avancées pour la production
+  // Optimisations simplifiées pour la production
   build: {
     outDir: 'dist',
     sourcemap: false,
@@ -111,63 +80,22 @@ export default defineConfig({
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
-        // Chunking manuel optimisé
+        // Chunking simple et stable
         manualChunks: {
           // Bibliothèques React de base
           'react-vendor': ['react', 'react-dom'],
           // Router séparé
           'router': ['react-router-dom'],
-          // Bibliothèques d'animation (très lourdes)
-          'animations': ['framer-motion'],
-          // FontAwesome optimisé (seulement les icônes utilisées)
-          'icons': [
-            '@fortawesome/fontawesome-svg-core',
-            '@fortawesome/react-fontawesome'
-          ],
           // CMS et API
           'cms': ['@sanity/client', '@sanity/image-url'],
-          // Utilitaires CSS légers
-          'css-utils': ['clsx', 'tailwind-merge'],
-          // Séparer les gros composants d'univers
-          'univers': (id) => {
-            if (id.includes('Univers/')) {
-              return 'univers-narratifs'
-            }
-          },
-          // Séparer le Studio
-          'studio': (id) => {
-            if (id.includes('Studio/')) {
-              return 'studio-components'
-            }
-          },
-          // Séparer l'Atelier
-          'atelier': (id) => {
-            if (id.includes('Atelier/')) {
-              return 'atelier-components'
-            }
-          }
+          // FontAwesome
+          'icons': [
+            '@fortawesome/fontawesome-svg-core',
+            '@fortawesome/react-fontawesome',
+            '@fortawesome/free-brands-svg-icons',
+            '@fortawesome/free-solid-svg-icons'
+          ],
         },
-        // Optimiser les noms de fichiers
-        chunkFileNames: (chunkInfo) => {
-          const facadeModuleId = chunkInfo.facadeModuleId
-          if (facadeModuleId) {
-            return '[name]-[hash].js'
-          }
-          return 'chunks/[name]-[hash].js'
-        },
-        assetFileNames: (assetInfo) => {
-          // Organiser les assets par type
-          if (assetInfo.name?.endsWith('.css')) {
-            return 'assets/css/[name]-[hash].[ext]'
-          }
-          if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico|webp)$/i.test(assetInfo.name || '')) {
-            return 'assets/images/[name]-[hash].[ext]'
-          }
-          if (/\.(woff2?|eot|ttf|otf)$/i.test(assetInfo.name || '')) {
-            return 'assets/fonts/[name]-[hash].[ext]'
-          }
-          return 'assets/[name]-[hash].[ext]'
-        }
       }
     },
     // Optimisations de compression
@@ -176,16 +104,8 @@ export default defineConfig({
       compress: {
         drop_console: true,
         drop_debugger: true,
-        pure_funcs: ['console.log', 'console.info'],
-        reduce_vars: true,
-        reduce_funcs: true,
-      },
-      mangle: {
-        safari10: true,
       },
     },
-    // Réduire la taille des CSS
-    cssCodeSplit: true,
   },
   // Optimisations des dépendances
   optimizeDeps: {
@@ -194,11 +114,7 @@ export default defineConfig({
       'react-dom',
       'react-router-dom',
       '@sanity/client',
-      'clsx',
-      'tailwind-merge'
     ],
-    // Exclure les gros modules du pré-bundling
-    exclude: ['framer-motion']
   },
   // Configuration pour la production
   define: {
