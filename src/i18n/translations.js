@@ -248,7 +248,8 @@ export const translations = {
             title: "Développement",
             subItems: {
               demoWeb: "Démo Web",
-              prototypesJeu: "Prototypes de Jeu"
+              prototypesJeu: "Prototypes de Jeu",
+              portfolioWeb: "Portfolio & Sites Web"
             }
           },
           academic: {
@@ -715,7 +716,8 @@ export const translations = {
             title: "Development",
             subItems: {
               demoWeb: "Web Demo",
-              prototypesJeu: "Game Prototypes"
+              prototypesJeu: "Game Prototypes",
+              portfolioWeb: "Portfolio & Websites"
             }
           },
           academic: {
@@ -1167,7 +1169,8 @@ export const translations = {
             title: "Desenvolvimento",
             subItems: {
               demoWeb: "Demo Web",
-              prototypesJeu: "Protótipos de Jogo"
+              prototypesJeu: "Protótipos de Jogo",
+              portfolioWeb: "Portfolio & Sites"
             }
           },
           academic: {
@@ -1613,7 +1616,8 @@ export const translations = {
             title: "開発",
             subItems: {
               demoWeb: "ウェブデモ",
-              prototypesJeu: "ゲームプロトタイプ"
+              prototypesJeu: "ゲームプロトタイプ",
+              portfolioWeb: "ポートフォリオ・サイト"
             }
           },
           academic: {

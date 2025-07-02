@@ -1,7 +1,8 @@
 import { useRef, useEffect, useState } from 'react';
 import { 
   fetchTags,
-  urlFor 
+  urlFor,
+  getTagColor 
 } from '../config/sanityClient';
 import { useLanguage } from '../hooks/useLanguage.jsx';
 
@@ -27,32 +28,41 @@ const Projects = ({ projects = [], loading = false, error = null }) => {
     { id: 'web', name: 'Web & Digital', color: '#14B8A6', categoryValue: 'web-digital' }
   ];
 
-  // Mapping des catégories vers les types de tags
-  const categoryToTagTypeMapping = {
-    'arts-visuels-narratifs': 'projets-arts',
-    'developpement-tech': 'projets-dev',
-    'videaste': 'projets-video', 
-    'game-development': 'projets-game',
-    'web-digital': 'projets-web'
-  };
+  // Les catégories correspondent maintenant directement à celles du schéma
+  const validProjectCategories = [
+    'arts-visuels-narratifs',
+    'developpement-tech',
+    'videaste', 
+    'game-development',
+    'web-digital'
+  ];
 
   // Fonction pour récupérer les tags des projets
   const loadTags = async () => {
     try {
+      console.log('🔄 Chargement des tags...');
       const allTags = await fetchTags();
-      const projectTagTypes = ['projets-arts', 'projets-dev', 'projets-video', 'projets-game', 'projets-web'];
-      const projectTags = allTags.filter(tag => projectTagTypes.includes(tag.category));
+      console.log('📥 Tous les tags récupérés:', allTags.length, allTags);
+      
+      // Filtrer les tags qui correspondent aux catégories de projets
+      const projectTags = allTags.filter(tag => validProjectCategories.includes(tag.category));
+      console.log('🏷️ Tags de projets filtrés:', projectTags.length, projectTags);
+      
       setTags(projectTags);
     } catch (error) {
-      console.error('Erreur lors de la récupération des tags:', error);
+      console.error('❌ Erreur lors de la récupération des tags:', error);
     }
   };
 
   // Mettre à jour les projets quand les props changent
   useEffect(() => {
+    console.log('📨 Nouveaux projets reçus:', projects?.length || 0, projects);
     if (projects && projects.length > 0) {
+      console.log('✅ Mise à jour des projets dans Projects.jsx');
       setAllProjects(projects);
       setFilteredProjects(projects);
+    } else {
+      console.log('⚠️ Aucun projet reçu ou tableau vide');
     }
   }, [projects]);
 
@@ -76,20 +86,28 @@ const Projects = ({ projects = [], loading = false, error = null }) => {
   }, []);
 
   const handleCategorySelect = (categoryId) => {
+    console.log('🎯 Catégorie sélectionnée:', categoryId);
+    console.log('📊 Tous les projets disponibles:', allProjects.length, allProjects);
+    
     const wasActiveCategory = activeCategory === categoryId;
     
     setActiveCategory(categoryId);
     setActiveTag('all');
 
     if (categoryId === 'all') {
+      console.log('🌐 Affichage de tous les projets');
       setFilteredProjects(allProjects);
       setIsBurgerOpen(false);
     } else {
       const category = mainCategories.find(cat => cat.id === categoryId);
       if (category) {
-        const filtered = allProjects.filter(project => 
-          project.category === category.categoryValue
-        );
+        console.log('🔍 Filtrage par catégorie:', category.categoryValue);
+        const filtered = allProjects.filter(project => {
+          const matches = project.category === category.categoryValue;
+          console.log(`Projet "${project.title}": catégorie="${project.category}", correspond=${matches}`);
+          return matches;
+        });
+        console.log('✅ Projets filtrés:', filtered.length, filtered);
         setFilteredProjects(filtered);
         
         if (wasActiveCategory) {
@@ -102,18 +120,31 @@ const Projects = ({ projects = [], loading = false, error = null }) => {
   };
 
   const handleTagSelect = (tagId) => {
+    console.log('🏷️ Tag sélectionné:', tagId);
+    console.log('📋 Tags disponibles:', tags);
     setActiveTag(tagId);
 
     if (tagId === 'all') {
+      console.log('🌐 Affichage de tous les projets de la catégorie');
       if (activeCategory !== 'all') {
         handleCategorySelect(activeCategory);
       } else {
         setFilteredProjects(allProjects);
       }
     } else {
-      const filtered = allProjects.filter(project => 
-        project.tags && project.tags.some(tag => tag && tag._id === tagId)
-      );
+      console.log('🔍 Filtrage par tag:', tagId);
+      const filtered = allProjects.filter(project => {
+        const hasTags = project.tags && project.tags.length > 0;
+        if (!hasTags) {
+          console.log(`Projet "${project.title}": pas de tags`);
+          return false;
+        }
+        
+        const hasMatchingTag = project.tags.some(tag => tag && tag._id === tagId);
+        console.log(`Projet "${project.title}": tags=`, project.tags, `correspond=${hasMatchingTag}`);
+        return hasMatchingTag;
+      });
+      console.log('✅ Projets filtrés par tag:', filtered.length, filtered);
       setFilteredProjects(filtered);
     }
   };
@@ -124,8 +155,8 @@ const Projects = ({ projects = [], loading = false, error = null }) => {
     const category = mainCategories.find(cat => cat.id === activeCategory);
     if (!category) return [];
     
-    const tagType = categoryToTagTypeMapping[category.categoryValue];
-    return tags.filter(tag => tag.category === tagType);
+    // Filtrer directement par la catégorie du projet
+    return tags.filter(tag => tag.category === category.categoryValue);
   };
 
   const handleBurgerTagSelect = (tagId) => {
@@ -307,7 +338,7 @@ const Projects = ({ projects = [], loading = false, error = null }) => {
                         <div className="flex items-center gap-2">
                           <div 
                             className="w-2 h-2 rounded-full"
-                            style={{ backgroundColor: tag.color }}
+                            style={{ backgroundColor: getTagColor(tag) }}
                           />
                           <span className="font-semibold">{tag.name}</span>
                         </div>
@@ -405,7 +436,7 @@ const Projects = ({ projects = [], loading = false, error = null }) => {
                                   key={tagIndex} 
                                   className="px-2 py-1 text-white text-xs font-medium rounded-full backdrop-blur-sm border border-white/20 shadow-lg"
                                   style={{ 
-                                    backgroundColor: tag.color || '#6B7280'
+                                    backgroundColor: getTagColor(tag)
                                   }}
                                 >
                                   {tag.name}

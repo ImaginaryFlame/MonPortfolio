@@ -1,4 +1,105 @@
-@import 'tailwindcss';
+/* Tailwind CSS avec Vite - syntaxe moderne */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Variables CSS optimisées */
+:root {
+  --primary-orange: #f97316;
+  --primary-red: #ef4444;
+  --primary-yellow: #eab308;
+  --bg-dark: #111827;
+  --bg-darker: #0f172a;
+  --text-light: #f8fafc;
+  --text-gray: #94a3b8;
+  
+  /* Optimisations de performance */
+  --font-family-base: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Reset optimisé pour la performance */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  
+  /* Optimisations de performance */
+  will-change: scroll-position;
+  overscroll-behavior: none;
+}
+
+/* Optimisations images */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Lazy loading des images */
+img[loading="lazy"] {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+img[loading="lazy"].loaded {
+  opacity: 1;
+}
+
+/* Optimisations des animations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Classes utilitaires optimisées */
+.navbar-offset {
+  padding-top: 6rem;
+}
+
+@media (min-width: 768px) {
+  .navbar-offset {
+    padding-top: 7rem;
+  }
+}
+
+/* Optimisations GPU */
+.gpu-optimized {
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Optimisation des gradients */
+.gradient-optimized {
+  background-attachment: fixed;
+  will-change: background-position;
+}
+
+/* Critical CSS inline - Réduire le FOUC */
+.critical-fold {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 @layer utilities {
   @keyframes shake {
@@ -186,36 +287,6 @@ html.loaded {
   --navbar-height: 80px; /* Hauteur approximative de la navbar */
 }
 
-/* Classe utilitaire pour éviter le chevauchement avec la navbar */
-.navbar-offset {
-  padding-top: var(--navbar-height);
-}
-
-@media (min-width: 768px) {
-  .navbar-offset {
-    padding-top: calc(var(--navbar-height) + 1rem);
-  }
-}
-
-/* Styles de base */
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: #1a1a1a;
-  color: var(--text-primary);
-  line-height: 1.6;
-  overflow-x: hidden;
-}
-
-/* Optimisation des performances */
-* {
-  box-sizing: border-box;
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-}
-
 /* Animations optimisées */
 @keyframes slideUp {
   from {
@@ -379,13 +450,6 @@ img {
 
 .animation-delay-300 {
   animation-delay: 0.3s;
-}
-
-/* Optimisation GPU */
-.gpu-accelerated {
-  transform: translateZ(0);
-  will-change: transform;
-  backface-visibility: hidden;
 }
 
 /* Animation fade-in pour les menus */

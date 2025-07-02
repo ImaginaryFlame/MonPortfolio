@@ -16,10 +16,10 @@
   ],
   "dependencies": {
     "@sanity/color-input": "^4.0.3",
-    "@sanity/vision": "^3.94.2",
+    "@sanity/vision": "^3.95.0",
     "react": "^19.1",
     "react-dom": "^19.1",
-    "sanity": "^3.94.2",
+    "sanity": "^3.95.0",
     "styled-components": "^6.1.18"
   },
   "devDependencies": {

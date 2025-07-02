@@ -55,7 +55,7 @@ const Labo = () => {
       color: '#10B981',
       image: null,
       status: 'En développement',
-      tags: ['Web Dev', 'Prototypes Jeu', 'Tech'],
+      tags: ['Web Dev', 'Portfolio', 'Prototypes Jeu', 'Tech'],
       icon: '⚡'
     },
     {

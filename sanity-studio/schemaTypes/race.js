@@ -32,6 +32,40 @@ const race = {
       description: 'Tags pour classifier cette race (humanoïde, fantastique, etc.)'
     },
     {
+      name: 'typeRace',
+      title: 'Type de race',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Race principale', value: 'principale'},
+          {title: 'Sous-race', value: 'sous-race'},
+          {title: 'Variante', value: 'variante'},
+          {title: 'Hybride', value: 'hybride'}
+        ]
+      },
+      initialValue: 'principale',
+      description: 'Définit si c\'est une race principale ou une sous-catégorie'
+    },
+    {
+      name: 'raceParente',
+      title: 'Race parente',
+      type: 'reference',
+      to: [{type: 'race'}],
+      description: 'Race dont celle-ci est dérivée (pour les sous-races, variantes, etc.)',
+      hidden: ({document}) => document?.typeRace === 'principale'
+    },
+    {
+      name: 'racesOrigines',
+      title: 'Races d\'origine (pour hybrides)',
+      type: 'array',
+      of: [{
+        type: 'reference',
+        to: [{type: 'race'}]
+      }],
+      description: 'Pour les races hybrides : races dont elle descend',
+      hidden: ({document}) => document?.typeRace !== 'hybride'
+    },
+    {
       name: 'autresNoms',
       type: 'array',
       title: 'Autres noms',
@@ -46,6 +80,48 @@ const race = {
       type: 'text',
       title: 'Source de création',
       rows: 3
+    },
+    {
+      name: 'relationHierarchique',
+      title: 'Relation hiérarchique',
+      type: 'object',
+      fields: [
+        {
+          name: 'origineRelation',
+          title: 'Origine de la relation',
+          type: 'text',
+          rows: 2,
+          description: 'Comment cette race est-elle liée à sa race parente ?'
+        },
+        {
+          name: 'particularitesHeritees',
+          title: 'Particularités héritées',
+          type: 'array',
+          of: [{type: 'string'}],
+          description: 'Traits hérités de la race parente'
+        },
+        {
+          name: 'particularitesUniques',
+          title: 'Particularités uniques',
+          type: 'array', 
+          of: [{type: 'string'}],
+          description: 'Traits propres à cette sous-race/variante'
+        },
+        {
+          name: 'degreeIndependance',
+          title: 'Degré d\'indépendance',
+          type: 'string',
+          options: {
+            list: [
+              {title: 'Totalement dépendante', value: 'dependante'},
+              {title: 'Partiellement autonome', value: 'semi-autonome'},
+              {title: 'Culturellement distincte', value: 'distincte'},
+              {title: 'Totalement indépendante', value: 'independante'}
+            ]
+          }
+        }
+      ],
+      hidden: ({document}) => document?.typeRace === 'principale'
     },
     {
       name: 'mondeNaissance',
@@ -333,8 +409,33 @@ const race = {
   preview: {
     select: {
       title: 'nomRace',
-      subtitle: 'mondeNaissance.nom',
+      typeRace: 'typeRace',
+      raceParente: 'raceParente.nomRace',
+      monde: 'mondeNaissance.nom',
       media: 'images.0'
+    },
+    prepare(selection) {
+      const {title, typeRace, raceParente, monde, media} = selection
+      let subtitle = ''
+      
+      if (typeRace && typeRace !== 'principale') {
+        if (raceParente) {
+          subtitle = `${typeRace} de ${raceParente}`
+        } else {
+          subtitle = typeRace
+        }
+        if (monde) {
+          subtitle += ` • ${monde}`
+        }
+      } else {
+        subtitle = monde || 'Race principale'
+      }
+      
+      return {
+        title,
+        subtitle,
+        media
+      }
     }
   }
 }

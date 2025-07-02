@@ -221,7 +221,8 @@ const Navbar = ({ theme }) => {
           path: "/creation/labo/design",
           subItems: [
             { name: t.navbar.menus.labo.design.subItems.uiUx, path: "/creation/labo/design/ui-ux" },
-            { name: t.navbar.menus.labo.design.subItems.prototypes, path: "/creation/labo/design/prototypes" }
+            { name: t.navbar.menus.labo.design.subItems.prototypes, path: "/creation/labo/design/prototypes" },
+            { name: t.navbar.menus.labo.dev.subItems.portfolioWeb, path: "/creation/labo/dev/portfolio-web" }
           ]
         },
         { 
@@ -229,7 +230,8 @@ const Navbar = ({ theme }) => {
           path: "/creation/labo/dev",
           subItems: [
             { name: t.navbar.menus.labo.dev.subItems.demoWeb, path: "/creation/labo/dev/demo-web" },
-            { name: t.navbar.menus.labo.dev.subItems.prototypesJeu, path: "/creation/labo/dev/prototypes-jeu" }
+            { name: t.navbar.menus.labo.dev.subItems.prototypesJeu, path: "/creation/labo/dev/prototypes-jeu" },
+            { name: t.navbar.menus.labo.dev.subItems.portfolioWeb, path: "/creation/labo/dev/portfolio-web" }
           ]
         },
         { 

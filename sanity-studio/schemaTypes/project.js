@@ -43,17 +43,14 @@ export default {
         options: {
           filter: ({ document }) => {
             // Filtrer les tags selon la catégorie du projet
-            const categoryTagMapping = {
-              'arts-visuels-narratifs': ['projets-arts'],
-              'developpement-tech': ['projets-dev'], 
-              'videaste': ['projets-video'],
-              'game-development': ['projets-game'],
-              'web-digital': ['projets-web']
-            };
-            
-            const allowedCategories = document?.category ? 
-              categoryTagMapping[document.category] || [] : 
-              Object.values(categoryTagMapping).flat();
+            // Les catégories correspondent maintenant exactement à celles définies dans tag.js
+            const allowedCategories = document?.category ? [document.category] : [
+              'arts-visuels-narratifs',
+              'developpement-tech', 
+              'videaste',
+              'game-development',
+              'web-digital'
+            ];
               
             return {
               filter: 'category in $categories',

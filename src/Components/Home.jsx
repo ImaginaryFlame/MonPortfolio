@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Footer from './Footer';
 import Projects from './Projects';
-import { fetchProjects, urlFor, client } from '../config/sanityClient';
+import { fetchProjects, urlFor } from '../config/sanityClient';
 import { useLanguage } from '../hooks/useLanguage.jsx';
 
 // Configuration des thèmes avec leurs couleurs adaptées
@@ -1423,20 +1423,8 @@ const Home = () => {
       console.log('🔄 Début du chargement des projets centralisé...');
       setLoading(true);
       try {
-        const query = `*[_type == "project"] | order(_createdAt desc) {
-          _id,
-          title,
-          description,
-          category,
-          "image": image.asset->url,
-          technologies,
-          liveUrl,
-          githubUrl,
-          featured,
-          _createdAt
-        }`;
-        
-        const data = await client.fetch(query);
+        console.log('🔄 Utilisation de fetchProjects() depuis sanityClient...');
+        const data = await fetchProjects();
         console.log('📊 Projets récupérés:', data.length, data);
         setProjects(data);
         setError(null);
@@ -1459,7 +1447,7 @@ const Home = () => {
 
   return (
     <ThemeContext.Provider value={currentTheme}>
-      <div className="w-full">
+      <div className="w-full pt-20">
         <Banner theme={currentTheme} />
         <ProjectGallery theme={currentTheme} projects={projects} loading={loading} error={error} />
         <SkillsSection theme={currentTheme} />

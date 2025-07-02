@@ -1,22 +1,21 @@
-import { localizedField, localizedRequiredField, localizedArrayField } from './utils/localization';
-
 const univers = {
   name: 'univers',
   title: 'Univers',
   type: 'document',
   fields: [
-    localizedRequiredField({
+    {
       name: 'nom',
       type: 'string',
-      title: 'Nom de l\'univers'
-    }),
-    localizedField({
+      title: 'Nom de l\'univers',
+      validation: Rule => Rule.required()
+    },
+    {
       name: 'description',
       type: 'text',
       title: 'Description générale',
       rows: 4
-    }),
-    localizedArrayField({
+    },
+    {
       name: 'genres',
       title: 'Genres de l\'univers',
       type: 'array',
@@ -89,8 +88,8 @@ const univers = {
           { title: 'Autre', value: 'other' }
         ]
       }
-    }),
-    localizedField({
+    },
+    {
       name: 'tonalite',
       type: 'string',
       title: 'Tonalité générale',
@@ -105,14 +104,14 @@ const univers = {
           { title: 'Mystérieux', value: 'mysterieux' }
         ]
       }
-    }),
-    localizedField({
+    },
+    {
       name: 'themes',
       type: 'array',
       title: 'Thèmes principaux',
       of: [{ type: 'string' }]
-    }),
-    localizedField({
+    },
+    {
       name: 'conceptsCles',
       type: 'array',
       title: 'Concepts clés',
@@ -132,7 +131,7 @@ const univers = {
           }
         ]
       }]
-    }),
+    },
     {
       name: 'regions',
       type: 'array',
@@ -287,8 +286,8 @@ const univers = {
   ],
   preview: {
     select: {
-      title: 'nom.fr',
-      subtitle: 'description.fr'
+      title: 'nom',
+      subtitle: 'description'
     },
     prepare(selection) {
       const { title, subtitle } = selection;
