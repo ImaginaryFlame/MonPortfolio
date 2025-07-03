@@ -61,118 +61,118 @@ const App = () => {
     <BrowserRouter>
       <Navbar />
       <Suspense fallback={<LoadingSpinner />}>
-        <Routes>
-          {/* Routes principales */}
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/project/:slug" element={<ProjectDetail />} />
+      <Routes>
+        {/* Routes principales */}
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/project/:slug" element={<ProjectDetail />} />
 
-          {/* Routes pour les univers narratifs */}
-          <Route path="/creation/univers-narratifs" element={<UniversNarratifs />} />
-          
-          {/* Routes pour La Fable du Héros et la Fée */}
-          <Route path="/creation/univers-narratifs/fable-heros-fee" element={<HerosFee />} />
-          <Route path="/creation/univers-narratifs/fable-heros-fee/personnages" element={<HerosFee section="personnages" />} />
-          <Route path="/creation/univers-narratifs/fable-heros-fee/regions-lieux" element={<HerosFee section="regions-lieux" />} />
-          <Route path="/creation/univers-narratifs/fable-heros-fee/objets" element={<HerosFee section="objets" />} />
-          <Route path="/creation/univers-narratifs/fable-heros-fee/factions" element={<HerosFee section="factions" />} />
-          <Route path="/creation/univers-narratifs/fable-heros-fee/races" element={<HerosFee section="races" />} />
-          <Route path="/creation/univers-narratifs/fable-heros-fee/evenements-historiques" element={<HerosFee section="evenements" />} />
-          <Route path="/creation/univers-narratifs/fable-heros-fee/bestiaires" element={<HerosFee section="bestiaires" />} />
-          <Route path="/creation/univers-narratifs/fable-heros-fee/celebrations-fetes" element={<HerosFee section="celebrations" />} />
-          <Route path="/creation/univers-narratifs/fable-heros-fee/cosmogonies" element={<HerosFee section="cosmogonies" />} />
-          <Route path="/creation/univers-narratifs/fable-heros-fee/moodboard" element={<HerosFee section="moodboard" />} />
+        {/* Routes pour les univers narratifs */}
+        <Route path="/creation/univers-narratifs" element={<UniversNarratifs />} />
+        
+        {/* Routes pour La Fable du Héros et la Fée */}
+        <Route path="/creation/univers-narratifs/fable-heros-fee" element={<HerosFee />} />
+        <Route path="/creation/univers-narratifs/fable-heros-fee/personnages" element={<HerosFee section="personnages" />} />
+        <Route path="/creation/univers-narratifs/fable-heros-fee/regions-lieux" element={<HerosFee section="regions-lieux" />} />
+        <Route path="/creation/univers-narratifs/fable-heros-fee/objets" element={<HerosFee section="objets" />} />
+        <Route path="/creation/univers-narratifs/fable-heros-fee/factions" element={<HerosFee section="factions" />} />
+        <Route path="/creation/univers-narratifs/fable-heros-fee/races" element={<HerosFee section="races" />} />
+        <Route path="/creation/univers-narratifs/fable-heros-fee/evenements-historiques" element={<HerosFee section="evenements" />} />
+        <Route path="/creation/univers-narratifs/fable-heros-fee/bestiaires" element={<HerosFee section="bestiaires" />} />
+        <Route path="/creation/univers-narratifs/fable-heros-fee/celebrations-fetes" element={<HerosFee section="celebrations" />} />
+        <Route path="/creation/univers-narratifs/fable-heros-fee/cosmogonies" element={<HerosFee section="cosmogonies" />} />
+        <Route path="/creation/univers-narratifs/fable-heros-fee/moodboard" element={<HerosFee section="moodboard" />} />
 
-          {/* Routes pour Le Héros à la Flamme Imaginaire */}
-          <Route path="/creation/univers-narratifs/flamme-imaginaire" element={<FlammeImaginaire />} />
-          <Route path="/creation/univers-narratifs/flamme-imaginaire/personnages" element={<FlammeImaginaire section="personnages" />} />
-          <Route path="/creation/univers-narratifs/flamme-imaginaire/regions-lieux" element={<FlammeImaginaire section="regions-lieux" />} />
-          <Route path="/creation/univers-narratifs/flamme-imaginaire/objets" element={<FlammeImaginaire section="objets" />} />
-          <Route path="/creation/univers-narratifs/flamme-imaginaire/concepts" element={<FlammeImaginaire section="concepts" />} />
-          <Route path="/creation/univers-narratifs/flamme-imaginaire/factions" element={<FlammeImaginaire section="factions" />} />
-          <Route path="/creation/univers-narratifs/flamme-imaginaire/creatures" element={<FlammeImaginaire section="creatures" />} />
-          <Route path="/creation/univers-narratifs/flamme-imaginaire/evenements" element={<FlammeImaginaire section="evenements" />} />
-          <Route path="/creation/univers-narratifs/flamme-imaginaire/dogmes" element={<FlammeImaginaire section="dogmes" />} />
-          <Route path="/creation/univers-narratifs/flamme-imaginaire/traditions" element={<FlammeImaginaire section="traditions" />} />
-          <Route path="/creation/univers-narratifs/flamme-imaginaire/celebrations" element={<FlammeImaginaire section="celebrations" />} />
+        {/* Routes pour Le Héros à la Flamme Imaginaire */}
+        <Route path="/creation/univers-narratifs/flamme-imaginaire" element={<FlammeImaginaire />} />
+        <Route path="/creation/univers-narratifs/flamme-imaginaire/personnages" element={<FlammeImaginaire section="personnages" />} />
+        <Route path="/creation/univers-narratifs/flamme-imaginaire/regions-lieux" element={<FlammeImaginaire section="regions-lieux" />} />
+        <Route path="/creation/univers-narratifs/flamme-imaginaire/objets" element={<FlammeImaginaire section="objets" />} />
+        <Route path="/creation/univers-narratifs/flamme-imaginaire/concepts" element={<FlammeImaginaire section="concepts" />} />
+        <Route path="/creation/univers-narratifs/flamme-imaginaire/factions" element={<FlammeImaginaire section="factions" />} />
+        <Route path="/creation/univers-narratifs/flamme-imaginaire/creatures" element={<FlammeImaginaire section="creatures" />} />
+        <Route path="/creation/univers-narratifs/flamme-imaginaire/evenements" element={<FlammeImaginaire section="evenements" />} />
+        <Route path="/creation/univers-narratifs/flamme-imaginaire/dogmes" element={<FlammeImaginaire section="dogmes" />} />
+        <Route path="/creation/univers-narratifs/flamme-imaginaire/traditions" element={<FlammeImaginaire section="traditions" />} />
+        <Route path="/creation/univers-narratifs/flamme-imaginaire/celebrations" element={<FlammeImaginaire section="celebrations" />} />
 
-          {/* Routes pour Vince de Belii */}
-          <Route path="/creation/univers-narratifs/vince-belii" element={<VinceDeBelii />} />
-          <Route path="/creation/univers-narratifs/vince-belii/personnages" element={<VinceDeBelii section="personnages" />} />
-          <Route path="/creation/univers-narratifs/vince-belii/familles" element={<VinceDeBelii section="familles" />} />
-          <Route path="/creation/univers-narratifs/vince-belii/lieux" element={<VinceDeBelii section="lieux" />} />
-          <Route path="/creation/univers-narratifs/vince-belii/moodboard" element={<VinceDeBelii section="moodboard" />} />
+        {/* Routes pour Vince de Belii */}
+        <Route path="/creation/univers-narratifs/vince-belii" element={<VinceDeBelii />} />
+        <Route path="/creation/univers-narratifs/vince-belii/personnages" element={<VinceDeBelii section="personnages" />} />
+        <Route path="/creation/univers-narratifs/vince-belii/familles" element={<VinceDeBelii section="familles" />} />
+        <Route path="/creation/univers-narratifs/vince-belii/lieux" element={<VinceDeBelii section="lieux" />} />
+        <Route path="/creation/univers-narratifs/vince-belii/moodboard" element={<VinceDeBelii section="moodboard" />} />
 
-          {/* Routes pour La Pandémie de Lara */}
-          <Route path="/creation/univers-narratifs/pandemie-lara" element={<PandemieLara />} />
-          <Route path="/creation/univers-narratifs/pandemie-lara/personnages" element={<PandemieLara section="personnages" />} />
-          <Route path="/creation/univers-narratifs/pandemie-lara/regions-lieux" element={<PandemieLara section="regions-lieux" />} />
-          <Route path="/creation/univers-narratifs/pandemie-lara/objets" element={<PandemieLara section="objets" />} />
-          <Route path="/creation/univers-narratifs/pandemie-lara/factions" element={<PandemieLara section="factions" />} />
-          <Route path="/creation/univers-narratifs/pandemie-lara/bestiaires" element={<PandemieLara section="bestiaires" />} />
-          <Route path="/creation/univers-narratifs/pandemie-lara/moodboard" element={<PandemieLara section="moodboard" />} />
+        {/* Routes pour La Pandémie de Lara */}
+        <Route path="/creation/univers-narratifs/pandemie-lara" element={<PandemieLara />} />
+        <Route path="/creation/univers-narratifs/pandemie-lara/personnages" element={<PandemieLara section="personnages" />} />
+        <Route path="/creation/univers-narratifs/pandemie-lara/regions-lieux" element={<PandemieLara section="regions-lieux" />} />
+        <Route path="/creation/univers-narratifs/pandemie-lara/objets" element={<PandemieLara section="objets" />} />
+        <Route path="/creation/univers-narratifs/pandemie-lara/factions" element={<PandemieLara section="factions" />} />
+        <Route path="/creation/univers-narratifs/pandemie-lara/bestiaires" element={<PandemieLara section="bestiaires" />} />
+        <Route path="/creation/univers-narratifs/pandemie-lara/moodboard" element={<PandemieLara section="moodboard" />} />
 
-          {/* Routes principales pour les sections */}
-          <Route path="/creation/labo" element={<Labo />} />
-          <Route path="/creation/studio" element={<Studio />} />
-          <Route path="/creation/atelier" element={<Atelier />} />
+        {/* Routes principales pour les sections */}
+        <Route path="/creation/labo" element={<Labo />} />
+        <Route path="/creation/studio" element={<Studio />} />
+        <Route path="/creation/atelier" element={<Atelier />} />
 
-          {/* Routes pour le Labo */}
-          <Route path="/creation/labo/design" element={<LabDesign />} />
-          <Route path="/creation/labo/design/ui-ux" element={<LabDesign section="ui-ux" />} />
-          <Route path="/creation/labo/design/prototypes" element={<LabDesign section="prototypes" />} />
-          <Route path="/creation/labo/dev" element={<LabDev />} />
-          <Route path="/creation/labo/dev/demo-web" element={<LabDev section="demo-web" />} />
-          <Route path="/creation/labo/dev/prototypes-jeu" element={<LabDev section="prototypes-jeu" />} />
+        {/* Routes pour le Labo */}
+        <Route path="/creation/labo/design" element={<LabDesign />} />
+        <Route path="/creation/labo/design/ui-ux" element={<LabDesign section="ui-ux" />} />
+        <Route path="/creation/labo/design/prototypes" element={<LabDesign section="prototypes" />} />
+        <Route path="/creation/labo/dev" element={<LabDev />} />
+        <Route path="/creation/labo/dev/demo-web" element={<LabDev section="demo-web" />} />
+        <Route path="/creation/labo/dev/prototypes-jeu" element={<LabDev section="prototypes-jeu" />} />
           <Route path="/creation/labo/dev/portfolio-web" element={<LabDev section="portfolio-web" />} />
-          <Route path="/creation/labo/academique" element={<LabAcademique />} />
-          <Route path="/creation/labo/academique/presentations-cnam" element={<LabAcademique section="presentations-cnam" />} />
-          <Route path="/creation/labo/academique/little-archaeologist" element={<LittleArchaeologist />} />
-          <Route path="/creation/labo/academique/bibliapp" element={<BibliApp />} />
+        <Route path="/creation/labo/academique" element={<LabAcademique />} />
+        <Route path="/creation/labo/academique/presentations-cnam" element={<LabAcademique section="presentations-cnam" />} />
+        <Route path="/creation/labo/academique/little-archaeologist" element={<LittleArchaeologist />} />
+        <Route path="/creation/labo/academique/bibliapp" element={<BibliApp />} />
 
-          {/* Routes pour le Studio */}
-          <Route path="/creation/studio/video" element={<YouTubeStudioDashboard />} />
-          <Route path="/creation/studio/video/videos" element={
-            import.meta.env.VITE_YOUTUBE_API_KEY ? 
-            <YouTubeStudioVideo section="videos" /> : 
-            <StudioVideo section="youtube" />
-          } />
-          <Route path="/creation/studio/video/shorts" element={
-            import.meta.env.VITE_YOUTUBE_API_KEY ? 
-            <YouTubeStudioVideo section="shorts" /> : 
-            <StudioVideo section="reels" />
-          } />
-          <Route path="/creation/studio/video/miniatures" element={<StudioVideo section="miniatures" />} />
-          
-          {/* Routes pour Twitch */}
-          <Route path="/creation/studio/twitch" element={<TwitchStudioDashboard />} />
-          <Route path="/creation/studio/twitch/streams" element={<TwitchStreams />} />
-          <Route path="/creation/studio/twitch/clips" element={<TwitchClips />} />
-          
-          <Route path="/creation/studio/social" element={<StudioSocial />} />
-          <Route path="/creation/studio/social/threads-twitter" element={<StudioSocial section="twitter" />} />
-          <Route path="/creation/studio/branding" element={<StudioBranding />} />
-          <Route path="/creation/studio/branding/identite-visuelle" element={<StudioBranding section="identite" />} />
-          <Route path="/creation/studio/branding/templates" element={<StudioBranding section="templates" />} />
-          <Route path="/creation/studio/branding/miniatures" element={<StudioBranding section="miniatures" />} />
+        {/* Routes pour le Studio */}
+        <Route path="/creation/studio/video" element={<YouTubeStudioDashboard />} />
+        <Route path="/creation/studio/video/videos" element={
+          import.meta.env.VITE_YOUTUBE_API_KEY ? 
+          <YouTubeStudioVideo section="videos" /> : 
+          <StudioVideo section="youtube" />
+        } />
+        <Route path="/creation/studio/video/shorts" element={
+          import.meta.env.VITE_YOUTUBE_API_KEY ? 
+          <YouTubeStudioVideo section="shorts" /> : 
+          <StudioVideo section="reels" />
+        } />
+        <Route path="/creation/studio/video/miniatures" element={<StudioVideo section="miniatures" />} />
+        
+        {/* Routes pour Twitch */}
+        <Route path="/creation/studio/twitch" element={<TwitchStudioDashboard />} />
+        <Route path="/creation/studio/twitch/streams" element={<TwitchStreams />} />
+        <Route path="/creation/studio/twitch/clips" element={<TwitchClips />} />
+        
+        <Route path="/creation/studio/social" element={<StudioSocial />} />
+        <Route path="/creation/studio/social/threads-twitter" element={<StudioSocial section="twitter" />} />
+        <Route path="/creation/studio/branding" element={<StudioBranding />} />
+        <Route path="/creation/studio/branding/identite-visuelle" element={<StudioBranding section="identite" />} />
+        <Route path="/creation/studio/branding/templates" element={<StudioBranding section="templates" />} />
+        <Route path="/creation/studio/branding/miniatures" element={<StudioBranding section="miniatures" />} />
 
-          {/* Routes pour l'Atelier */}
-          <Route path="/creation/atelier/traditionnel" element={<ArtTraditionnel />} />
-          <Route path="/creation/atelier/traditionnel/illustrations-finalisees" element={<IllustrationsFinalisees />} />
-          <Route path="/creation/atelier/traditionnel/etudes-progression" element={<EtudesProgression />} />
-          <Route path="/creation/atelier/traditionnel/croquis-roughs" element={<CroquisRoughs />} />
-          <Route path="/creation/atelier/numerique" element={<Atelier />} />
-          <Route path="/creation/atelier/3d" element={<Atelier />} />
-          <Route path="/creation/atelier/wip" element={<Atelier />} />
-          
-          {/* Route temporaire pour trouver l'ID de chaîne YouTube */}
-          <Route path="/find-channel-id" element={<ChannelIdFinder />} />
-          
-          {/* Routes alternatives pour debug */}
-          <Route path="/full-dashboard" element={<YouTubeStudioDashboard />} />
-          <Route path="/simple-dashboard" element={<YouTubeStudioDashboardSimple />} />
+        {/* Routes pour l'Atelier */}
+        <Route path="/creation/atelier/traditionnel" element={<ArtTraditionnel />} />
+        <Route path="/creation/atelier/traditionnel/illustrations-finalisees" element={<IllustrationsFinalisees />} />
+        <Route path="/creation/atelier/traditionnel/etudes-progression" element={<EtudesProgression />} />
+        <Route path="/creation/atelier/traditionnel/croquis-roughs" element={<CroquisRoughs />} />
+        <Route path="/creation/atelier/numerique" element={<Atelier />} />
+        <Route path="/creation/atelier/3d" element={<Atelier />} />
+        <Route path="/creation/atelier/wip" element={<Atelier />} />
+        
+        {/* Route temporaire pour trouver l'ID de chaîne YouTube */}
+        <Route path="/find-channel-id" element={<ChannelIdFinder />} />
+        
+        {/* Routes alternatives pour debug */}
+        <Route path="/full-dashboard" element={<YouTubeStudioDashboard />} />
+        <Route path="/simple-dashboard" element={<YouTubeStudioDashboardSimple />} />
           <Route path="/test-apis" element={
             <div className="min-h-screen bg-gray-900 text-white p-8 pt-24">
               <div className="max-w-4xl mx-auto">
@@ -202,7 +202,7 @@ const App = () => {
               </div>
             </div>
           } />
-        </Routes>
+      </Routes>
       </Suspense>
     </BrowserRouter>
   );
