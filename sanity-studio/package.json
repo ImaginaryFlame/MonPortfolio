@@ -15,11 +15,12 @@
     "sanity"
   ],
   "dependencies": {
+    "@sanity/block-content-to-react": "^3.0.0",
     "@sanity/color-input": "^4.0.3",
-    "@sanity/vision": "^3.96.0",
+    "@sanity/vision": "^3.98.1",
     "react": "^19.1",
     "react-dom": "^19.1",
-    "sanity": "^3.96.0",
+    "sanity": "^3.98.1",
     "styled-components": "^6.1.18"
   },
   "devDependencies": {

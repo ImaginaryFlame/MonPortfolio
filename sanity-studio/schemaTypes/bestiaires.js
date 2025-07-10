@@ -1,310 +1,414 @@
-const bestiaires = {
-    name: 'bestiaires',
-    title: 'Bestiaires - Espèce Non Intelligente',
-    type: 'document',
-    description: 'Un bestiaire désigne un être vivant dépourvu d\'intelligence sociale ou individuelle propre, généralement non capable de langage articulé, obéissant à l\'instinct, à une force supérieure ou à une invocation.',
-    fields: [
-      {
-        name: 'nom',
-        type: 'string',
-        title: 'Nom',
-        description: 'Nom de la créature',
-        validation: Rule => Rule.required().min(1).max(100)
-      },
-      {
-        name: 'lienExterne',
-        type: 'url',
-        title: '🔗 Lien externe',
-        description: 'Lien vers des références, inspirations ou ressources externes liées à cette créature',
-        validation: Rule => Rule.uri({
-          allowRelative: false,
-          scheme: ['http', 'https']
-        })
-      },
-      {
-        name: 'univers',
-        title: 'Univers d\'appartenance',
-        type: 'reference',
-        to: [{ type: 'univers' }],
-        validation: Rule => Rule.required(),
-        description: 'L\'univers dans lequel cette créature vit.'
-      },
-      {
-        name: 'type',
-        type: 'string',
-        title: 'Type',
-        description: 'Type de créature (bête, invocation, démon, etc.)',
-        options: {
-          list: [
-            { title: 'Bête', value: 'bete' },
-            { title: 'Invocation', value: 'invocation' },
-            { title: 'Démon', value: 'demon' },
-            { title: 'Rejeton d\'illusion', value: 'rejeton_illusion' },
-            { title: 'Aberration', value: 'aberration' },
-            { title: 'Élémentaire', value: 'elementaire' },
-            { title: 'Mort-vivant', value: 'mort_vivant' },
-            { title: 'Construct', value: 'construct' },
-            { title: 'Esprit', value: 'esprit' },
-            { title: 'Autre', value: 'autre' }
+import { visibilityFields, enrichPreviewWithVisibility, visibilityOrderings } from './utils/visibilityHelper.js';
+import { createRichTextField } from './utils/richTextConfig.js';
+
+export default {
+  name: 'bestiaires',
+  title: '🐾 Bestiaire',
+  type: 'document',
+  fields: [
+    {
+      name: 'nom',
+      type: 'string',
+      title: 'Nom',
+      validation: Rule => Rule.required()
+    },
+    {
+      name: 'univers',
+      type: 'reference',
+      title: '🌍 Univers d\'origine',
+      to: [{ type: 'univers' }],
+      validation: Rule => Rule.required()
+    },
+    {
+      name: 'type',
+      type: 'string',
+      title: 'Type de créature',
+      options: {
+        list: [
+          { title: '🐉 Dragon', value: 'dragon' },
+          { title: '🦁 Bête', value: 'bete' },
+          { title: '👻 Esprit', value: 'esprit' },
+          { title: '🧟 Mort-vivant', value: 'mort_vivant' },
+          { title: '🌱 Plante', value: 'plante' },
+          { title: '🦎 Reptile', value: 'reptile' },
+          { title: '🐦 Oiseau', value: 'oiseau' },
+          { title: '🐟 Poisson', value: 'poisson' },
+          { title: '🦊 Mammifère', value: 'mammifere' },
+          { title: '🕷️ Arthropode', value: 'arthropode' },
+          { title: '🦠 Microorganisme', value: 'microorganisme' },
+          { title: '👽 Extraterrestre', value: 'extraterrestre' },
+          { title: '🤖 Artificiel', value: 'artificiel' },
+          { title: '🧪 Mutant', value: 'mutant' }
+        ]
+      }
+    },
+    {
+      name: 'resume',
+      title: 'Résumé',
+      description: 'Brève description de la créature',
+      ...createRichTextField('basic')
+    },
+    {
+      name: 'caracteristiquesPhysiques',
+      type: 'object',
+      title: '🧬 Caractéristiques physiques',
+      fields: [
+        {
+          name: 'apparence',
+          title: 'Apparence',
+          ...createRichTextField('basic')
+        },
+        {
+          name: 'taille',
+          type: 'object',
+          title: 'Taille',
+          fields: [
+            {
+              name: 'min',
+              type: 'number',
+              title: 'Taille minimale (cm)'
+            },
+            {
+              name: 'max',
+              type: 'number',
+              title: 'Taille maximale (cm)'
+            }
           ]
         },
-        validation: Rule => Rule.required()
-      },
-
-      {
-        name: 'tags',
-        title: 'Tags',
-        type: 'array',
-        of: [{ 
-          type: 'reference', 
-          to: [{ type: 'tag' }]
-        }],
-        description: 'Tags libres pour qualifier cette créature (ex: Dragon, Magique, Dangereux, etc.)'
-      },
-      {
-        name: 'origine',
-        type: 'text',
-        title: 'Origine / Création',
-        description: 'Origine ou création de la créature',
-        validation: Rule => Rule.required().min(10).max(500)
-      },
-      {
-        name: 'habitat',
-        type: 'array',
-        title: 'Habitat',
-        description: 'Lieux où vit la créature',
-        of: [{ type: 'string' }],
-        validation: Rule => Rule.required().min(1)
-      },
-      {
-        name: 'comportement',
-        type: 'object',
-        title: 'Comportement',
-        description: 'Comportement de la créature',
-        fields: [
-          {
-            name: 'instincts',
-            type: 'array',
-            title: 'Instincts',
-            of: [{ type: 'string' }]
-          },
-          {
-            name: 'agressivite',
-            type: 'string',
-            title: 'Agressivité',
-            options: {
-              list: [
-                { title: 'Passive', value: 'passive' },
-                { title: 'Neutre', value: 'neutre' },
-                { title: 'Agressive', value: 'agressive' },
-                { title: 'Très agressive', value: 'tres_agressive' }
-              ]
+        {
+          name: 'poids',
+          type: 'object',
+          title: 'Poids',
+          fields: [
+            {
+              name: 'min',
+              type: 'number',
+              title: 'Poids minimal (kg)'
             },
-            validation: Rule => Rule.required()
-          },
-          {
-            name: 'socialite',
-            type: 'string',
-            title: 'Socialité',
-            options: {
-              list: [
-                { title: 'Solitaire', value: 'solitaire' },
-                { title: 'En couple', value: 'en_couple' },
-                { title: 'En groupe', value: 'en_groupe' },
-                { title: 'En meute', value: 'en_meute' },
-                { title: 'En essaim', value: 'en_essaim' }
-              ]
+            {
+              name: 'max',
+              type: 'number',
+              title: 'Poids maximal (kg)'
+            }
+          ]
+        },
+        {
+          name: 'longevite',
+          type: 'object',
+          title: 'Longévité',
+          fields: [
+            {
+              name: 'esperanceVie',
+              type: 'number',
+              title: 'Espérance de vie moyenne (années)'
             },
-            validation: Rule => Rule.required()
-          },
-          {
-            name: 'intelligence',
-            type: 'string',
-            title: 'Intelligence',
-            options: {
-              list: [
-                { title: 'Instinctive', value: 'instinctive' },
-                { title: 'Basique', value: 'basique' },
-                { title: 'Limitée', value: 'limitee' }
-              ]
-            },
-            validation: Rule => Rule.required()
-          }
-        ]
-      },
-      {
-        name: 'pouvoirs',
-        type: 'array',
-        title: 'Pouvoirs / Capacités',
-        description: 'Pouvoirs et capacités spéciales',
-        of: [
-          {
+            {
+              name: 'maturite',
+              type: 'number',
+              title: 'Âge de la maturité'
+            }
+          ]
+        },
+        {
+          name: 'particularites',
+          type: 'array',
+          title: 'Particularités physiques',
+          of: [{
             type: 'object',
             fields: [
               {
                 name: 'nom',
                 type: 'string',
-                title: 'Nom du pouvoir',
-                validation: Rule => Rule.required()
+                title: 'Nom de la particularité'
               },
               {
                 name: 'description',
-                type: 'text',
                 title: 'Description',
-                validation: Rule => Rule.required()
-              },
-              {
-                name: 'portee',
-                type: 'string',
-                title: 'Portée'
-              },
-              {
-                name: 'limitation',
-                type: 'text',
-                title: 'Limitation'
+                ...createRichTextField('basic')
               }
             ]
+          }]
+        }
+      ]
+    },
+    {
+      name: 'comportement',
+      type: 'object',
+      title: '🧠 Comportement',
+      fields: [
+        {
+          name: 'intelligence',
+          type: 'string',
+          title: 'Niveau d\'intelligence',
+          options: {
+            list: [
+              { title: '🪨 Aucune', value: 'aucune' },
+              { title: '🦊 Animale', value: 'animale' },
+              { title: '🧠 Primitive', value: 'primitive' },
+              { title: '👤 Humaine', value: 'humaine' },
+              { title: '🎓 Supérieure', value: 'superieure' }
+            ]
           }
-        ]
-      },
-      {
-        name: 'faiblesses',
-        type: 'array',
-        title: 'Faiblesses',
-        description: 'Points faibles de la créature',
-        of: [
-          {
+        },
+        {
+          name: 'temperament',
+          type: 'array',
+          title: 'Tempérament',
+          of: [{
+            type: 'string',
+            options: {
+              list: [
+                { title: '😠 Agressif', value: 'agressif' },
+                { title: '😊 Pacifique', value: 'pacifique' },
+                { title: '🏃 Craintif', value: 'craintif' },
+                { title: '🤝 Social', value: 'social' },
+                { title: '🐺 Solitaire', value: 'solitaire' },
+                { title: '🎯 Territorial', value: 'territorial' },
+                { title: '🦊 Rusé', value: 'ruse' },
+                { title: '🎭 Imprévisible', value: 'imprevisible' }
+              ]
+            }
+          }]
+        },
+        {
+          name: 'organisation',
+          type: 'string',
+          title: 'Organisation sociale',
+          options: {
+            list: [
+              { title: '🐺 Solitaire', value: 'solitaire' },
+              { title: '👥 Groupe', value: 'groupe' },
+              { title: '👑 Hiérarchique', value: 'hierarchique' },
+              { title: '🏰 Colonie', value: 'colonie' },
+              { title: '🤝 Symbiose', value: 'symbiose' }
+            ]
+          }
+        },
+        {
+          name: 'description',
+          title: 'Description du comportement',
+          ...createRichTextField('basic')
+        }
+      ]
+    },
+    {
+      name: 'habitat',
+      type: 'object',
+      title: '🏠 Habitat',
+      fields: [
+        {
+          name: 'regions',
+          type: 'array',
+          title: 'Régions',
+          of: [{
+            type: 'reference',
+            to: [{ type: 'region' }]
+          }]
+        },
+        {
+          name: 'environnements',
+          type: 'array',
+          title: 'Environnements',
+          of: [{
+            type: 'string',
+            options: {
+              list: [
+                { title: '🏔️ Montagne', value: 'montagne' },
+                { title: '🌊 Océan', value: 'ocean' },
+                { title: '🏜️ Désert', value: 'desert' },
+                { title: '🌳 Forêt', value: 'foret' },
+                { title: '🏞️ Plaine', value: 'plaine' },
+                { title: '❄️ Toundra', value: 'toundra' },
+                { title: '🌋 Volcanique', value: 'volcanique' },
+                { title: '🏙️ Urbain', value: 'urbain' },
+                { title: '🕌 Souterrain', value: 'souterrain' }
+              ]
+            }
+          }]
+        },
+        {
+          name: 'description',
+          title: 'Description de l\'habitat',
+          ...createRichTextField('basic')
+        }
+      ]
+    },
+    {
+      name: 'capacites',
+      type: 'object',
+      title: '✨ Capacités',
+      fields: [
+        {
+          name: 'naturelles',
+          type: 'array',
+          title: 'Capacités naturelles',
+          of: [{
             type: 'object',
             fields: [
               {
-                name: 'type',
+                name: 'nom',
                 type: 'string',
-                title: 'Type de faiblesse',
-                options: {
-                  list: [
-                    { title: 'Physique', value: 'physique' },
-                    { title: 'Magique', value: 'magique' },
-                    { title: 'Psychologique', value: 'psychologique' },
-                    { title: 'Environnementale', value: 'environnementale' }
-                  ]
-                },
-                validation: Rule => Rule.required()
+                title: 'Nom de la capacité'
               },
               {
                 name: 'description',
-                type: 'text',
                 title: 'Description',
-                validation: Rule => Rule.required()
+                ...createRichTextField('basic')
               },
               {
-                name: 'severite',
-                type: 'string',
-                title: 'Sévérité',
-                options: {
-                  list: [
-                    { title: 'Mineure', value: 'mineure' },
-                    { title: 'Modérée', value: 'moderee' },
-                    { title: 'Majeure', value: 'majeure' },
-                    { title: 'Critique', value: 'critique' }
-                  ]
-                },
-                validation: Rule => Rule.required()
+                name: 'limitations',
+                title: 'Limitations',
+                ...createRichTextField('basic')
               }
             ]
-          }
-        ]
-      },
-      {
-        name: 'reproduction',
-        type: 'object',
-        title: 'Mode de reproduction',
-        fields: [
-          {
-            name: 'type',
+          }]
+        },
+        {
+          name: 'magiques',
+          type: 'array',
+          title: '🔮 Capacités magiques',
+          of: [{
+            type: 'reference',
+            to: [{ type: 'systemeEsoterique' }]
+          }]
+        }
+      ]
+    },
+    {
+      name: 'interactions',
+      type: 'object',
+      title: '🤝 Interactions',
+      fields: [
+        {
+          name: 'proies',
+          type: 'array',
+          title: 'Proies',
+          of: [{
+            type: 'reference',
+            to: [{ type: 'bestiaires' }]
+          }]
+        },
+        {
+          name: 'predateurs',
+          type: 'array',
+          title: 'Prédateurs',
+          of: [{
+            type: 'reference',
+            to: [{ type: 'bestiaires' }]
+          }]
+        },
+        {
+          name: 'symbioses',
+          type: 'array',
+          title: 'Relations symbiotiques',
+          of: [{
+            type: 'object',
+            fields: [
+              {
+                name: 'creature',
+                type: 'reference',
+                title: 'Créature',
+                to: [{ type: 'bestiaires' }]
+              },
+              {
+                name: 'type',
+                type: 'string',
+                title: 'Type de symbiose',
+                options: {
+                  list: [
+                    { title: '🤝 Mutualisme', value: 'mutualisme' },
+                    { title: '🔄 Commensalisme', value: 'commensalisme' },
+                    { title: '⚔️ Parasitisme', value: 'parasitisme' }
+                  ]
+                }
+              },
+              {
+                name: 'description',
+                title: 'Description',
+                ...createRichTextField('basic')
+              }
+            ]
+          }]
+        }
+      ]
+    },
+    {
+      name: 'roleNarratif',
+      type: 'object',
+      title: '📖 Rôle narratif',
+      fields: [
+        {
+          name: 'fonction',
+          type: 'array',
+          title: 'Fonction dans l\'histoire',
+          of: [{
             type: 'string',
-            title: 'Type de reproduction',
             options: {
               list: [
-                { title: 'Sexuée', value: 'sexuee' },
-                { title: 'Asexuée', value: 'asexuee' },
-                { title: 'Magique', value: 'magique' },
-                { title: 'Autre', value: 'autre' }
-              ]
-            },
-            validation: Rule => Rule.required()
-          },
-          {
-            name: 'details',
-            type: 'text',
-            title: 'Détails',
-            validation: Rule => Rule.required()
-          },
-          {
-            name: 'frequence',
-            type: 'string',
-            title: 'Fréquence',
-            options: {
-              list: [
-                { title: 'Rare', value: 'rare' },
-                { title: 'Occasionnelle', value: 'occasionnelle' },
-                { title: 'Fréquente', value: 'frequente' },
-                { title: 'Très fréquente', value: 'tres_frequente' }
+                { title: '⚔️ Antagoniste', value: 'antagoniste' },
+                { title: '🤝 Allié', value: 'allie' },
+                { title: '🎭 Neutre', value: 'neutre' },
+                { title: '🎪 Ambiance', value: 'ambiance' },
+                { title: '💫 Symbolique', value: 'symbolique' }
               ]
             }
-          }
-        ]
-      },
-      {
-        name: 'apparence',
-        type: 'object',
-        title: 'Apparence',
-        fields: [
-          {
-            name: 'description',
-            type: 'text',
-            title: 'Description physique',
-            validation: Rule => Rule.required()
-          },
-          {
-            name: 'taille',
-            type: 'string',
-            title: 'Taille moyenne',
-            validation: Rule => Rule.required()
-          },
-          {
-            name: 'poids',
-            type: 'string',
-            title: 'Poids moyen'
-          },
-          {
-            name: 'traits_distinctifs',
-            type: 'array',
-            title: 'Traits distinctifs',
-            of: [{ type: 'string' }]
-          }
-        ]
-      },
-      {
-        name: 'images',
-        type: 'array',
-        title: 'Images',
-        description: 'Images de la créature',
-        of: [
-          {
-            type: 'image',
-            options: {
-              hotspot: true
-            }
-          }
-        ]
-      },
-      {
-        name: 'notes',
-        type: 'text',
-        title: 'Notes additionnelles',
-        description: 'Informations supplémentaires'
+          }]
+        },
+        {
+          name: 'symbolisme',
+          title: 'Symbolisme',
+          description: 'Signification symbolique de la créature',
+          ...createRichTextField('basic')
+        }
+      ]
+    },
+    {
+      name: 'image',
+      type: 'image',
+      title: '🖼️ Image représentative',
+      options: {
+        hotspot: true
       }
-    ]
-  }
-  
-  export default bestiaires 
+    },
+
+    // Champs de visibilité
+    ...visibilityFields
+  ],
+  preview: {
+    select: {
+      title: 'nom',
+      subtitle: 'type',
+      media: 'image',
+      featured: 'featured',
+      isPublished: 'isPublished'
+    },
+    prepare(selection) {
+      const { title, subtitle, media, featured, isPublished } = selection;
+      
+      const featuredEmoji = featured ? '⭐ ' : '';
+      const publishedEmoji = isPublished === false ? '👁️ ' : '';
+      
+      return {
+        title: `${publishedEmoji}${featuredEmoji}${title || 'Sans nom'}`,
+        subtitle: (subtitle || '') + (isPublished === false ? ' • 🚫 NON PUBLIÉ' : ''),
+        media: media
+      };
+    }
+  },
+  orderings: [
+    ...visibilityOrderings,
+    {
+      title: 'Nom A-Z',
+      name: 'nomAsc',
+      by: [{ field: 'nom', direction: 'asc' }]
+    },
+    {
+      title: 'Par type',
+      name: 'typeAsc',
+      by: [
+        { field: 'type', direction: 'asc' },
+        { field: 'nom', direction: 'asc' }
+      ]
+    }
+  ]
+} 

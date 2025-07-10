@@ -1,8 +1,10 @@
 // Imports de localisation supprimés pour simplifier
+import { visibilityFields, enrichPreviewWithVisibility, visibilityOrderings } from './utils/visibilityHelper.js';
+import { createRichTextField } from './utils/richTextConfig.js';
 
 export default {
     name: 'personnage',
-    title: '📋 Personnages',
+    title: '👤 Personnage',
     type: 'document',
     fields: [
       // Métadonnées de fiche
@@ -12,11 +14,34 @@ export default {
         title: 'Version de la fiche',
         options: {
           list: [
-            { title: 'Version ramifiée (résumé)', value: 'ramifiee' },
+            { title: 'Version actuelle (résumé)', value: 'actuelle' },
             { title: 'Version entière (complète)', value: 'entiere' }
           ]
         },
-        initialValue: 'ramifiee'
+        initialValue: 'actuelle'
+      },
+      {
+        name: 'copierElements',
+        type: 'array',
+        title: '📋 Copier depuis version complète',
+        description: 'Sélectionnez les éléments à copier de la version complète vers la version actuelle',
+        hidden: ({ document }) => document?.versionFiche !== 'actuelle',
+        options: {
+          layout: 'grid'
+        },
+        of: [{
+          type: 'string',
+          options: {
+            list: [
+              { title: 'Personnalité complète', value: 'personnaliteComplete' },
+              { title: 'Histoire complète', value: 'histoireComplete' },
+              { title: 'Âge de fin/mort', value: 'ageFin' },
+              { title: 'Relations détaillées', value: 'relationsDetailees' },
+              { title: 'Opinions politiques détaillées', value: 'opinionsPolitiquesComplete' },
+              { title: 'Opinions religieuses détaillées', value: 'opinionsReligieusesComplete' }
+            ]
+          }
+        }]
       },
   
       // Identité (connue/apparente dans le récit actuel)
@@ -59,22 +84,307 @@ export default {
       {
         name: 'univers',
         title: 'Univers d\'appartenance',
+        type: 'array',
+        of: [{
+          type: 'object',
+          fields: [
+            {
+              name: 'univers',
         type: 'reference',
+              title: 'Univers',
         to: [{ type: 'univers' }],
-        validation: Rule => Rule.required(),
-        description: 'L\'univers dans lequel ce personnage évolue.'
+              validation: Rule => Rule.required()
+            },
+            {
+              name: 'evolutionRoles',
+              type: 'array',
+              title: '📈 Évolution des rôles',
+              description: 'Comment les rôles du personnage évoluent dans cet univers',
+              of: [{
+                type: 'object',
+                fields: [
+                  {
+                    name: 'periode',
+                    type: 'string',
+                    title: 'Période',
+                    description: 'À quel moment de l\'histoire ce rôle s\'applique'
+                  },
+                  {
+                    name: 'roleNarratif',
+                    type: 'string',
+                    title: 'Rôle narratif principal',
+                    options: {
+                      list: [
+                        { title: '👑 Protagoniste', value: 'protagoniste' },
+                        { title: '😈 Antagoniste', value: 'antagoniste' },
+                        { title: '🤝 Allié principal', value: 'allie_principal' },
+                        { title: '🛡️ Mentor', value: 'mentor' },
+                        { title: '🎭 Anti-héros', value: 'anti_heros' },
+                        { title: '🎪 Comic relief', value: 'comic_relief' },
+                        { title: '🔍 Personnage mystérieux', value: 'mysterieux' },
+                        { title: '🎯 Rival', value: 'rival' },
+                        { title: '💔 Antagoniste tragique', value: 'antagoniste_tragique' },
+                        { title: '🌟 Catalyseur', value: 'catalyseur' },
+                        { title: '👥 Personnage de soutien', value: 'soutien' },
+                        { title: '📜 Narrateur', value: 'narrateur' },
+                        { title: '🎬 Caméo', value: 'cameo' }
+                      ]
+                    }
+                  },
+                  {
+                    name: 'rolesSecondaires',
+                    type: 'array',
+                    title: 'Rôles secondaires',
+                    of: [{
+                      type: 'string',
+                      options: {
+                        list: [
+                          { title: '👨‍👩‍👧‍👦 Figure parentale', value: 'figure_parentale' },
+                          { title: '🎓 Guide/Enseignant', value: 'guide' },
+                          { title: '🛡️ Protecteur', value: 'protecteur' },
+                          { title: '🤝 Médiateur', value: 'mediateur' },
+                          { title: '🎭 Agent double', value: 'agent_double' },
+                          { title: '💡 Conseiller', value: 'conseiller' },
+                          { title: '🔧 Support technique', value: 'support_technique' },
+                          { title: '🏃 Messager', value: 'messager' },
+                          { title: '🎪 Divertissement', value: 'divertissement' },
+                          { title: '🔍 Enquêteur', value: 'enqueteur' },
+                          { title: '⚔️ Combattant', value: 'combattant' },
+                          { title: '🎨 Artiste', value: 'artiste' },
+                          { title: '📚 Érudit', value: 'erudit' },
+                          { title: '👑 Leader', value: 'leader' },
+                          { title: '🌟 Inspiration', value: 'inspiration' }
+                        ]
+                      }
+                    }]
+                  },
+                  {
+                    name: 'raisonChangement',
+                    title: 'Raison du changement',
+                    description: 'Qu\'est-ce qui a provoqué ce changement de rôle ?',
+                    ...createRichTextField('basic')
+                  },
+                  {
+                    name: 'impact',
+                    title: 'Impact du changement',
+                    description: 'Comment ce changement de rôle affecte le personnage et l\'histoire ?',
+                    ...createRichTextField('basic')
+                  },
+                  {
+                    name: 'spoilerLevel',
+                    type: 'string',
+                    title: 'Niveau de spoiler',
+                    options: {
+                      list: [
+                        { title: 'Aucun spoiler', value: 'none' },
+                        { title: 'Spoiler léger', value: 'light' },
+                        { title: 'Spoiler moyen', value: 'medium' },
+                        { title: 'Spoiler majeur', value: 'major' }
+                      ]
+                    },
+                    initialValue: 'none'
+                  }
+                ]
+              }]
+            },
+            {
+              name: 'roleInitial',
+              type: 'string',
+              title: 'Rôle initial',
+              description: 'Rôle du personnage au début de son apparition dans cet univers',
+              options: {
+                list: [
+                  { title: '👑 Protagoniste', value: 'protagoniste' },
+                  { title: '😈 Antagoniste', value: 'antagoniste' },
+                  { title: '🤝 Allié principal', value: 'allie_principal' },
+                  { title: '🛡️ Mentor', value: 'mentor' },
+                  { title: '🎭 Anti-héros', value: 'anti_heros' },
+                  { title: '🎪 Comic relief', value: 'comic_relief' },
+                  { title: '🔍 Personnage mystérieux', value: 'mysterieux' },
+                  { title: '🎯 Rival', value: 'rival' },
+                  { title: '💔 Antagoniste tragique', value: 'antagoniste_tragique' },
+                  { title: '🌟 Catalyseur', value: 'catalyseur' },
+                  { title: '👥 Personnage de soutien', value: 'soutien' },
+                  { title: '📜 Narrateur', value: 'narrateur' },
+                  { title: '🎬 Caméo', value: 'cameo' }
+                ]
+              }
+            },
+            {
+              name: 'variationsUnivers',
+              title: 'Variations dans cet univers',
+              description: 'Différences notables du personnage dans cet univers (apparence, personnalité, pouvoirs...)',
+              ...createRichTextField('basic')
+            },
+            {
+              name: 'statutUnivers',
+              type: 'string',
+              title: 'Statut dans cet univers',
+              options: {
+                list: [
+                  { title: 'Personnage principal', value: 'principal' },
+                  { title: 'Personnage secondaire', value: 'secondaire' },
+                  { title: 'Personnage tertiaire', value: 'tertiaire' },
+                  { title: 'Caméo/Apparition', value: 'cameo' },
+                  { title: 'Mentionné uniquement', value: 'mentionne' }
+                ]
+              }
+            },
+            {
+              name: 'chronologieUnivers',
+              type: 'object',
+              title: 'Chronologie dans cet univers',
+              fields: [
+                {
+                  name: 'premiereApparition',
+                  type: 'string',
+                  title: 'Première apparition',
+                  description: 'Moment/chapitre de la première apparition dans cet univers'
+                },
+                {
+                  name: 'derniereApparition',
+                  type: 'string',
+                  title: 'Dernière apparition',
+                  description: 'Moment/chapitre de la dernière apparition dans cet univers'
+                }
+              ]
+            }
+          ]
+        }],
+        validation: Rule => Rule.required().min(1),
+        description: 'Le(s) univers dans le(s)quel(s) ce personnage évolue, avec ses spécificités pour chacun.'
       },
 
       {
-        name: 'tags',
-        title: 'Tags de qualification',
+        name: 'metiersEtFonctions',
         type: 'array',
+        title: '💼 Métiers et Fonctions',
         of: [{ 
+          type: 'object',
+          fields: [
+            {
+              name: 'titre',
+              type: 'string',
+              title: 'Titre/Position',
+              description: 'Intitulé du métier ou de la fonction'
+            },
+            {
+              name: 'type',
+              type: 'string',
+              title: 'Type',
+              options: {
+                list: [
+                  { title: '💼 Métier principal', value: 'metier_principal' },
+                  { title: '📋 Fonction officielle', value: 'fonction_officielle' },
+                  { title: '🌙 Activité secondaire', value: 'activite_secondaire' },
+                  { title: '🎭 Couverture', value: 'couverture' },
+                  { title: '👑 Titre honorifique', value: 'titre_honorifique' },
+                  { title: '🎓 Formation/Études', value: 'formation' }
+                ]
+              }
+            },
+            {
+              name: 'organisation',
           type: 'reference', 
-          to: [{ type: 'tag' }]
+              title: 'Organisation/Employeur',
+              to: [{ type: 'faction' }],
+              description: 'Faction, organisation ou groupe employeur'
+            },
+            {
+              name: 'positionDansOrganisation',
+              type: 'string',
+              title: 'Position hiérarchique',
+              options: {
+                list: [
+                  { title: '👑 Dirigeant', value: 'dirigeant' },
+                  { title: '⚜️ Haut gradé', value: 'haut_grade' },
+                  { title: '🎖️ Cadre', value: 'cadre' },
+                  { title: '👤 Membre régulier', value: 'membre_regulier' },
+                  { title: '🌱 Novice/Débutant', value: 'novice' },
+                  { title: '🤝 Associé externe', value: 'associe_externe' },
+                  { title: '🕵️ Agent secret', value: 'agent_secret' },
+                  { title: '📝 Consultant', value: 'consultant' }
+                ]
+              }
+            },
+            {
+              name: 'departement',
+              type: 'string',
+              title: 'Département/Division',
+              description: 'Sous-groupe ou département spécifique dans l\'organisation'
+            },
+            {
+              name: 'periode',
+              type: 'object',
+              title: 'Période',
+              fields: [
+                {
+                  name: 'debut',
+                  type: 'string',
+                  title: 'Début',
+                  description: 'Quand a commencé cette activité'
+                },
+                {
+                  name: 'fin',
+                  type: 'string',
+                  title: 'Fin',
+                  description: 'Quand s\'est terminée cette activité (laisser vide si en cours)'
+                }
+              ]
+            },
+            {
+              name: 'description',
+              title: 'Description',
+              description: 'Description détaillée des responsabilités et activités',
+              ...createRichTextField('basic')
+            },
+            {
+              name: 'competencesRequises',
+              type: 'array',
+              title: 'Compétences requises',
+              of: [{ type: 'string' }],
+              description: 'Compétences nécessaires pour ce métier/fonction'
+            },
+            {
+              name: 'impact',
+              title: 'Impact sur l\'histoire',
+              description: 'Comment ce métier/fonction influence l\'histoire ou le personnage',
+              ...createRichTextField('basic')
+            },
+            {
+              name: 'statut',
+              type: 'string',
+              title: 'Statut',
+              options: {
+                list: [
+                  { title: '✅ En cours', value: 'en_cours' },
+                  { title: '🔄 En pause', value: 'en_pause' },
+                  { title: '❌ Terminé', value: 'termine' },
+                  { title: '🚫 Révoqué', value: 'revoque' },
+                  { title: '📝 En formation', value: 'en_formation' }
+                ]
+              },
+              initialValue: 'en_cours'
+            },
+            {
+              name: 'spoilerLevel',
+              type: 'string',
+              title: 'Niveau de spoiler',
+              options: {
+                list: [
+                  { title: 'Aucun spoiler', value: 'none' },
+                  { title: 'Spoiler léger', value: 'light' },
+                  { title: 'Spoiler moyen', value: 'medium' },
+                  { title: 'Spoiler majeur', value: 'major' }
+                ]
+              },
+              initialValue: 'none'
+            }
+          ]
         }],
-        description: 'Tags libres pour qualifier ce personnage (ex: Protagoniste, Antagoniste, Héros, Méchant, etc.)'
+        description: 'Les différents métiers, fonctions et positions occupées par le personnage'
       },
+
       {
         name: 'age',
         type: 'number',
@@ -133,7 +443,7 @@ export default {
         name: 'relationsSimplifiees',
         type: 'array',
         title: 'Relations principales',
-        hidden: ({ document }) => document?.versionFiche !== 'ramifiee',
+        hidden: ({ document }) => document?.versionFiche !== 'actuelle',
         of: [{
           type: 'object',
           fields: [
@@ -169,9 +479,10 @@ export default {
         name: 'positionPolitique',
         type: 'string',
         title: 'Position politique',
-        hidden: ({ document }) => document?.versionFiche !== 'ramifiee',
+        hidden: ({ document }) => document?.versionFiche !== 'actuelle',
         options: {
           list: [
+            { title: 'Sans opinion politique', value: 'sans_opinion' },
             { title: 'Extrême gauche', value: 'extreme_gauche' },
             { title: 'Gauche', value: 'gauche' },
             { title: 'Centre gauche', value: 'centre_gauche' },
@@ -179,26 +490,56 @@ export default {
             { title: 'Centre droit', value: 'centre_droit' },
             { title: 'Droite', value: 'droite' },
             { title: 'Extrême droite', value: 'extreme_droite' },
+            { title: 'Royaliste/Monarchiste', value: 'royaliste' },
+            { title: 'Traditionaliste', value: 'traditionaliste' },
+            { title: 'Conservateur', value: 'conservateur' },
+            { title: 'Progressiste', value: 'progressiste' },
+            { title: 'Réformiste', value: 'reformiste' },
+            { title: 'Libertarien', value: 'libertarien' },
             { title: 'Anarchiste', value: 'anarchiste' },
+            { title: 'Écologiste', value: 'ecologiste' },
+            { title: 'Technocrate', value: 'technocrate' },
             { title: 'Apolitique', value: 'apolitique' }
           ]
         }
       },
       {
+        name: 'descriptionPolitique',
+        title: 'Description de la pensée politique',
+        description: 'Explications sur la vision politique du personnage, son évolution et ses nuances',
+        hidden: ({ document }) => document?.versionFiche !== 'actuelle' || document?.positionPolitique === 'sans_opinion',
+        ...createRichTextField('basic')
+      },
+      {
         name: 'positionReligieuse',
         type: 'string',
         title: 'Position religieuse',
-        hidden: ({ document }) => document?.versionFiche !== 'ramifiee',
+        hidden: ({ document }) => document?.versionFiche !== 'actuelle',
         options: {
           list: [
             { title: 'Croyant pratiquant', value: 'croyant_pratiquant' },
             { title: 'Croyant non-pratiquant', value: 'croyant_non_pratiquant' },
-            { title: 'Agnostique', value: 'agnostique' },
-            { title: 'Athée', value: 'athee' },
+            { title: 'Agnostique théiste', value: 'agnostique_theiste' },
+            { title: 'Agnostique athée', value: 'agnostique_athee' },
+            { title: 'Agnostique strict/pur', value: 'agnostique_strict' },
+            { title: 'Athée pragmatique', value: 'athee_pragmatique' },
+            { title: 'Athée militant', value: 'athee_militant' },
+            { title: 'Athée culturel', value: 'athee_culturel' },
             { title: 'Spirituel non-religieux', value: 'spirituel' },
+            { title: 'Déiste', value: 'deiste' },
+            { title: 'Panthéiste', value: 'pantheiste' },
+            { title: 'Syncrétiste', value: 'syncretiste' },
+            { title: 'Indifférent', value: 'indifferent' },
             { title: 'En questionnement', value: 'questionnement' }
           ]
         }
+      },
+      {
+        name: 'descriptionReligieuse',
+        title: 'Description de la pensée religieuse/spirituelle',
+        description: 'Explications sur la vision spirituelle du personnage, son parcours et ses questionnements',
+        hidden: ({ document }) => document?.versionFiche !== 'actuelle' || document?.positionReligieuse === 'indifferent',
+        ...createRichTextField('basic')
       },
   
       // Véritable identité (révélations/spoilers) - OPTIONNEL
@@ -379,17 +720,20 @@ export default {
       // Relations interpersonnelles
       {
         name: 'relations',
+        type: 'object',
+        title: '👥 Relations',
+        fields: [
+          {
+            name: 'relationsPersonnelles',
         type: 'array',
-        title: '💝 Relations interpersonnelles',
-        hidden: ({ document }) => document?.versionFiche !== 'entiere',
-        description: 'Relations avec d\'autres personnages (amitié, amour, rivalité, inimitié, etc.)',
+            title: '🤝 Relations personnelles',
         of: [{ 
           type: 'object',
           fields: [
             {
               name: 'personnage',
               type: 'reference',
-              title: 'Personnage concerné',
+                  title: 'Personnage',
               to: [{ type: 'personnage' }],
               validation: Rule => Rule.required()
             },
@@ -399,315 +743,123 @@ export default {
               title: 'Type de relation',
               options: {
                 list: [
-                  { title: 'Amitié', value: 'amitie' },
-                  { title: 'Meilleur(e) ami(e)', value: 'meilleur_ami' },
-                  { title: 'Amour/Romance', value: 'amour' },
-                  { title: 'Couple', value: 'couple' },
-                  { title: 'Ex-partenaire', value: 'ex_partenaire' },
-                  { title: 'Crush/Béguin', value: 'crush' },
-                  { title: 'Rivalité', value: 'rivalite' },
-                  { title: 'Ennemi', value: 'ennemi' },
-                  { title: 'Ennemi juré', value: 'ennemi_jure' },
-                  { title: 'Inimitié', value: 'inimitie' },
-                  { title: 'Mentor', value: 'mentor' },
-                  { title: 'Élève/Protégé', value: 'eleve' },
-                  { title: 'Allié', value: 'allie' },
-                  { title: 'Connaissance', value: 'connaissance' },
-                  { title: 'Collègue', value: 'collegue' },
-                  { title: 'Respect mutuel', value: 'respect' },
-                  { title: 'Méfiance', value: 'mefiance' },
-                  { title: 'Indifférence', value: 'indifference' },
-                  { title: 'Admiration', value: 'admiration' },
-                  { title: 'Jalousie', value: 'jalousie' },
-                  { title: 'Protection', value: 'protection' },
-                  { title: 'Dépendance', value: 'dependance' },
-                  { title: 'Manipulation', value: 'manipulation' },
-                  { title: 'Autre', value: 'autre' }
+                      { title: '❤️ Amour', value: 'amour' },
+                      { title: '💑 Couple', value: 'couple' },
+                      { title: '👨‍👩‍👧‍👦 Famille', value: 'famille' },
+                      { title: '🤝 Amitié', value: 'amitie' },
+                      { title: '🤼 Rivalité', value: 'rivalite' },
+                      { title: '⚔️ Inimitié', value: 'inimitie' },
+                      { title: '🎓 Mentor/Élève', value: 'mentor' },
+                      { title: '👑 Hiérarchie', value: 'hierarchie' },
+                      { title: '🤔 Complexe', value: 'complexe' }
                 ]
               },
               validation: Rule => Rule.required()
             },
             {
-              name: 'typeRelationAutre',
-              type: 'string',
-              title: 'Préciser le type de relation',
-              description: 'Si "Autre" est sélectionné, précisez ici',
-              hidden: ({ parent }) => parent?.typeRelation !== 'autre'
-            },
-            {
-              name: 'intensite',
-              type: 'number',
-              title: 'Intensité de la relation (1-10)',
-              description: '1 = très faible, 10 = extrêmement forte',
-              validation: Rule => Rule.min(1).max(10)
-            },
-            {
-              name: 'reciproque',
-              type: 'boolean',
-              title: 'Relation réciproque ?',
-              description: 'Est-ce que l\'autre personnage ressent la même chose ?',
-              initialValue: true
-            },
-            {
-              name: 'descriptionRelation',
-              type: 'text',
+                  name: 'description',
               title: 'Description de la relation',
-              description: 'Comment cette relation se manifeste-t-elle ?'
-            },
-            {
-              name: 'origineRelation',
-              type: 'text',
-              title: 'Origine de la relation',
-              description: 'Comment cette relation a-t-elle commencé ?'
-            },
-            {
-              name: 'evolutionRelation',
+                  ...createRichTextField('basic')
+                },
+                {
+                  name: 'evolution',
               type: 'array',
-              title: 'Évolution de la relation',
-              description: 'Comment la relation évolue-t-elle au cours du récit ?',
+                  title: '📈 Évolution de la relation',
               of: [{
                 type: 'object',
                 fields: [
                   {
                     name: 'periode',
                     type: 'string',
-                    title: 'Période/Moment',
-                    description: 'Quand cette évolution a-t-elle lieu ?'
-                  },
-                  {
-                    name: 'nouveauType',
-                    type: 'string',
-                    title: 'Nouveau type de relation',
-                    options: {
-                      list: [
-                        { title: 'Amitié', value: 'amitie' },
-                        { title: 'Meilleur(e) ami(e)', value: 'meilleur_ami' },
-                        { title: 'Amour/Romance', value: 'amour' },
-                        { title: 'Couple', value: 'couple' },
-                        { title: 'Ex-partenaire', value: 'ex_partenaire' },
-                        { title: 'Crush/Béguin', value: 'crush' },
-                        { title: 'Rivalité', value: 'rivalite' },
-                        { title: 'Ennemi', value: 'ennemi' },
-                        { title: 'Ennemi juré', value: 'ennemi_jure' },
-                        { title: 'Inimitié', value: 'inimitie' },
-                        { title: 'Mentor', value: 'mentor' },
-                        { title: 'Élève/Protégé', value: 'eleve' },
-                        { title: 'Allié', value: 'allie' },
-                        { title: 'Connaissance', value: 'connaissance' },
-                        { title: 'Collègue', value: 'collegue' },
-                        { title: 'Respect mutuel', value: 'respect' },
-                        { title: 'Méfiance', value: 'mefiance' },
-                        { title: 'Indifférence', value: 'indifference' },
-                        { title: 'Admiration', value: 'admiration' },
-                        { title: 'Jalousie', value: 'jalousie' },
-                        { title: 'Protection', value: 'protection' },
-                        { title: 'Dépendance', value: 'dependance' },
-                        { title: 'Manipulation', value: 'manipulation' },
-                        { title: 'Réconciliation', value: 'reconciliation' },
-                        { title: 'Rupture', value: 'rupture' },
-                        { title: 'Trahison', value: 'trahison' },
-                        { title: 'Pardon', value: 'pardon' },
-                        { title: 'Autre', value: 'autre' }
-                      ]
-                    }
+                        title: 'Période'
+                      },
+                      {
+                        name: 'description',
+                        title: 'Description',
+                        ...createRichTextField('basic')
                   },
                   {
                     name: 'raison',
-                    type: 'text',
-                    title: 'Raison du changement',
-                    description: 'Qu\'est-ce qui a causé ce changement dans la relation ?'
-                  },
-                  {
-                    name: 'spoilerLevel',
-                    type: 'string',
-                    title: 'Niveau de spoiler',
-                    options: {
-                      list: [
-                        { title: 'Aucun spoiler', value: 'none' },
-                        { title: 'Spoiler léger', value: 'light' },
-                        { title: 'Spoiler moyen', value: 'medium' },
-                        { title: 'Spoiler majeur', value: 'major' }
-                      ]
-                    },
-                    initialValue: 'none'
-                  }
-                ]
-              }]
-            },
-            {
-              name: 'secrets',
-              type: 'array',
-              title: 'Secrets partagés',
-              description: 'Secrets que ces personnages partagent',
-              of: [{
-                type: 'object',
-                fields: [
-                  {
-                    name: 'secret',
-                    type: 'text',
-                    title: 'Secret'
-                  },
-                  {
-                    name: 'quiLeSait',
-                    type: 'string',
-                    title: 'Qui connaît ce secret ?',
-                    options: {
-                      list: [
-                        { title: 'Seulement ce personnage', value: 'personnage_seul' },
-                        { title: 'Seulement l\'autre personnage', value: 'autre_seul' },
-                        { title: 'Les deux personnages', value: 'les_deux' },
-                        { title: 'Partagé avec d\'autres', value: 'avec_autres' }
-                      ]
-                    }
-                  },
-                  {
-                    name: 'spoilerLevel',
-                    type: 'string',
-                    title: 'Niveau de spoiler',
-                    options: {
-                      list: [
-                        { title: 'Aucun spoiler', value: 'none' },
-                        { title: 'Spoiler léger', value: 'light' },
-                        { title: 'Spoiler moyen', value: 'medium' },
-                        { title: 'Spoiler majeur', value: 'major' }
-                      ]
-                    },
-                    initialValue: 'none'
-                  }
-                ]
-              }]
-            },
-            {
-              name: 'conflits',
-              type: 'array',
-              title: 'Conflits/Tensions',
-              description: 'Points de tension ou conflits dans cette relation',
-              of: [{
-                type: 'object',
-                fields: [
-                  {
-                    name: 'conflit',
-                    type: 'text',
-                    title: 'Nature du conflit'
-                  },
-                  {
-                    name: 'resolu',
-                    type: 'boolean',
-                    title: 'Conflit résolu ?',
-                    initialValue: false
-                  },
-                  {
-                    name: 'resolution',
-                    type: 'text',
-                    title: 'Comment le conflit a été résolu',
-                    hidden: ({ parent }) => !parent?.resolu
-                  },
-                  {
-                    name: 'spoilerLevel',
-                    type: 'string',
-                    title: 'Niveau de spoiler',
-                    options: {
-                      list: [
-                        { title: 'Aucun spoiler', value: 'none' },
-                        { title: 'Spoiler léger', value: 'light' },
-                        { title: 'Spoiler moyen', value: 'medium' },
-                        { title: 'Spoiler majeur', value: 'major' }
-                      ]
-                    },
-                    initialValue: 'none'
-                  }
-                ]
-              }]
-            },
-            {
-              name: 'spoilerLevel',
-              type: 'string',
-              title: 'Niveau de spoiler pour cette relation',
-              options: {
-                list: [
-                  { title: 'Aucun spoiler', value: 'none' },
-                  { title: 'Spoiler léger', value: 'light' },
-                  { title: 'Spoiler moyen', value: 'medium' },
-                  { title: 'Spoiler majeur', value: 'major' }
-                ]
-              },
-              initialValue: 'none'
-            }
-          ]
-        }]
+                        title: 'Raison de l\'évolution',
+                        ...createRichTextField('basic')
+                      }
+                    ]
+                  }]
+                }
+              ],
+              preview: {
+                select: {
+                  title: 'personnage.nom',
+                  subtitle: 'typeRelation',
+                  description: 'description'
+                },
+                prepare(selection) {
+                  const relationTypes = {
+                    amour: '❤️ Amour',
+                    couple: '💑 Couple',
+                    famille: '👨‍👩‍👧‍👦 Famille',
+                    amitie: '🤝 Amitié',
+                    rivalite: '🤼 Rivalité',
+                    inimitie: '⚔️ Inimitié',
+                    mentor: '🎓 Mentor/Élève',
+                    hierarchie: '👑 Hiérarchie',
+                    complexe: '🤔 Complexe'
+                  };
+                  return {
+                    title: selection.title || 'Sans nom',
+                    subtitle: relationTypes[selection.typeRelation] || selection.typeRelation,
+                    description: selection.description
+                  };
+                }
+              }
+            }]
+          }
+        ]
       },
   
       // Personnalité et Histoire
       {
         name: 'resumePersonnalite',
-        type: 'text',
         title: 'Résumé de personnalité',
-        description: 'Description courte de la personnalité du personnage'
+        description: 'Description courte de la personnalité du personnage',
+        ...createRichTextField('basic')
       },
       {
         name: 'personnaliteComplete',
-        type: 'text',
         title: 'Personnalité complète',
         description: 'Description détaillée de la personnalité',
-        hidden: ({ document }) => document?.versionFiche !== 'entiere'
+        hidden: ({ document }) => document?.versionFiche !== 'entiere',
+        ...createRichTextField('medium')
       },
       {
         name: 'histoire',
         type: 'object',
-        title: 'Histoire',
+        title: '📖 Histoire',
         fields: [
           {
-            name: 'ageDebut',
-            type: 'number',
-            title: 'Âge au début de l\'histoire',
-            description: 'Âge du personnage quand son histoire commence'
-          },
-          {
-            name: 'ageFin',
-            type: 'number',
-            title: 'Âge de fin d\'histoire / mort',
-            description: 'Âge actuel, à la fin de l\'histoire ou au moment de sa mort'
-          },
-          {
-            name: 'statut',
-            type: 'string',
-            title: 'Statut du personnage',
-            options: {
-              list: [
-                { title: 'Vivant', value: 'vivant' },
-                { title: 'Décédé', value: 'decede' },
-                { title: 'Disparu', value: 'disparu' },
-                { title: 'Inconnu', value: 'inconnu' }
-              ]
-            },
-            initialValue: 'vivant'
-          },
-          {
-            name: 'histoireResume',
-            type: 'text',
-            title: 'Histoire (résumé)',
-            description: 'Version courte de l\'histoire du personnage'
+            name: 'resume',
+            title: 'Résumé',
+            description: 'Résumé de l\'histoire du personnage',
+            ...createRichTextField('basic')
           },
           {
             name: 'histoireComplete',
-            type: 'text',
             title: 'Histoire complète',
-            description: 'Version détaillée de l\'histoire du personnage',
-            hidden: ({ document }) => document?.versionFiche !== 'entiere'
+            description: 'Histoire détaillée du personnage',
+            hidden: ({ document }) => document?.versionFiche !== 'entiere',
+            ...createRichTextField('medium')
           },
           {
-            name: 'spoilerLevel',
-            type: 'string',
-            title: 'Niveau de spoiler',
-            options: {
-              list: [
-                { title: 'Aucun spoiler', value: 'none' },
-                { title: 'Spoiler léger', value: 'light' },
-                { title: 'Spoiler moyen', value: 'medium' },
-                { title: 'Spoiler majeur', value: 'major' }
-              ]
-            },
-            initialValue: 'none'
+            name: 'evenementsMarquants',
+            type: 'array',
+            title: '📅 Événements marquants',
+            of: [{ type: 'reference', to: [{ type: 'evenement' }] }]
+          },
+          {
+            name: 'celebrations',
+            type: 'array',
+            title: '🎉 Célébrations importantes',
+            of: [{ type: 'reference', to: [{ type: 'celebrations' }] }]
           }
         ]
       },
@@ -725,336 +877,102 @@ export default {
         ]
       },
   
-      // Pouvoirs et Capacités
+      // Pouvoirs et Capacités (Références vers les fiches détaillées)
       {
         name: 'pouvoirs',
-        type: 'object',
-        title: 'Pouvoirs et Capacités',
-        fields: [
-          {
-            name: 'pouvoirsBase',
+          type: 'object',
+        title: '✨ Pouvoirs et capacités',
+          fields: [
+            {
+            name: 'description',
+            title: 'Description générale',
+              ...createRichTextField('basic')
+            },
+            {
+            name: 'systemesEsoteriques',
             type: 'array',
-            title: 'Pouvoirs de base / de race',
-            of: [{ 
-              type: 'object',
-              fields: [
-                { name: 'nom', type: 'string', title: 'Nom du pouvoir' },
-                { name: 'description', type: 'text', title: 'Description' },
-                { name: 'origine', type: 'string', title: 'Origine (race, inné, etc.)' }
-              ]
-            }]
+            title: '🔮 Systèmes ésotériques maîtrisés',
+            of: [{ type: 'reference', to: [{ type: 'systemeEsoterique' }] }]
           },
           {
-            name: 'capacitesAcquises',
+            name: 'pouvoirsActifs',
             type: 'array',
-            title: 'Capacités acquises',
-            of: [{ 
-              type: 'object',
-              fields: [
-                { name: 'nom', type: 'string', title: 'Nom de la capacité' },
-                { name: 'description', type: 'text', title: 'Description' },
-                { name: 'commentAcquise', type: 'string', title: 'Comment acquise' }
-              ]
-            }]
+            title: '⚡ Pouvoirs actifs',
+            of: [{ type: 'reference', to: [{ type: 'pouvoirTransformation' }] }]
           },
           {
-            name: 'pouvoirsPretes',
-            type: 'array',
-            title: 'Pouvoirs prêtés ou empruntés',
-            of: [{ 
-              type: 'object',
-              fields: [
-                { name: 'nom', type: 'string', title: 'Nom du pouvoir' },
-                { name: 'description', type: 'text', title: 'Description' },
-                { name: 'source', type: 'string', title: 'Source (qui/quoi le prête)' },
-                { name: 'duree', type: 'string', title: 'Durée/Conditions' }
-              ]
-            }]
-          },
-          {
-            name: 'transformations',
-            type: 'array',
-            title: 'Transformations',
-            of: [{ 
-              type: 'object',
-              fields: [
-                { name: 'nom', type: 'string', title: 'Nom de la transformation' },
-                { name: 'description', type: 'text', title: 'Description' },
-                { name: 'conditions', type: 'string', title: 'Conditions de déclenchement' },
-                { name: 'effets', type: 'text', title: 'Effets et changements' },
-                { 
-                  name: 'spoilerLevel',
-                  type: 'string',
-                  title: 'Niveau de spoiler',
-                  options: {
-                    list: [
-                      { title: 'Aucun spoiler', value: 'none' },
-                      { title: 'Spoiler léger', value: 'light' },
-                      { title: 'Spoiler moyen', value: 'medium' },
-                      { title: 'Spoiler majeur', value: 'major' }
-                    ]
-                  },
-                  initialValue: 'none'
+            name: 'evolution',
+        type: 'array',
+            title: '📈 Évolution des pouvoirs',
+        of: [{ 
+          type: 'object',
+          fields: [
+            { 
+                  name: 'periode',
+              type: 'string',
+                  title: 'Période'
+                },
+                {
+                  name: 'description',
+                  title: 'Description',
+                  ...createRichTextField('basic')
+                },
+                {
+                  name: 'raison',
+                  title: 'Raison de l\'évolution',
+                  ...createRichTextField('basic')
                 }
               ]
             }]
-          },
+          }
+        ]
+      },
+      {
+        name: 'possessions',
+          type: 'object',
+        title: '🎭 Possessions',
+          fields: [
           {
-            name: 'limites',
-            type: 'text',
-            title: 'Limites générales'
+            name: 'objetsImportants',
+        type: 'array',
+            title: '🎭 Objets significatifs',
+            of: [{ type: 'reference', to: [{ type: 'objet' }] }]
           }
         ]
       },
   
-      // Combat et Techniques
+      // Champs de visibilité
+      ...visibilityFields,
       {
-        name: 'techniques',
-        type: 'array',
-        title: 'Techniques et attaques',
-        of: [{ 
+        name: 'affiliations',
           type: 'object',
+        title: '👥 Affiliations',
           fields: [
-            { name: 'nom', type: 'string', title: 'Nom de la technique' },
-            { name: 'description', type: 'text', title: 'Description' },
-            { name: 'puissance', type: 'number', title: 'Niveau de puissance (1-10)' },
-            { 
-              name: 'amplificateurs',
+            {
+            name: 'faction',
+            type: 'reference',
+            title: '🏰 Faction principale',
+            to: [{ type: 'faction' }]
+          },
+          {
+            name: 'factionsSecondaires',
               type: 'array',
-              title: 'Amplificateurs utilisés',
-              of: [
-                { 
-                  type: 'object',
-                  fields: [
-                    { 
-                      name: 'type',
-                      type: 'string',
-                      title: 'Type d\'amplificateur',
-                      options: {
-                        list: [
-                          { title: 'Objet', value: 'objet' },
-                          { title: 'Technique', value: 'technique' }
-                        ]
-                      }
-                    },
-                    { 
-                      name: 'objet',
-                      type: 'reference',
-                      title: 'Objet amplificateur',
-                      to: [{type: 'objet'}],
-                      hidden: ({ parent }) => parent?.type !== 'objet'
-                    },
-                    { 
-                      name: 'technique',
-                      type: 'string',
-                      title: 'Technique amplificatrice',
-                      hidden: ({ parent }) => parent?.type !== 'technique'
-                    },
-                    { 
-                      name: 'effet',
-                      type: 'text',
-                      title: 'Effet de l\'amplification'
-                    }
-                  ]
-                }
-              ],
-              description: 'Objets ou techniques qui amplifient cette technique'
-            },
-            { 
-              name: 'spoilerLevel',
-              type: 'string',
-              title: 'Niveau de spoiler',
-              options: {
-                list: [
-                  { title: 'Aucun spoiler', value: 'none' },
-                  { title: 'Spoiler léger', value: 'light' },
-                  { title: 'Spoiler moyen', value: 'medium' },
-                  { title: 'Spoiler majeur', value: 'major' }
-                ]
-              },
-              initialValue: 'none'
-            }
-          ]
-        }]
-      },
-  
-      // Affiliations et Objectifs
-      {
-        name: 'appartenances',
-        type: 'array',
-        title: 'Appartenances',
-        of: [{ 
-          type: 'object',
-          fields: [
-            { name: 'faction', type: 'reference', title: 'Faction', to: [{ type: 'faction' }] },
-            { name: 'role', type: 'string', title: 'Rôle dans la faction' },
-            { name: 'statut', type: 'string', title: 'Statut (actif, ancien, renégat, etc.)' }
-          ]
-        }]
-      },
-      {
-        name: 'passions',
-        type: 'array',
-        title: 'Passions',
-        of: [{ type: 'string' }]
-      },
-      {
-        name: 'objectifs',
-        type: 'array',
-        title: 'Objectifs',
-        of: [{ 
-          type: 'object',
-          fields: [
-            { name: 'objectif', type: 'string', title: 'Objectif' },
-            { name: 'description', type: 'text', title: 'Description détaillée' },
-            { name: 'priorite', type: 'string', title: 'Priorité', options: {
-              list: [
-                { title: 'Faible', value: 'faible' },
-                { title: 'Moyenne', value: 'moyenne' },
-                { title: 'Élevée', value: 'elevee' },
-                { title: 'Critique', value: 'critique' }
-              ]
-            }},
-            { name: 'progres', type: 'string', title: 'Statut/Progrès' },
-            { 
-              name: 'spoilerLevel',
-              type: 'string',
-              title: 'Niveau de spoiler',
-              options: {
-                list: [
-                  { title: 'Aucun spoiler', value: 'none' },
-                  { title: 'Spoiler léger', value: 'light' },
-                  { title: 'Spoiler moyen', value: 'medium' },
-                  { title: 'Spoiler majeur', value: 'major' }
-                ]
-              },
-              initialValue: 'none'
-            }
-          ]
-        }]
-      },
-  
-      // Apparence
-      {
-        name: 'apparence',
-        type: 'text',
-        title: 'Apparence physique',
-        description: 'Description physique détaillée'
-      },
-      {
-        name: 'image',
-        type: 'image',
-        title: 'Image du personnage',
-        options: {
-          hotspot: true
-        }
-      },
-  
-      // Métadonnées globales
-      {
-        name: 'spoilerLevel',
-        type: 'string',
-        title: 'Niveau de spoiler global',
-        options: {
-          list: [
-            { title: 'Aucun spoiler', value: 'none' },
-            { title: 'Spoiler léger', value: 'light' },
-            { title: 'Spoiler moyen', value: 'medium' },
-            { title: 'Spoiler majeur', value: 'major' }
-          ]
-        },
-        initialValue: 'none',
-        description: 'Niveau de spoiler général pour ce personnage'
-      },
-  
-      // Version détaillée des opinions politiques (pour la fiche complète)
-      {
-        name: 'opinionsPolitiques',
-        type: 'array',
-        title: 'Opinions politiques (évolution)',
-        hidden: ({ document }) => document?.versionFiche !== 'entiere',
-        description: 'Évolution des opinions et engagements politiques au fil du récit',
-        of: [{
-          type: 'object',
-          fields: [
-            {
-              name: 'periode',
-              type: 'string',
-              title: 'Période/Moment',
-              description: 'À quel moment du récit cette opinion est-elle valable ?'
+            title: '🏰 Factions secondaires',
+            of: [{ type: 'reference', to: [{ type: 'faction' }] }]
             },
             {
-              name: 'ideologiePolitique',
-              type: 'text',
-              title: 'Idéologie politique',
-              description: 'Description détaillée de l\'idéologie politique'
-            },
-            {
-              name: 'engagements',
+            name: 'traditionsAncestrales',
               type: 'array',
-              title: 'Engagements politiques',
-              description: 'Organisations, partis, mouvements auxquels le personnage adhère',
-              of: [{ type: 'string' }]
-            },
-            {
-              name: 'positionsSpecifiques',
-              type: 'array',
-              title: 'Positions spécifiques',
-              description: 'Positions sur des sujets politiques précis',
-              of: [{
-                type: 'object',
-                fields: [
-                  { name: 'sujet', type: 'string', title: 'Sujet politique' },
-                  { name: 'position', type: 'text', title: 'Position du personnage' }
-                ]
-              }]
-            },
-            {
-              name: 'raisonChangement',
-              type: 'text',
-              title: 'Raison du changement',
-              description: 'Qu\'est-ce qui a causé ce changement d\'opinion politique ?'
-            }
-          ]
-        }]
-      },
-  
-      // Version détaillée des opinions religieuses (pour la fiche complète)
-      {
-        name: 'opinionsReligieuses',
+            title: '📚 Traditions suivies',
+            of: [{ type: 'reference', to: [{ type: 'traditionAncestrale' }] }]
+          },
+          {
+            name: 'dogmesReligieux',
         type: 'array',
-        title: 'Opinions religieuses (évolution)',
-        hidden: ({ document }) => document?.versionFiche !== 'entiere',
-        description: 'Évolution des croyances et pratiques religieuses au fil du récit',
-        of: [{
-          type: 'object',
-          fields: [
-            {
-              name: 'periode',
-              type: 'string',
-              title: 'Période/Moment',
-              description: 'À quel moment du récit cette opinion est-elle valable ?'
-            },
-            {
-              name: 'croyances',
-              type: 'text',
-              title: 'Croyances',
-              description: 'Description détaillée des croyances religieuses'
-            },
-            {
-              name: 'pratiques',
-              type: 'array',
-              title: 'Pratiques religieuses',
-              of: [{ type: 'string' }]
-            },
-            {
-              name: 'raisonChangement',
-              type: 'text',
-              title: 'Raison du changement',
-              description: 'Qu\'est-ce qui a causé ce changement de croyances ?'
-            }
-          ]
-        }]
+            title: '🕊️ Croyances religieuses',
+            of: [{ type: 'reference', to: [{ type: 'dogmeReligieux' }] }]
+          }
+        ]
       }
     ],
     
@@ -1062,20 +980,27 @@ export default {
     select: {
       nom: 'nom',
       prenom: 'prenom',
-      media: 'image'
+      media: 'image',
+      featured: 'featured',
+      isPublished: 'isPublished'
     },
     prepare(selection) {
-      const { nom, prenom, media } = selection;
+      const { nom, prenom, media, featured, isPublished } = selection;
       const title = nom || prenom || 'Sans nom';
+      
+      const featuredEmoji = featured ? '⭐ ' : '';
+      const publishedEmoji = isPublished === false ? '👁️ ' : '';
+      
       return {
-        title: title,
-        subtitle: prenom && nom !== prenom ? prenom : '',
+        title: `${publishedEmoji}${featuredEmoji}${title}`,
+        subtitle: (prenom && nom !== prenom ? prenom : '') + (isPublished === false ? ' • 🚫 NON PUBLIÉ' : ''),
         media: media
       };
     }
   },
   
     orderings: [
+      ...visibilityOrderings,
       {
         title: 'Nom A-Z',
         name: 'nomAsc',
@@ -1085,6 +1010,14 @@ export default {
         title: 'Par version de fiche',
         name: 'version',
         by: [{ field: 'versionFiche', direction: 'asc' }, { field: 'nom', direction: 'asc' }]
+      },
+      {
+        title: 'Par univers',
+        name: 'universAsc',
+        by: [
+          { field: 'univers.nom', direction: 'asc' },
+          { field: 'nom', direction: 'asc' }
+        ]
       }
     ]
   }

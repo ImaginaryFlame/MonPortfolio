@@ -1,6 +1,8 @@
+import { createRichTextField } from './utils/richTextConfig.js';
+
 export default {
   name: "project",
-  title: "Projet",
+  title: "🎨 Projet",
   type: "document",
   fields: [
     {
@@ -24,16 +26,14 @@ export default {
     {
       name: "description",
       title: "Description courte",
-      type: "text",
-      rows: 3,
+      ...createRichTextField('basic'),
       validation: (Rule) => Rule.max(200).warning("Gardez la description courte pour un meilleur affichage")
     },
 
     {
       name: "longDescription",
       title: "Description détaillée",
-      type: "text",
-      rows: 6,
+      ...createRichTextField('medium'),
       description: "Description complète du projet avec tous les détails"
     },
 
@@ -359,7 +359,7 @@ export default {
       const categoryEmoji = categoryEmojis[category] || '📁';
       const statusEmoji = statusEmojis[status] || '';
       const featuredEmoji = featured ? '⭐ ' : '';
-      const publishedEmoji = isPublished === false ? '👁️‍🗨️ ' : '';
+      const publishedEmoji = isPublished === false ? '👁️ ' : '';
       
       // Construire le sous-titre avec les liaisons
       let subtitle = `${categoryEmoji} ${category || 'Sans catégorie'}`;

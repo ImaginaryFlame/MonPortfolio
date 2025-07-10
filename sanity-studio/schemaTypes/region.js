@@ -1,6 +1,9 @@
-const region = {
+import { visibilityFields, enrichPreviewWithVisibility, visibilityOrderings } from './utils/visibilityHelper.js';
+import { createRichTextField } from './utils/richTextConfig.js';
+
+export default {
   name: 'region',
-  title: 'Région du Monde',
+  title: '🗺️ Région',
   type: 'document',
   fields: [
     {
@@ -10,417 +13,413 @@ const region = {
       validation: Rule => Rule.required()
     },
     {
-      name: 'lienExterne',
-      type: 'url',
-      title: '🔗 Lien externe',
-      description: 'Lien vers des références, cartes, inspirations ou ressources externes liées à cette région',
-      validation: Rule => Rule.uri({
-        allowRelative: false,
-        scheme: ['http', 'https']
-      })
-    },
-    {
       name: 'univers',
-      title: 'Univers d\'appartenance',
       type: 'reference',
+      title: '🌍 Univers d\'origine',
       to: [{ type: 'univers' }],
-      validation: Rule => Rule.required(),
-      description: 'L\'univers dans lequel cette région se trouve.'
+      validation: Rule => Rule.required()
     },
     {
       name: 'type',
       type: 'string',
-      title: 'Type',
-      description: 'planète, région, dimension, cité volante, etc.',
+      title: 'Type de région',
       options: {
         list: [
-          {title: 'Planète', value: 'planete'},
-          {title: 'Région', value: 'region'},
-          {title: 'Dimension', value: 'dimension'},
-          {title: 'Cité volante', value: 'cite_volante'},
-          {title: 'Royaume', value: 'royaume'},
-          {title: 'Empire', value: 'empire'},
-          {title: 'Continent', value: 'continent'},
-          {title: 'Île', value: 'ile'},
-          {title: 'Ville', value: 'ville'},
-          {title: 'Village', value: 'village'},
-          {title: 'Lieu mystique', value: 'lieu_mystique'},
-          {title: 'Donjon', value: 'donjon'},
-          {title: 'Autre', value: 'autre'}
-        ]
-      },
-      validation: Rule => Rule.required()
-    },
-
-    {
-      name: 'tags',
-      title: 'Tags',
-      type: 'array',
-      of: [{ 
-        type: 'reference', 
-        to: [{ type: 'tag' }]
-      }],
-      description: 'Tags libres pour qualifier cette région (ex: Royaume, Ville, Montagne, etc.)'
-    },
-    {
-      name: 'statut',
-      type: 'string',
-      title: 'Statut',
-      options: {
-        list: [
-          {title: 'Habité', value: 'habite'},
-          {title: 'Abandonné', value: 'abandonne'},
-          {title: 'Scellé', value: 'scelle'},
-          {title: 'Disparu', value: 'disparu'},
-          {title: 'En ruines', value: 'ruines'},
-          {title: 'Mystérieux', value: 'mysterieux'}
+          { title: '🏰 Royaume', value: 'royaume' },
+          { title: '🏛️ Empire', value: 'empire' },
+          { title: '🏙️ Cité-État', value: 'cite' },
+          { title: '🌆 Ville', value: 'ville' },
+          { title: '🏘️ Village', value: 'village' },
+          { title: '🏞️ Province', value: 'province' },
+          { title: '🗺️ Territoire', value: 'territoire' },
+          { title: '🏝️ Île', value: 'ile' },
+          { title: '🌋 Zone sauvage', value: 'sauvage' }
         ]
       }
     },
     {
-      name: 'dirigeants',
-      type: 'array',
-      title: 'Dirigeant(e)(s)',
-      of: [
+      name: 'resume',
+      title: 'Résumé',
+      description: 'Brève description de la région',
+      ...createRichTextField('basic')
+    },
+    {
+      name: 'geographie',
+      type: 'object',
+      title: '🌍 Géographie',
+      fields: [
         {
-          type: 'reference',
-          to: [{type: 'personnage'}]
+          name: 'localisation',
+          title: 'Localisation',
+          ...createRichTextField('basic')
+        },
+        {
+          name: 'climat',
+          type: 'string',
+          title: 'Climat',
+          options: {
+            list: [
+              { title: '🌞 Tropical', value: 'tropical' },
+              { title: '🏜️ Aride', value: 'aride' },
+              { title: '🌤️ Tempéré', value: 'tempere' },
+              { title: '❄️ Polaire', value: 'polaire' },
+              { title: '⛰️ Montagneux', value: 'montagneux' },
+              { title: '🌧️ Océanique', value: 'oceanique' },
+              { title: '🌫️ Continental', value: 'continental' }
+            ]
+          }
+        },
+        {
+          name: 'terrain',
+          type: 'array',
+          title: 'Types de terrain',
+          of: [{
+            type: 'string',
+            options: {
+              list: [
+                { title: '🏔️ Montagnes', value: 'montagnes' },
+                { title: '🌳 Forêt', value: 'foret' },
+                { title: '🏞️ Plaines', value: 'plaines' },
+                { title: '🏜️ Désert', value: 'desert' },
+                { title: '💧 Marais', value: 'marais' },
+                { title: '🏖️ Côte', value: 'cote' },
+                { title: '🗻 Collines', value: 'collines' },
+                { title: '🌊 Océan', value: 'ocean' },
+                { title: '❄️ Toundra', value: 'toundra' }
+              ]
+            }
+          }]
+        },
+        {
+          name: 'ressources',
+          type: 'array',
+          title: 'Ressources naturelles',
+          of: [{
+            type: 'object',
+            fields: [
+              {
+                name: 'nom',
+                type: 'string',
+                title: 'Nom'
+              },
+              {
+                name: 'type',
+                type: 'string',
+                title: 'Type',
+                options: {
+                  list: [
+                    { title: '💎 Minéral', value: 'mineral' },
+                    { title: '🌲 Végétal', value: 'vegetal' },
+                    { title: '🐾 Animal', value: 'animal' },
+                    { title: '💧 Aquatique', value: 'aquatique' },
+                    { title: '✨ Magique', value: 'magique' }
+                  ]
+                }
+              },
+              {
+                name: 'description',
+                title: 'Description',
+                ...createRichTextField('basic')
+              },
+              {
+                name: 'importance',
+                type: 'string',
+                title: 'Importance économique',
+                options: {
+                  list: [
+                    { title: '⭐ Vitale', value: 'vitale' },
+                    { title: '🌟 Majeure', value: 'majeure' },
+                    { title: '✨ Mineure', value: 'mineure' }
+                  ]
+                }
+              }
+            ]
+          }]
         }
       ]
     },
     {
-      name: 'capitale',
-      type: 'string',
-      title: 'Capitale'
+      name: 'politique',
+      type: 'object',
+      title: '👑 Politique',
+      fields: [
+        {
+          name: 'gouvernement',
+          type: 'object',
+          title: 'Gouvernement',
+          fields: [
+            {
+              name: 'type',
+              type: 'string',
+              title: 'Type de gouvernement',
+              options: {
+                list: [
+                  { title: '👑 Monarchie', value: 'monarchie' },
+                  { title: '🏛️ République', value: 'republique' },
+                  { title: '⚔️ Oligarchie', value: 'oligarchie' },
+                  { title: '🎭 Théocratie', value: 'theocratie' },
+                  { title: '🗽 Démocratie', value: 'democratie' },
+                  { title: '👥 Tribal', value: 'tribal' }
+                ]
+              }
+            },
+            {
+              name: 'description',
+              title: 'Description',
+              ...createRichTextField('basic')
+            }
+          ]
+        },
+        {
+          name: 'dirigeants',
+          type: 'array',
+          title: 'Dirigeants',
+          of: [{
+            type: 'object',
+            fields: [
+              {
+                name: 'dirigeant',
+                type: 'reference',
+                title: 'Dirigeant',
+                to: [{ type: 'personnage' }]
+              },
+              {
+                name: 'titre',
+                type: 'string',
+                title: 'Titre'
+              },
+              {
+                name: 'periode',
+                type: 'string',
+                title: 'Période de règne'
+              }
+            ]
+          }]
+        },
+        {
+          name: 'factions',
+          type: 'array',
+          title: 'Factions influentes',
+          of: [{
+            type: 'reference',
+            to: [{ type: 'faction' }]
+          }]
+        },
+        {
+          name: 'relations',
+          type: 'array',
+          title: 'Relations diplomatiques',
+          of: [{
+            type: 'object',
+            fields: [
+              {
+                name: 'region',
+                type: 'reference',
+                title: 'Région',
+                to: [{ type: 'region' }]
+              },
+              {
+                name: 'type',
+                type: 'string',
+                title: 'Type de relation',
+                options: {
+                  list: [
+                    { title: '🤝 Alliance', value: 'alliance' },
+                    { title: '⚔️ Conflit', value: 'conflit' },
+                    { title: '🤲 Vassalité', value: 'vassalite' },
+                    { title: '💰 Commerce', value: 'commerce' },
+                    { title: '🎭 Rivalité', value: 'rivalite' },
+                    { title: '🕊️ Neutralité', value: 'neutralite' }
+                  ]
+                }
+              },
+              {
+                name: 'description',
+                title: 'Description',
+                ...createRichTextField('basic')
+              }
+            ]
+          }]
+        }
+      ]
     },
     {
-      name: 'symbole',
+      name: 'societe',
+      type: 'object',
+      title: '👥 Société',
+      fields: [
+        {
+          name: 'factionsPresentes',
+          type: 'array',
+          title: '🏰 Factions présentes',
+          of: [{ type: 'reference', to: [{ type: 'faction' }] }]
+        },
+        {
+          name: 'races',
+          type: 'array',
+          title: '👥 Races et peuples',
+          of: [{ type: 'reference', to: [{ type: 'race' }] }]
+        },
+        {
+          name: 'bestiaire',
+          type: 'array',
+          title: '🐾 Créatures locales',
+          of: [{ type: 'reference', to: [{ type: 'bestiaires' }] }]
+        }
+      ]
+    },
+    {
+      name: 'culture',
+      type: 'object',
+      title: '🎭 Culture',
+      fields: [
+        {
+          name: 'traditionsAncestrales',
+          type: 'array',
+          title: '📚 Traditions locales',
+          of: [{ type: 'reference', to: [{ type: 'traditionAncestrale' }] }]
+        },
+        {
+          name: 'dogmesReligieux',
+          type: 'array',
+          title: '🕊️ Croyances dominantes',
+          of: [{ type: 'reference', to: [{ type: 'dogmeReligieux' }] }]
+        },
+        {
+          name: 'celebrations',
+          type: 'array',
+          title: '🎉 Célébrations locales',
+          of: [{ type: 'reference', to: [{ type: 'celebrations' }] }]
+        }
+      ]
+    },
+    {
+      name: 'pouvoir',
+      type: 'object',
+      title: '✨ Aspects mystiques',
+      fields: [
+        {
+          name: 'systemesEsoteriques',
+          type: 'array',
+          title: '🔮 Systèmes ésotériques pratiqués',
+          of: [{ type: 'reference', to: [{ type: 'systemeEsoterique' }] }]
+        },
+        {
+          name: 'artefacts',
+          type: 'array',
+          title: '🎭 Artefacts régionaux',
+          of: [{ type: 'reference', to: [{ type: 'objet' }] }]
+        }
+      ]
+    },
+    {
+      name: 'histoire',
+      type: 'object',
+      title: '📖 Histoire',
+      fields: [
+        {
+          name: 'evenementsMarquants',
+          type: 'array',
+          title: '📅 Événements marquants',
+          of: [{ type: 'reference', to: [{ type: 'evenement' }] }]
+        }
+      ]
+    },
+    {
+      name: 'lieux',
+      type: 'array',
+      title: '🏛️ Lieux notables',
+      of: [{
+        type: 'object',
+        fields: [
+          {
+            name: 'nom',
+            type: 'string',
+            title: 'Nom'
+          },
+          {
+            name: 'type',
+            type: 'string',
+            title: 'Type',
+            options: {
+              list: [
+                { title: '🏰 Château', value: 'chateau' },
+                { title: '⛪ Temple', value: 'temple' },
+                { title: '🏛️ Monument', value: 'monument' },
+                { title: '🏺 Ruine', value: 'ruine' },
+                { title: '🌳 Site naturel', value: 'site_naturel' },
+                { title: '🏠 Quartier', value: 'quartier' },
+                { title: '🏪 Marché', value: 'marche' }
+              ]
+            }
+          },
+          {
+            name: 'description',
+            title: 'Description',
+            ...createRichTextField('basic')
+          },
+          {
+            name: 'importance',
+            type: 'string',
+            title: 'Importance',
+            options: {
+              list: [
+                { title: '⭐ Majeur', value: 'majeur' },
+                { title: '🌟 Notable', value: 'notable' },
+                { title: '✨ Local', value: 'local' }
+              ]
+            }
+          }
+        ]
+      }]
+    },
+    {
+      name: 'image',
       type: 'image',
-      title: 'Symbole',
+      title: '🖼️ Image représentative',
       options: {
         hotspot: true
       }
     },
-    {
-      name: 'origineCreation',
-      type: 'text',
-      title: 'Origine / Création',
-      rows: 4
-    },
-    {
-      name: 'geographie',
-      type: 'text',
-      title: 'Géographie',
-      rows: 6
-    },
-    {
-      name: 'climat',
-      type: 'string',
-      title: 'Climat',
-      options: {
-        list: [
-          {title: 'Tropical', value: 'tropical'},
-          {title: 'Tempéré', value: 'tempere'},
-          {title: 'Aride', value: 'aride'},
-          {title: 'Polaire', value: 'polaire'},
-          {title: 'Montagnard', value: 'montagnard'},
-          {title: 'Océanique', value: 'oceanique'},
-          {title: 'Magique', value: 'magique'},
-          {title: 'Variable', value: 'variable'}
-        ]
-      }
-    },
-    {
-      name: 'histoire',
-      type: 'array',
-      title: 'Histoire',
-      of: [
-        {
-          type: 'block'
-        }
-      ]
-    },
-    {
-      name: 'religionCroyances',
-      type: 'text',
-      title: 'Religion / Croyances dominantes',
-      rows: 4
-    },
-    {
-      name: 'politique',
-      type: 'text',
-      title: 'Politique',
-      rows: 4
-    },
-    {
-      name: 'economie',
-      type: 'text',
-      title: 'Économie',
-      rows: 4
-    },
-    {
-      name: 'pointsInteret',
-      type: 'array',
-      title: 'Points d\'intérêt',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            {
-              name: 'nom',
-              type: 'string',
-              title: 'Nom du lieu'
-            },
-            {
-              name: 'description',
-              type: 'text',
-              title: 'Description',
-              rows: 3
-            },
-            {
-              name: 'image',
-              type: 'image',
-              title: 'Image',
-              options: {
-                hotspot: true
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      name: 'conflitsEnjeux',
-      type: 'text',
-      title: 'Conflits et enjeux',
-      rows: 4
-    },
-    {
-      name: 'culturePopulation',
-      type: 'text',
-      title: 'Culture et population',
-      rows: 4
-    },
-    {
-      name: 'relationsInternationales',
-      type: 'text',
-      title: 'Relations internationales',
-      rows: 4
-    },
-    {
-      name: 'relationsDiplomatiques',
-      type: 'array',
-      title: 'Relations diplomatiques',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            {
-              name: 'region',
-              type: 'reference',
-              title: 'Région',
-              to: [{type: 'region'}]
-            },
-            {
-              name: 'typeRelation',
-              type: 'string',
-              title: 'Type de relation',
-              options: {
-                list: [
-                  {title: 'Allié', value: 'allie'},
-                  {title: 'Ennemi', value: 'ennemi'},
-                  {title: 'Neutre', value: 'neutre'},
-                  {title: 'Vassal', value: 'vassal'},
-                  {title: 'Protectorat', value: 'protectorat'},
-                  {title: 'Commerce', value: 'commerce'},
-                  {title: 'Guerre', value: 'guerre'}
-                ]
-              }
-            },
-            {
-              name: 'description',
-              type: 'text',
-              title: 'Description de la relation',
-              rows: 2
-            }
-          ]
-        }
-      ]
-    },
-    {
-      name: 'acces',
-      type: 'string',
-      title: 'Accès',
-      description: 'Comment accéder à cette région',
-      options: {
-        list: [
-          {title: 'Par portail', value: 'portail'},
-          {title: 'Par rêve', value: 'reve'},
-          {title: 'Réservé aux Ecapses', value: 'ecapses'},
-          {title: 'Transport traditionnel', value: 'traditionnel'},
-          {title: 'Magie requise', value: 'magie'},
-          {title: 'Secret/Caché', value: 'secret'},
-          {title: 'Libre', value: 'libre'}
-        ]
-      }
-    },
-    {
-      name: 'racesDominantes',
-      type: 'array',
-      title: 'Races dominantes',
-      of: [
-        {
-          type: 'reference',
-          to: [{type: 'race'}]
-        }
-      ]
-    },
-    {
-      name: 'regimePolitique',
-      type: 'string',
-      title: 'Régime politique',
-      options: {
-        list: [
-          {title: 'Monarchie', value: 'monarchie'},
-          {title: 'République', value: 'republique'},
-          {title: 'Empire', value: 'empire'},
-          {title: 'Théocratie', value: 'theocratie'},
-          {title: 'Anarchie', value: 'anarchie'},
-          {title: 'Conseil', value: 'conseil'},
-          {title: 'Dictature', value: 'dictature'},
-          {title: 'Tribu', value: 'tribu'},
-          {title: 'Magiocratie', value: 'magiocratie'}
-        ]
-      }
-    },
-    {
-      name: 'villes',
-      type: 'array',
-      title: 'Villes',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            {
-              name: 'nom',
-              type: 'string',
-              title: 'Nom de la ville'
-            },
-            {
-              name: 'description',
-              type: 'text',
-              title: 'Description',
-              rows: 2
-            },
-            {
-              name: 'population',
-              type: 'number',
-              title: 'Population approximative'
-            },
-            {
-              name: 'importance',
-              type: 'string',
-              title: 'Importance',
-              options: {
-                list: [
-                  {title: 'Capitale', value: 'capitale'},
-                  {title: 'Grande ville', value: 'grande'},
-                  {title: 'Ville moyenne', value: 'moyenne'},
-                  {title: 'Petite ville', value: 'petite'},
-                  {title: 'Village', value: 'village'}
-                ]
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      name: 'villesNaissancesMinires',
-      type: 'array',
-      title: 'Villes naissances/minières (pour les races Précieuses)',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            {
-              name: 'nom',
-              type: 'string',
-              title: 'Nom de la ville'
-            },
-            {
-              name: 'racePrecieuse',
-              type: 'reference',
-              title: 'Race précieuse associée',
-              to: [{type: 'race'}]
-            },
-            {
-              name: 'typeActivite',
-              type: 'string',
-              title: 'Type d\'activité',
-              options: {
-                list: [
-                  {title: 'Naissance', value: 'naissance'},
-                  {title: 'Mine', value: 'mine'},
-                  {title: 'Raffinerie', value: 'raffinerie'},
-                  {title: 'Centre de formation', value: 'formation'}
-                ]
-              }
-            },
-            {
-              name: 'description',
-              type: 'text',
-              title: 'Description',
-              rows: 2
-            }
-          ]
-        }
-      ]
-    },
-    {
-      name: 'personnagesAssocies',
-      type: 'array',
-      title: 'Personnages associés',
-      of: [
-        {
-          type: 'reference',
-          to: [{type: 'personnage'}]
-        }
-      ]
-    },
-    {
-      name: 'images',
-      type: 'array',
-      title: 'Images de la région',
-      of: [
-        {
-          type: 'image',
-          options: {
-            hotspot: true
-          },
-          fields: [
-            {
-              name: 'alt',
-              type: 'string',
-              title: 'Texte alternatif'
-            },
-            {
-              name: 'caption',
-              type: 'string',
-              title: 'Légende'
-            }
-          ]
-        }
-      ]
-    }
+
+    // Champs de visibilité
+    ...visibilityFields
   ],
   preview: {
     select: {
       title: 'nom',
       subtitle: 'type',
-      media: 'symbole'
+      media: 'image',
+      featured: 'featured',
+      isPublished: 'isPublished'
+    },
+    prepare(selection) {
+      const { title, subtitle, media, featured, isPublished } = selection;
+      
+      const featuredEmoji = featured ? '⭐ ' : '';
+      const publishedEmoji = isPublished === false ? '👁️ ' : '';
+      
+      return {
+        title: `${publishedEmoji}${featuredEmoji}${title || 'Sans nom'}`,
+        subtitle: (subtitle || '') + (isPublished === false ? ' • 🚫 NON PUBLIÉ' : ''),
+        media: media
+      };
     }
-  }
+  },
+  orderings: [
+    ...visibilityOrderings,
+    {
+      title: 'Nom A-Z',
+      name: 'nomAsc',
+      by: [{ field: 'nom', direction: 'asc' }]
+    },
+    {
+      title: 'Par type',
+      name: 'typeAsc',
+      by: [
+        { field: 'type', direction: 'asc' },
+        { field: 'nom', direction: 'asc' }
+      ]
+    }
+  ]
 }
-
-export default region

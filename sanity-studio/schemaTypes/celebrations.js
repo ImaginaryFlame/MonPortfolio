@@ -1,147 +1,113 @@
-const celebration = {
-    name: 'celebration',
-    title: 'Célébration / Fête / Rituel Culturel',
-    type: 'document',
-    fields: [
-      {
-        name: 'nomFete',
-        type: 'string',
-        title: 'Nom de la fête',
-        validation: Rule => Rule.required()
-      },
-      {
-        name: 'univers',
-        title: 'Univers d\'appartenance',
-        type: 'reference',
-        to: [{ type: 'univers' }],
-        validation: Rule => Rule.required(),
-        description: 'L\'univers dans lequel cette célébration a lieu.'
-      },
-      {
-        name: 'origine',
-        type: 'text',
-        title: 'Origine',
-        rows: 4
-      },
-      {
-        name: 'datePeriodeCelebration',
-        type: 'string',
-        title: 'Date ou période de célébration'
-      },
-      {
-        name: 'lieuRegionPrincipale',
-        type: 'reference',
-        title: 'Lieu / région principale',
-        to: [{type: 'region'}]
-      },
-      {
-        name: 'racesPeuplesConcernes',
-        type: 'array',
-        title: 'Races ou peuples concernés',
-        of: [
-          {
-            type: 'reference',
-            to: [{type: 'race'}]
-          }
+import { visibilityFields, enrichPreviewWithVisibility, visibilityOrderings } from './utils/visibilityHelper.js';
+import { createRichTextField } from './utils/richTextConfig.js';
+
+export default {
+  name: 'celebrations',
+  title: '🎉 Célébration',
+  type: 'document',
+  fields: [
+    {
+      name: 'nom',
+      type: 'string',
+      title: 'Nom',
+      validation: Rule => Rule.required()
+    },
+    {
+      name: 'univers',
+      type: 'reference',
+      title: '🌍 Univers d\'origine',
+      to: [{ type: 'univers' }],
+      validation: Rule => Rule.required()
+    },
+    {
+      name: 'type',
+      type: 'string',
+      title: 'Type de célébration',
+      options: {
+        list: [
+          { title: '🎊 Festival', value: 'festival' },
+          { title: '🏛️ Cérémonie', value: 'ceremonie' },
+          { title: '⚔️ Rituel', value: 'rituel' },
+          { title: '🎭 Carnaval', value: 'carnaval' },
+          { title: '🙏 Fête religieuse', value: 'fete_religieuse' },
+          { title: '👑 Commémoration', value: 'commemoration' },
+          { title: '🌱 Fête saisonnière', value: 'fete_saisonniere' },
+          { title: '🎪 Foire', value: 'foire' }
         ]
-      },
-      {
-        name: 'type',
-        type: 'string',
-        title: 'Type',
-        options: {
-          list: [
-            {title: 'Religieuse', value: 'religieuse'},
-            {title: 'Historique', value: 'historique'},
-            {title: 'Politique', value: 'politique'},
-            {title: 'Folklorique', value: 'folklorique'},
-            {title: 'Occulte', value: 'occulte'},
-            {title: 'Interdimensionnelle', value: 'interdimensionnelle'},
-            {title: 'Saisonnière', value: 'saisonniere'},
-            {title: 'Familiale', value: 'familiale'},
-            {title: 'Militaire', value: 'militaire'},
-            {title: 'Autre', value: 'autre'}
-          ]
-        }
-      },
-      {
-        name: 'celebrationsAssociees',
-        type: 'array',
-        title: 'Célébrations associées',
-        of: [
-          {
-            type: 'reference',
-            to: [{type: 'celebration'}]
-          }
-        ]
-      },
-      {
-        name: 'rituelsSymboles',
-        type: 'array',
-        title: 'Rituels / Symboles',
-        of: [
-          {
-            type: 'object',
-            fields: [
-              {
-                name: 'nom',
-                type: 'string',
-                title: 'Nom du rituel/symbole'
-              },
-              {
-                name: 'description',
-                type: 'text',
-                title: 'Description',
-                rows: 3
-              },
-              {
-                name: 'signification',
-                type: 'text',
-                title: 'Signification',
-                rows: 2
-              },
-              {
-                name: 'participants',
-                type: 'string',
-                title: 'Participants requis',
-                options: {
-                  list: [
-                    {title: 'Tous', value: 'tous'},
-                    {title: 'Élite/Dirigeants', value: 'elite'},
-                    {title: 'Prêtres/Chamans', value: 'pretres'},
-                    {title: 'Initiés', value: 'inities'},
-                    {title: 'Volontaires', value: 'volontaires'},
-                    {title: 'Race spécifique', value: 'race_specifique'}
-                  ]
-                }
-              }
+      }
+    },
+    {
+      name: 'resume',
+      title: 'Résumé',
+      description: 'Brève description de la célébration',
+      ...createRichTextField('basic')
+    },
+    {
+      name: 'histoire',
+      title: 'Histoire',
+      description: 'Histoire et origines de la célébration',
+      ...createRichTextField('medium')
+    },
+    {
+      name: 'deroulement',
+      type: 'object',
+      title: '📅 Déroulement',
+      fields: [
+        {
+          name: 'frequence',
+          type: 'string',
+          title: 'Fréquence',
+          options: {
+            list: [
+              { title: '📆 Annuelle', value: 'annuelle' },
+              { title: '🌙 Mensuelle', value: 'mensuelle' },
+              { title: '🌞 Saisonnière', value: 'saisonniere' },
+              { title: '⭐ Exceptionnelle', value: 'exceptionnelle' },
+              { title: '🔄 Cyclique', value: 'cyclique' }
             ]
           }
-        ]
-      },
-      {
-        name: 'evenementsMarquants',
-        type: 'array',
-        title: 'Événements marquants durant la fête',
-        of: [
-          {
+        },
+        {
+          name: 'duree',
+          type: 'object',
+          title: 'Durée',
+          fields: [
+            {
+              name: 'nombre',
+              type: 'number',
+              title: 'Nombre'
+            },
+            {
+              name: 'unite',
+              type: 'string',
+              title: 'Unité',
+              options: {
+                list: [
+                  { title: '⏰ Heures', value: 'heures' },
+                  { title: '📅 Jours', value: 'jours' },
+                  { title: '📅 Semaines', value: 'semaines' },
+                  { title: '🌙 Mois', value: 'mois' }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          name: 'etapes',
+          type: 'array',
+          title: 'Étapes',
+          of: [{
             type: 'object',
             fields: [
               {
                 name: 'nom',
                 type: 'string',
-                title: 'Nom de l\'événement'
+                title: 'Nom de l\'étape'
               },
               {
                 name: 'description',
-                type: 'text',
                 title: 'Description',
-                rows: 2
-              },
-              {
-                name: 'moment',
-                type: 'string',
-                title: 'Moment durant la célébration'
+                ...createRichTextField('basic')
               },
               {
                 name: 'importance',
@@ -149,102 +115,278 @@ const celebration = {
                 title: 'Importance',
                 options: {
                   list: [
-                    {title: 'Centrale', value: 'centrale'},
-                    {title: 'Importante', value: 'importante'},
-                    {title: 'Secondaire', value: 'secondaire'},
-                    {title: 'Optionnelle', value: 'optionnelle'}
+                    { title: '⭐ Cruciale', value: 'cruciale' },
+                    { title: '🌟 Majeure', value: 'majeure' },
+                    { title: '✨ Mineure', value: 'mineure' }
                   ]
                 }
               }
             ]
-          }
-        ]
-      },
-      {
-        name: 'impactCulturel',
-        type: 'text',
-        title: 'Impact culturel',
-        rows: 4
-      },
-      {
-        name: 'personnagesAssocies',
-        type: 'array',
-        title: 'Personnages associés',
-        of: [
-          {
+          }]
+        }
+      ]
+    },
+    {
+      name: 'participants',
+      type: 'object',
+      title: '👥 Participants',
+      fields: [
+        {
+          name: 'organisateurs',
+          type: 'array',
+          title: 'Organisateurs',
+          of: [{
+            type: 'reference',
+            to: [{ type: 'faction' }]
+          }]
+        },
+        {
+          name: 'roles',
+          type: 'array',
+          title: 'Rôles spécifiques',
+          of: [{
             type: 'object',
             fields: [
               {
-                name: 'personnage',
-                type: 'reference',
-                title: 'Personnage',
-                to: [{type: 'personnage'}]
+                name: 'titre',
+                type: 'string',
+                title: 'Titre du rôle'
               },
               {
-                name: 'role',
+                name: 'description',
+                title: 'Description',
+                ...createRichTextField('basic')
+              },
+              {
+                name: 'conditions',
+                title: 'Conditions d\'accès',
+                ...createRichTextField('basic')
+              }
+            ]
+          }]
+        },
+        {
+          name: 'restrictions',
+          type: 'array',
+          title: 'Restrictions de participation',
+          of: [{
+            type: 'object',
+            fields: [
+              {
+                name: 'type',
                 type: 'string',
-                title: 'Rôle dans la célébration',
+                title: 'Type de restriction',
                 options: {
                   list: [
-                    {title: 'Fondateur', value: 'fondateur'},
-                    {title: 'Figure honorée', value: 'figure_honoree'},
-                    {title: 'Organisateur principal', value: 'organisateur'},
-                    {title: 'Guide spirituel', value: 'guide_spirituel'},
-                    {title: 'Participant notable', value: 'participant_notable'},
-                    {title: 'Opposant historique', value: 'opposant'}
+                    { title: '👥 Sociale', value: 'sociale' },
+                    { title: '🏰 Géographique', value: 'geographique' },
+                    { title: '✨ Magique', value: 'magique' },
+                    { title: '⚔️ Martiale', value: 'martiale' },
+                    { title: '🎭 Culturelle', value: 'culturelle' }
                   ]
                 }
               },
               {
                 name: 'description',
-                type: 'text',
-                title: 'Description du rôle',
-                rows: 2
+                title: 'Description',
+                ...createRichTextField('basic')
               }
             ]
-          }
-        ]
-      },
-      {
-        name: 'images',
-        type: 'array',
-        title: 'Images de la célébration',
-        of: [
-          {
-            type: 'image',
-            options: {
-              hotspot: true
-            },
+          }]
+        }
+      ]
+    },
+    {
+      name: 'elements',
+      type: 'object',
+      title: '🎭 Éléments de célébration',
+      fields: [
+        {
+          name: 'rituels',
+          type: 'array',
+          title: 'Rituels',
+          of: [{
+            type: 'object',
             fields: [
               {
-                name: 'alt',
+                name: 'nom',
                 type: 'string',
-                title: 'Texte alternatif'
+                title: 'Nom du rituel'
               },
               {
-                name: 'caption',
-                type: 'string',
-                title: 'Légende'
+                name: 'description',
+                title: 'Description',
+                ...createRichTextField('basic')
+              },
+              {
+                name: 'symbolisme',
+                title: 'Symbolisme',
+                ...createRichTextField('basic')
               }
             ]
-          }
-        ]
-      }
-    ],
-    preview: {
-      select: {
-        title: 'nomFete',
-        subtitle: 'type',
-        date: 'datePeriodeCelebration'
-      },
-      prepare(selection) {
-        const {title, subtitle, date} = selection
-        return {
-          title: title,
-          subtitle: `${subtitle} - ${date || 'Date variable'}`
+          }]
+        },
+        {
+          name: 'objets',
+          type: 'array',
+          title: 'Objets rituels',
+          of: [{
+            type: 'reference',
+            to: [{ type: 'objet' }]
+          }]
+        },
+        {
+          name: 'musiques',
+          type: 'array',
+          title: 'Musiques et chants',
+          of: [{
+            type: 'object',
+            fields: [
+              {
+                name: 'nom',
+                type: 'string',
+                title: 'Nom'
+              },
+              {
+                name: 'description',
+                title: 'Description',
+                ...createRichTextField('basic')
+              },
+              {
+                name: 'paroles',
+                type: 'text',
+                title: 'Paroles',
+                rows: 5
+              }
+            ]
+          }]
+        },
+        {
+          name: 'costumes',
+          type: 'array',
+          title: 'Costumes et tenues',
+          of: [{
+            type: 'object',
+            fields: [
+              {
+                name: 'nom',
+                type: 'string',
+                title: 'Nom'
+              },
+              {
+                name: 'description',
+                title: 'Description',
+                ...createRichTextField('basic')
+              },
+              {
+                name: 'symbolisme',
+                title: 'Symbolisme',
+                ...createRichTextField('basic')
+              }
+            ]
+          }]
         }
+      ]
+    },
+    {
+      name: 'signification',
+      type: 'object',
+      title: '💫 Signification',
+      fields: [
+        {
+          name: 'symbolisme',
+          title: 'Symbolisme',
+          description: 'Signification symbolique de la célébration',
+          ...createRichTextField('basic')
+        },
+        {
+          name: 'valeurs',
+          type: 'array',
+          title: 'Valeurs célébrées',
+          of: [{
+            type: 'string',
+            options: {
+              list: [
+                { title: '⚔️ Honneur', value: 'honneur' },
+                { title: '🤝 Unité', value: 'unite' },
+                { title: '✨ Spiritualité', value: 'spiritualite' },
+                { title: '🌱 Nature', value: 'nature' },
+                { title: '💪 Force', value: 'force' },
+                { title: '🎨 Art', value: 'art' },
+                { title: '❤️ Amour', value: 'amour' },
+                { title: '🌟 Espoir', value: 'espoir' },
+                { title: '📚 Savoir', value: 'savoir' },
+                { title: '⚖️ Justice', value: 'justice' }
+              ]
+            }
+          }]
+        },
+        {
+          name: 'impact',
+          type: 'array',
+          title: 'Impact social',
+          of: [{
+            type: 'string',
+            options: {
+              list: [
+                { title: '🤝 Cohésion sociale', value: 'cohesion' },
+                { title: '🎭 Expression culturelle', value: 'expression' },
+                { title: '✨ Renouveau spirituel', value: 'renouveau' },
+                { title: '💫 Transmission', value: 'transmission' },
+                { title: '⚖️ Régulation sociale', value: 'regulation' }
+              ]
+            }
+          }]
+        }
+      ]
+    },
+    {
+      name: 'image',
+      type: 'image',
+      title: '🖼️ Image représentative',
+      options: {
+        hotspot: true
       }
+    },
+
+    // Champs de visibilité
+    ...visibilityFields
+  ],
+  preview: {
+    select: {
+      title: 'nom',
+      subtitle: 'type',
+      media: 'image',
+      featured: 'featured',
+      isPublished: 'isPublished'
+    },
+    prepare(selection) {
+      const { title, subtitle, media, featured, isPublished } = selection;
+      
+      const featuredEmoji = featured ? '⭐ ' : '';
+      const publishedEmoji = isPublished === false ? '👁️ ' : '';
+      
+      return {
+        title: `${publishedEmoji}${featuredEmoji}${title || 'Sans nom'}`,
+        subtitle: (subtitle || '') + (isPublished === false ? ' • 🚫 NON PUBLIÉ' : ''),
+        media: media
+      };
     }
-  }
-  
-  export default celebration
+  },
+  orderings: [
+    ...visibilityOrderings,
+    {
+      title: 'Nom A-Z',
+      name: 'nomAsc',
+      by: [{ field: 'nom', direction: 'asc' }]
+    },
+    {
+      title: 'Par type',
+      name: 'typeAsc',
+      by: [
+        { field: 'type', direction: 'asc' },
+        { field: 'nom', direction: 'asc' }
+      ]
+    }
+  ]
+}

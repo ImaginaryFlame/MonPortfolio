@@ -111,3 +111,20 @@
 - ✅ **Références préservées** : Désactivation au lieu de suppression
 
 Ce système offre maintenant une taxonomie complète et évolutive pour organiser efficacement tous les éléments de vos univers narratifs ! 
+
+## 🔄 Mise à jour des versions de fiche personnage
+
+### Changements effectués
+- Renommage de "version ramifiée" en "version actuelle"
+- Masquage du champ "âge de fin/mort" en version actuelle
+- Mise à jour des conditions de visibilité des champs
+
+### Raisons
+- Meilleure clarté des termes utilisés
+- Pertinence accrue des champs affichés
+- Cohérence avec l'état actuel du personnage
+
+### Documentation
+- Nouveau fichier : `VERSIONS_PERSONNAGE.md`
+- Guide complet des versions et leurs différences
+- Bonnes pratiques d'utilisation 

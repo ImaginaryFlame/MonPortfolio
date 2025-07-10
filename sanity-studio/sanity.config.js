@@ -46,5 +46,13 @@ export default defineConfig({
       const baseUrl = process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:3003';
       return `${baseUrl}/${document._type}/${document._id}`;
     },
+  },
+
+  // Désactiver les mises à jour automatiques
+  studio: {
+    components: {
+      // Désactiver les notifications de mise à jour
+      navbar: (props) => props.renderDefault(props)
+    }
   }
 })
