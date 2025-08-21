@@ -1,12 +1,15 @@
 // Test des APIs YouTube et Twitch
 console.log('🔍 Test des APIs...');
 
-// Configuration
-const YOUTUBE_API_KEY = 'AIzaSyCZaCS5fQbai7pEbbZYq5-yJuNW6W8SSnI';
-const YOUTUBE_CHANNEL_ID = 'UCxUJlhqFdJCFkMJWHFhiqpQ';
-const TWITCH_CLIENT_ID = '0je69ml2ct831k531nyu19gvhnc2hw';
-const TWITCH_CLIENT_SECRET = 'qi1tiugznxma17aa2qmrdtw5cg03ls';
-const TWITCH_USERNAME = 'flame_creative_';
+// Configuration depuis les variables d'environnement
+import dotenv from 'dotenv';
+dotenv.config();
+
+const YOUTUBE_API_KEY = process.env.VITE_YOUTUBE_API_KEY;
+const YOUTUBE_CHANNEL_ID = process.env.VITE_YOUTUBE_CHANNEL_ID;
+const TWITCH_CLIENT_ID = process.env.VITE_TWITCH_CLIENT_ID;
+const TWITCH_CLIENT_SECRET = process.env.VITE_TWITCH_CLIENT_SECRET;
+const TWITCH_USERNAME = process.env.VITE_TWITCH_USERNAME;
 
 // Test YouTube API
 async function testYouTubeAPI() {

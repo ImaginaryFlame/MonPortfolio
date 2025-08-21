@@ -75,6 +75,8 @@ const App = () => {
         {/* Routes pour La Fable du Héros et la Fée */}
         <Route path="/creation/univers-narratifs/fable-heros-fee" element={<HerosFee />} />
         <Route path="/creation/univers-narratifs/fable-heros-fee/personnages" element={<HerosFee section="personnages" />} />
+        <Route path="/creation/univers-narratifs/fable-heros-fee/personnages/:slug" element={<HerosFee section="personnages" />} />
+        <Route path="/creation/univers-narratifs/fable-heros-fee/regions" element={<HerosFee section="regions-lieux" />} />
         <Route path="/creation/univers-narratifs/fable-heros-fee/regions-lieux" element={<HerosFee section="regions-lieux" />} />
         <Route path="/creation/univers-narratifs/fable-heros-fee/objets" element={<HerosFee section="objets" />} />
         <Route path="/creation/univers-narratifs/fable-heros-fee/factions" element={<HerosFee section="factions" />} />
@@ -88,11 +90,14 @@ const App = () => {
         {/* Routes pour Le Héros à la Flamme Imaginaire */}
         <Route path="/creation/univers-narratifs/flamme-imaginaire" element={<FlammeImaginaire />} />
         <Route path="/creation/univers-narratifs/flamme-imaginaire/personnages" element={<FlammeImaginaire section="personnages" />} />
+        <Route path="/creation/univers-narratifs/flamme-imaginaire/personnages/:slug" element={<FlammeImaginaire section="personnages" />} />
+        <Route path="/creation/univers-narratifs/flamme-imaginaire/regions" element={<FlammeImaginaire section="regions-lieux" />} />
         <Route path="/creation/univers-narratifs/flamme-imaginaire/regions-lieux" element={<FlammeImaginaire section="regions-lieux" />} />
         <Route path="/creation/univers-narratifs/flamme-imaginaire/objets" element={<FlammeImaginaire section="objets" />} />
         <Route path="/creation/univers-narratifs/flamme-imaginaire/concepts" element={<FlammeImaginaire section="concepts" />} />
         <Route path="/creation/univers-narratifs/flamme-imaginaire/factions" element={<FlammeImaginaire section="factions" />} />
         <Route path="/creation/univers-narratifs/flamme-imaginaire/creatures" element={<FlammeImaginaire section="creatures" />} />
+        <Route path="/creation/univers-narratifs/flamme-imaginaire/bestiaires" element={<FlammeImaginaire section="creatures" />} />
         <Route path="/creation/univers-narratifs/flamme-imaginaire/evenements" element={<FlammeImaginaire section="evenements" />} />
         <Route path="/creation/univers-narratifs/flamme-imaginaire/dogmes" element={<FlammeImaginaire section="dogmes" />} />
         <Route path="/creation/univers-narratifs/flamme-imaginaire/traditions" element={<FlammeImaginaire section="traditions" />} />
@@ -101,13 +106,19 @@ const App = () => {
         {/* Routes pour Vince de Belii */}
         <Route path="/creation/univers-narratifs/vince-belii" element={<VinceDeBelii />} />
         <Route path="/creation/univers-narratifs/vince-belii/personnages" element={<VinceDeBelii section="personnages" />} />
+        <Route path="/creation/univers-narratifs/vince-belii/personnages/:slug" element={<VinceDeBelii section="personnages" />} />
         <Route path="/creation/univers-narratifs/vince-belii/familles" element={<VinceDeBelii section="familles" />} />
         <Route path="/creation/univers-narratifs/vince-belii/lieux" element={<VinceDeBelii section="lieux" />} />
+        <Route path="/creation/univers-narratifs/vince-belii/regions" element={<VinceDeBelii section="lieux" />} />
+        <Route path="/creation/univers-narratifs/vince-belii/factions" element={<VinceDeBelii section="familles" />} />
+        <Route path="/creation/univers-narratifs/vince-belii/bestiaires" element={<VinceDeBelii />} />
         <Route path="/creation/univers-narratifs/vince-belii/moodboard" element={<VinceDeBelii section="moodboard" />} />
 
         {/* Routes pour La Pandémie de Lara */}
         <Route path="/creation/univers-narratifs/pandemie-lara" element={<PandemieLara />} />
         <Route path="/creation/univers-narratifs/pandemie-lara/personnages" element={<PandemieLara section="personnages" />} />
+        <Route path="/creation/univers-narratifs/pandemie-lara/personnages/:slug" element={<PandemieLara section="personnages" />} />
+        <Route path="/creation/univers-narratifs/pandemie-lara/regions" element={<PandemieLara section="regions-lieux" />} />
         <Route path="/creation/univers-narratifs/pandemie-lara/regions-lieux" element={<PandemieLara section="regions-lieux" />} />
         <Route path="/creation/univers-narratifs/pandemie-lara/objets" element={<PandemieLara section="objets" />} />
         <Route path="/creation/univers-narratifs/pandemie-lara/factions" element={<PandemieLara section="factions" />} />
